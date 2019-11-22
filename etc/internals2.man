@@ -1,0 +1,584 @@
+'\" t
+.\"     UCSD p-System cross compiler
+.\"     Copyright (C) 2010-2012 Peter Miller
+.\"
+.\"     This program is free software; you can redistribute it and/or modify
+.\"     it under the terms of the GNU General Public License as published by
+.\"     the Free Software Foundation; either version 3 of the License, or
+.\"     (at your option) any later version.
+.\"
+.\"     This program is distributed in the hope that it will be useful,
+.\"     but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\"     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\"     GNU General Public License for more details.
+.\"
+.\"     You should have received a copy of the GNU General Public License
+.\"     along with this program. If not, see
+.\"     <http://www.gnu.org/licenses/>.
+.\"
+.ds n) Internals
+.TH \*(n) 1 ucsd\[hy]psystem\[hy]xc "Reference Manual"
+.SH NAME
+Factory factory factories \- Abandon all flow of control Ye who enter here
+.XX "Internals" \
+    "Factory factory factories: Abandon all flow of control Ye who enter here"
+.SH ABSTRACT
+In many cases, allegedly OO code is still highly procedural and imperative,
+with little advantage taken of the possibilities presented by
+inheritance and virtual methods.  This talk is about delegating
+flow of control to an unknown future, manufacturing objects that
+in turn manufacture more objects, of various class
+relationships.  Why is this useful?  How do you follow the
+program logic, especially if the classes haven't even been
+written yet?  How come the combinatorial explosion doesn't make
+it untestable?  Come along and take a trip down the factory**n
+rabbit hole, a warren several layers deep, inside a compiler.
+.SH INTRODUCTION
+There is a particular technique used in the ucsd\[hy]psystem\[hy]xc project to
+construct and manipulate Abstract Syntax Tree (AST) representations
+of the Pascal program.  Rather than having the tree operations be
+implemented by procedural code external to the tree, the manipulations
+are performed by the tree nodes themselves.
+.PP
+A design goal was to be able to re\[hy]use the grammar for the Pascal
+language, so that other static analysis tools could also be written, but
+having the grammar and symbol table handling remain in common library
+code.  This complicates things, if we are going to have the tree nodes
+performing all the work, because this would seem to imply that every
+tree node would include the methods necessary to perform all tasks and
+re\[hy]uses of the grammar.  Happily, this is not the case.
+.PP
+This paper is an extension of the earlier
+\f[I]Compilers and Factories\fP paper.
+.SH THE VIRTUAL KEYWORD
+The key concept here is the \f[CW]virtual\fP keyword in C++.  A virtual
+method is one that can have different implementations in different
+derived classes.  Thus, for our AST node to perform a different
+operation, it must be a different derived class.
+.SS Some Revision
+Long, long ago, there was no C++.  Examples of AST representations
+dating from then would often have C declarations like this:
+.de E(
+.RS
+.ft CW
+.nf
+..
+.de E)
+.fi
+.ft R
+.RE
+..
+.E(
+struct expr_t
+{
+    int kind;
+    union
+    {
+        int value;
+        struct
+        {
+            struct expr_t *lhs;
+            struct expr_t *rhs;
+        } p;
+    } u;
+};
+.E)
+Manipulating these trees would involve a function
+such as this:
+.E(
+int
+expr_evaluate(const struct expr_t *ep)
+{
+    switch (ep\->kind)
+    {
+    case CONSTANT:
+        return ep\->u.value;
+
+    case PLUS:
+        return expr_evaluate(ep\->u.p.lhs)
+            + expr_evaluate(ep\->u.p.rhs);
+
+    case MINUS:
+        return expr_evaluate(ep\->u.p.lhs)
+            \- expr_evaluate(ep\->u.p.rhs);
+
+    \f[I]etc\fP
+    }
+}
+.E)
+Each time you wanted to add a new kind of expression node, you had
+to visit each of these functions, and add another switch case.
+This can become an expensive maintenance problem,
+and also lead to version control bottlenecks for the development team.
+.PP
+In order to be able to add code in the future, but not
+have these problems, it is necessary to split the problem into pieces,
+using pointers to functions:
+.E(
+expr_evaluate(const struct expr_t *ep)
+{
+    return (*ep\->evaluate_method)(ep);
+}
+.E)
+.PP
+This means our struct declaration changed as well
+.E(
+struct expr_t
+{
+    int (*evaluate_method)(const struct expr_t *ep);
+    union
+    {
+        int value;
+        struct
+        {
+            struct expr_t *lhs;
+            struct expr_t *rhs;
+        } p;
+    } u;
+};
+.E)
+.PP
+Notice, in particular, that the \f[CW]kind\fP member is now gone,
+replaced by one or more function pointers.
+In practice, this tends to be a pointer to a struct full of function pointers,
+one for each task, because this simplifies the creating of new AST nodes.
+.PP
+All of which means that our actual evaluation comes in separate pieces:
+.E(
+int
+expr_constant_evaluate(const struct expr_t *ep)
+{
+    return ep\->u.value;
+}
+
+int
+expr_plus_evaluate(const struct expr_t *ep)
+{
+    return expr_evaluate(ep\->u.p.lhs)
+        + expr_evaluate(ep\->u.p.rhs);
+}
+.E)
+.PP
+The actual implementation would have these in separate compilation units.
+Now that we have split this up, it would also be possible to
+do away with the union, and \f[CW]malloc\fP AST nodes of the appropriate size.
+.PP
+If anyone has done this manually, you will know that there is a lot of
+machinery that needs to be kept in sync.  Much of this machinery is
+done for you by C++, and it also adds some rigor to the types of nodes,
+avoiding the numerous type casts required when doing the same thing
+manually.
+The C++ could would look something like this:
+.E(
+class expression
+{
+public:
+    virtual int evaluate(void) const = 0;
+};
+.E)
+and the implementations
+.E(
+class expression_plus:
+    public expression
+{
+public:
+    int
+    evaluate(void)
+        const
+    {
+        return lhs\->evaluate() + rhs\->evaluate();
+    }
+
+private:
+    expression *lhs;
+    expression *rhs;
+};
+.E)
+.PP
+The key thing to notice is that we replaced the \f[CW]kind\fP member with a
+\[lq]vtable\[rq], and switches on \f[CW]kind\fP with virtual methods.
+.SS Flow Of Control
+Once all of the machinery is in place, adding a new kind of expression
+AST node simply means deriving a new class, and implementing the
+appropriate methods, such as \f[I]evaluate\fP in the above example.
+If you are a new developer on the team, and you didn't see the machinery
+unfold, and implemented the first few classes, just how the code
+actually \f[I]reaches\fP your virtual method can be a bit of a mystery.
+.PP
+The first thing to remember is what a \f[CW]virtual\fP method is.  It
+is a type\[hy]based dispatch mechanism.  There many only be a single call
+to that method in the entire program, and yet there could be tens or
+hundreds of implementations of that method.  There is no voodoo here, no
+magic.  If it were done long\[hy]hand, as in the first example, confusion
+rarely arises.  Just think of it as the same thing, only distributed
+differently amongst the source files.
+.PP
+The second thing to remember is that you often \f[I]don't care\fP how
+the code is called, because that mechanism has already been debugged.
+When flow of control does get to you, all you care about is getting your
+bit right.
+.SS Testability
+Is using a virtual method inherently more difficult to test than the
+original C implementation?
+They both have the same code, doing the same jobs,
+the code is merely distributed amongst the source files differently.
+So, no, the testing burden is unchanged.
+Do not mistake the C++ verbosity for \[lq]more stuff to test\[rq],
+and remember that C++ is \f[I]very\fP verbose.
+.PP
+Quite possibly, the separation of functionality by class means that you
+can have greater confidence that you will not unintentionally break
+something else in the file, because you are not even editing the same files.
+.SS The Source Code
+This concept may be found the the \f[I]ucsd\[hy]psystem\[hy]xc\fP source code in
+the \f[CW]lib/expression.h\fP file, and its derived classes may be
+found in the \f[CW]lib/expression/\fP\f[CI]derived\fP\f[CW].h\fP and
+\f[CI]tool\fP\f[CW]/expression/\fP\f[CI]derived\fP\f[CW].h\fP files (the
+directory hierarchy mirrors the class hierarchy).
+The parser can be found in the \f[CW]lib/pascal/grammar.y\fP file.
+.SH THE FACTORY CONCEPT
+A factory in this sense is a function that returns new instances of a class.
+Think of a parser that reads text, parses it into expressions,
+and returns a pointer to the abstract syntax tree representing the
+parsed expression.
+This is an example of a factory.
+.PP
+Imagine that our (vastly simplified) yacc grammar looked like this:
+.E(
+expr
+    : NUMBER
+        {
+            $$ = constant_expr_factory($1);
+        }
+    | IDENTIFIER
+        {
+            $$ = name_expr_factory($1);
+        }
+    | expr '+' expr
+        {
+            $$ = plus_expr_factory($1, $3);
+        }
+    | expr '\-' expr
+        {
+            $$ = minus_expr_factory($1, $3);
+        }
+    ;
+.E)
+.PP
+For each kind of expression, we have a factory that can build them for us.
+They are not especially complicated:
+.E(
+expr *
+constant_expression_factory(int value)
+{
+    return new expr_constant(value);
+}
+.E)
+.PP
+But why wouldn't we just put the same code into the grammar production {rules}?
+Because we wanted to re\[hy]use the grammar.
+.SH VIRTUAL FACTORIES
+The grammar can be re\[hy]used by more than one translation task
+if we add a context object, and some virtual methods:
+.E(
+expr
+    : NUMBER
+        {
+            $$ = ctx\->constant_expr_factory($1);
+        }
+    | IDENTIFIER
+        {
+            $$ = ctx\->name_expr_factory($1);
+        }
+    | expr '+' expr
+        {
+            $$ = ctx\->plus_expr_factory($1, $3);
+        }
+    | expr '\-' expr
+        {
+            $$ = ctx\->minus_expr_factory($1, $3);
+        }
+    ;
+.E)
+.PP
+And the \f[CW]ctx\fP variable is a pointer to
+.E(
+class translator
+{
+public:
+    virtual expr *constant_expr_factory(int) = 0;
+    virtual expr *name_expr_factory(int) = 0;
+    virtual expr *plus_expr_factory(expr *, expr *) = 0;
+    virtual expr *minus_expr_factory(expr *, expr *) = 0;
+    \f[I]etc\fP
+};
+.E)
+.PP
+By deriving different \f[CW]translator\fP classes, we can have one
+translator that implements a compiler, one that implements a pretty
+printer, one that calculates cyclomatic complexity statistics,
+\f[I]etc\fP.
+.PP
+The compiler translator creates expression tree nodes
+that have an implementation that compiles the expressions.
+The pretty printer translator creates different expression tree nodes
+that have an implementation that prints the expressions out.
+And other static analysis tools each have their own implementations.
+.SS Testability
+Does this make programs that use this technique harder to test?
+The amount of code to be written is the same, and does the same jobs.
+So, no, the testing burden is unchanged.
+.PP
+However, you have the advantage that the parser is common to all
+of the tools, and so bug fixes to the parser are inherited by all
+tools.  Change once, test everywhere?  Not quite: if you had \f[I]n\fP
+separate yacc files, all with the same bug, you would have to make
+\f[I]n\fP identical changes, and re\[hy]test \f[I]n\fP tools.  Testing
+burden unchanged, \f[I]but\fP the probability of unintentionally diverging
+grammars becomes zero.
+.SS Flow Of Control
+The need to understand the flow of control comes when the developer is
+testing a new derivation of the \f[CW]translator\fP class.  The grammar,
+and its connection to the translator context has already been written
+and tested, all you need to do is test the newly derived class.  Your
+test cases, then, must exercise each of the new factory methods, one
+test for each of the expression productions, and flow of control will
+then enter each of the factory methods.
+.SS The Source Code
+This concept may be found the the \f[I]ucsd\[hy]psystem\[hy]xc\fP source code
+in the \f[CW]lib/translator.h\fP file, and its derived classes may be
+found in the \f[CI]tool\fP\f[CW]/translator/\fP\f[CI]derived\fP\f[CW].h\fP
+files.
+.SH FACTORY FACTORIES
+The wheels of this context concept would appear to start to come off
+when we consider assignment expressions.
+A grammar for a C\[hy]like language could look like this:
+.E(
+expr
+    : IDENTIFIER
+        {
+            $$ = ctx\->name_expr_factory($1);
+        }
+    | expr '=' expr
+        {
+            $$ = ctx\->assignment_expr_factory($1, $3);
+        }
+    | expr '+' expr
+        {
+            $$ = ctx\->plus_expr_factory($1, $3);
+        }
+    ;
+.E)
+.PP
+How does our name expression factory know which side of the assignment
+it is on?  At code generation time, should it emit a load opcode or a
+store opcode?  We don't know... yet.
+What we do know is that loads are much more likely than stores,
+so we initially generate expression trees that would perform loads.
+.PP
+But this just pushes the problem into the \f[CW]assignment_expr_factory\fP
+method.
+In order to figure out what kinds of assignment opcode to use,
+it would be necessary to figure out what kind of load opcode is present,
+and generate the corresponding store
+.E(
+expression *
+translator_compiler::assignment_expr_factory(expression *e1, expression *e2)
+{
+    const expr_load *test1 =
+        dynamic_cast<const expr_load *>(e1);
+    if (test1)
+        return new expr_store(e1\->get_operand(), e2);
+
+    const expr_array_load *test2 =
+        dynamic_cast<const expr_array_load *>(e1);
+    if (test2)
+        return new expr_store_array(e1\->get_lhs(), e1\->get_rhs(), e2);
+
+    yyerror("inappropriate assignment");
+    return new expression_error();
+}
+.E)
+.PP
+This makes me cringe.  Those down\[hy]casts have my alarm bells going off.
+And all those getters so that AST node privates can be groped, ugh!
+But what alternative is there?
+To answer that, let's backtrack for a moment.
+Our very first example can be re\[hy]written like this:
+.E(
+int
+expr_evaluate(const struct expr_t *ep)
+{
+    if (ep\->kind == CONSTANT)
+        return ep\->u.value;
+
+    if (ep\->kind == PLUS)
+        return expr_evaluate(ep\->u.p.lhs)
+            + expr_evaluate(ep\->u.p.rhs);
+
+    if (ep\->kind == MINUS)
+        return expr_evaluate(ep\->u.p.lhs)
+            \- expr_evaluate(ep\->u.p.rhs);
+
+    \f[I]etc\fP
+}
+.E)
+.PP
+The chain of \f[CW]if\fP statements in \f[CW]assignment_expr_factory\fP
+is a \f[CI]switch\fP\f[I] in disguise\fP, a type\[hy]based dispatch in
+disguise.  We should be using a virtual method instead.
+.PP
+But in which class should we place the virtual method?  Clearly, it
+isn't inside the \f[CW]translator\fP class, since we tried it there
+already.  The type\[hy]based dispatch is based on the expression type, and
+that is where the virtual method lives, in the \f[CW]expression\fP class:
+.E(
+expr: expr '=' expr
+    {
+        $$ = $1\->assignment_expr_factory($3);
+    }
+.E)
+.PP
+No, no, no, that can't be right: the \f[CW]ctx\fP object doesn't get any
+chance to intervene.  Except that it does: when it created the left hand
+side in the first place.
+.PP
+By creating, say, a compiler specific \[lq]load\[rq] AST node, it also
+created the assignment factory; they are the same object.  There is
+no way a pretty printer assignment object will ever be created by a
+compiler load object (unless you deliberately code it that way).
+.PP
+Note, too, that the error\[hy]prone down\[hy]casts are \f[I]gone\fP,
+as is the need to grope anyone's privates.  And the code is faster, too, by
+eliminating the slow down\[hy]casts and multiple tests.
+.PP
+The sharp\[hy]eyed reader will have noticed that we have omitted the error
+case.  What happens when it goes wrong?  The easiest way is to have the
+common base class aways emit an error complaining about an inappropriate
+assignment, unless overridden.
+.PP
+.E(
+expression *
+expression::assignment_expr_factory(expression *, expression *)
+{
+    yyerror("inappropriate assignment");
+    return new expression_error();
+}
+.E)
+.PP
+In summary, our \f[CW]name_expr_factory\fP method manufactured an object that,
+in turn, contains an \f[CW]assignment_expr_factory\fP method, used to
+manufacture more AST nodes.  We now have a factory factory.
+.SS Testability
+My head is starting to explode.
+Surely \f[I]now\fP there are combinatorial effects on testing!
+.PP
+Well, yes and no.  Yes, programming languages by definition are capable
+of combinatorial effects when it comes to all the ways you can put
+together different expressions to build different programs; that is
+unchanged, compilers need \f[I]lots\fP of testing.
+.PP
+And, no, the factory factories do not making the testing burden worse.  They
+are, after all, implementing the same thing, often with the same code,
+albeit distributed differently amongst the classes.
+.SS Flow Of Control
+If I'm a developer adding a new type of assignment to an existing
+complier implemented this way, how to I know when execution will reach
+my shiny new expression class' \f[CW]assignment_expr_factory\fP method?
+Well, the same way you would have when it was imperative code: write a
+test with that kind of assigment in it, and hand it to the parser.
+Remember: you aren't testing the parser part of the code,
+only your new assignment type (class).
+.SS The Source Code
+This concept may be found the the \f[I]ucsd\[hy]psystem\[hy]xc\fP
+source code in the \f[CW]lib/expression.h\fP file, and its
+tool\[hy]specific derived classes may be found in the
+\f[CI]tool\fP\f[CW]/expression/\fP\f[CI]derived\fP\f[CW].h\fP files.
+.SH FACTORY FACTORY FACTORIES
+Now we turn our attention to the \f[CW]name_expr_factory\fP method.
+It's been trying to look all innocent and inconspicuous.
+.E(
+expression *
+translator_compiler::name_expr_factory(const char *name)
+{
+    symbol *sp = lookup(name);
+    if (!sp)
+    {
+        yyerror("name unknown");
+        return new expr_error();
+    }
+
+    const symbol_extern *test1 =
+        dynamic_cast<const symbol_extern *>(sp);
+    if (test1)
+        return new expr_load_extern(sp);
+
+    const symbol_static *test2 =
+        dynamic_cast<const symbol_static *>(sp);
+    if (test2)
+        return new expr_load_static(sp);
+
+    const symbol_local *test3 =
+        dynamic_cast<const symbol_local *>(sp);
+    if (test3)
+        return new expr_load_local(sp);
+
+    yyerror("can't use name here");
+}
+.E)
+.PP
+This is another example of a type\[hy]based dispatch in disguise.  But where
+does the virtual method belong?  Clearly, not in the \f[CW]translator\fP
+class or derivative, we already tried that.  Instead, we implement it in
+the \f[CW]symbol\fP class, as follows:
+.E(
+expression *
+translator::name_expr_factory(const char *name)
+{
+    symbol *sp = lookup(name);
+    if (!sp)
+    {
+        yyerror("name unknown");
+        return new expr_error();
+    }
+    return sp\->name_expr_factory();
+}
+.E)
+.PP
+We moved the \f[CW]name_expr_factory\fP into the \f[CW]translator\fP
+base class, because it is now identical across all derived classes,
+because it no longer needs to know about compiler\[hy]specific classes.
+.PP
+As in the previous section about assignment expressions:
+doing symbol accesses this way means that
+the advantages are the same,
+the testing burden unchanged,
+and the error handling is the same.
+.PP
+In summary, the \f[CW]translator::name_expr_factory\fP
+method looked up a \f[CW]symbol\fP object that, in turn,
+contains a \f[CW]name_expr_factory\fP method, used to
+manufacture \f[CW]expression\fP AST nodes, that in turn contain
+\f[CW]assignment_expr_factory\fP methods, used to manufacture more
+\f[CW]expr\fP AST nodes.
+We now have a factory factory factory.
+.SS The Source Code
+This concept may be found the the \f[I]ucsd\[hy]psystem\[hy]xc\fP source code in
+the \f[CW]lib/symbol.h\fP file, and its derived classes may be
+found in the \f[CW]lib/symbol/\fP\f[CI]derived\fP\f[CW].h\fP and
+\f[CI]tool\fP\f[CW]/symbol/\fP\f[CI]derived\fP\f[CW].h\fP files.
+.SH FACTORY**4
+Have you thought about variable scopes in Pascal?  By having different
+scopes for \f[CW]program\fPs and \f[CW]function\fPs (because their
+variables are accessed by different opcodes) when a new variable is
+declared, you ask the current \f[CW]scope\fP to manufacture a new
+\f[CW]symbol\fP instance that...
+you get the idea.
+.SS The Source Code
+This concept may be found the the \f[I]ucsd\[hy]psystem\[hy]xc\fP source code in
+the \f[CW]lib/scope.h\fP file, and its derived classes may be
+found in the \f[CW]lib/scope/\fP\f[CI]derived\fP\f[CW].h\fP and
+\f[CI]tool\fP\f[CW]/scope/\fP\f[CI]derived\fP\f[CW].h\fP files.
+.ds n) ucsd\[hy]psystem\[hy]xc
+.so man/man1/z_copyright.so
+.\" vim: set ts=8 sw=4 et :

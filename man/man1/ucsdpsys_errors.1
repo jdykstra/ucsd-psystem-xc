@@ -1,0 +1,72 @@
+'\" t
+.\"     UCSD p-System cross compiler
+.\"     Copyright (C) 2010-2012 Peter Miller
+.\"
+.\"     This program is free software; you can redistribute it and/or modify
+.\"     it under the terms of the GNU General Public License as published by
+.\"     the Free Software Foundation; either version 3 of the License, or
+.\"     (at your option) any later version.
+.\"
+.\"     This program is distributed in the hope that it will be useful,
+.\"     but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\"     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\"     GNU General Public License for more details.
+.\"
+.\"     You should have received a copy of the GNU General Public License
+.\"     along with this program. If not, see
+.\"     <http://www.gnu.org/licenses/>.
+.\"
+.ds n) ucsdpsys_errors
+.TH \*(n) 1 ucsd\[hy]psystem\[hy]xc "Reference Manual"
+.SH NAME
+ucsdpsys_errors \- UCSD p\[hy]System assembler error file builder
+.if require_index \{
+.XX "ucsdpsys_errors(1)" "UCSD p\[hy]System assembler error file builder"
+.\}
+.SH SYNOPSIS
+\fB\*(n)\fP [ \f[I]option\fP\&... ][ \f[I]infile\fP [ \f[I]outfile\fP ]]
+]]
+.br
+\fB\*(n) \-\-version\fP
+.SH DESCRIPTION
+The \fI\*(n)\fP program is used to translate an assembler error file
+from its text for to its binary form, and back again.
+.br
+.ne 1i
+.SH OPTIONS
+The following options are understood:
+.\" ----------  A  ---------------------------------------------------------
+.so man/man1/o_architecture.so
+.\" ----------  D  ---------------------------------------------------------
+.TP 8n
+\fB\-d\fP
+.TQ 8n
+\fB\-\-decode\fP
+This option is used to specify a translation from binary to text form is
+required.  This can be useful for reverse engineering the text when all
+you have is the binary form.
+.\" ----------  E  ---------------------------------------------------------
+.TP 8n
+\fB\-e\fP
+.TQ 8n
+\fB\-\-encode\fP
+This option is used to specify a translation from text to binary is
+required.  The binary form is used to simplify the error reporting code.
+.\" ----------  H  ---------------------------------------------------------
+.so man/man1/o_host.so
+.\" ----------  V  ---------------------------------------------------------
+.TP 8n
+\fB\-V\fP
+.TQ 8n
+\fB\-\-version\fP
+Print the version of the \fI\*(n)\fP program being executed.
+.\" ----------  Z  ---------------------------------------------------------
+.PP
+All other options will produce a diagnostic error.
+.so man/man1/z_exit.so
+.SH SEE ALSO
+.TP 8n
+\f[I]ucsdpsys_errors\fP(5)
+UCSD p\[hy]System assembler error file format
+.so man/man1/z_copyright.so
+.\" vim: set ts=8 sw=4 et :

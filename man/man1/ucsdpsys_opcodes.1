@@ -1,0 +1,97 @@
+'\" t
+.\"     UCSD p-System cross compiler
+.\"     Copyright (C) 2010-2012 Peter Miller
+.\"
+.\"     This program is free software; you can redistribute it and/or modify
+.\"     it under the terms of the GNU General Public License as published by
+.\"     the Free Software Foundation; either version 3 of the License, or
+.\"     (at your option) any later version.
+.\"
+.\"     This program is distributed in the hope that it will be useful,
+.\"     but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\"     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\"     GNU General Public License for more details.
+.\"
+.\"     You should have received a copy of the GNU General Public License
+.\"     along with this program. If not, see
+.\"     <http://www.gnu.org/licenses/>.
+.\"
+.ds n) ucsdpsys_opcodes
+.TH \*(n) 1 ucsd\[hy]psystem\[hy]xc "Reference Manual"
+.SH NAME
+ucsdpsys_opcodes \- UCSD p\[hy]System system.opcodes generator
+.if require_index \{
+.XX "ucsdpsys_opcodes(1)" "UCSD p\[hy]System system.opcodes generator"
+.\}
+.SH SYNOPSIS
+.B \*(n)
+.B \-e
+.I text\[hy]file
+.I binary\[hy]file
+.br
+.B \*(n)
+.B \-d
+.I binary\[hy]file
+.I text\[hy]file
+.br
+.B \*(n)
+.B \-V
+.SH DESCRIPTION
+The \fI\*(n)\fP program is used to
+read a text template of an assembler's opcode file
+and write the equivalent binary file.
+This is used by the \f[I]ucsd\[hy]psystem\[hy]os\fP project, when building the
+assembler and disassembler programs.
+.br
+.ne 1i
+.SH OPTIONS
+The following options are understood:
+.\" ----------  A  ---------------------------------------------------------
+.so man/man1/o_architecture.so
+This option is used to indicate the translation to be performed,
+and also the byte sex of the binary files.
+The architecture name can usually be found in the name of the binary
+\f[I]name\fP\f[CW].OPCODES\fP binary files.
+If a p\[hy]code mtype is given, it indicates that the data file is to be
+used by the p\[hy]code disassembler, the \f[CW]OPCODES.II.0\fP file.
+.\" ----------  D  ---------------------------------------------------------
+.TP 8n
+\fB\-d\fP
+.TQ 8n
+\fB\-\-decode\fP
+Decode a binary file into a text file.
+This can be used to reverse\[hy]engineer the text file from the existing
+binary files.  With the passing of time, the method originally used to
+create the binary files
+has been lost.
+.\" ----------  E  ---------------------------------------------------------
+.TP 8n
+\fB\-e\fP
+.TQ 8n
+\fB\-\-encode\fP
+Encode a text file into a binary file.
+This is used to have an editable text representation of the file contents,
+so that they can easily be edited, and version controlled.
+.\" ----------  H  ---------------------------------------------------------
+.so man/man1/o_host.so
+This option is used to indicate the translation to be performed,
+and also the byte sex of the binary files.
+.\" ----------  V  ---------------------------------------------------------
+.TP 8n
+\fB\-V\fP
+.TQ 8n
+\fB\-\-version\fP
+Print the version of the \fI\*(n)\fP program being executed.
+.\" ----------  Z  ---------------------------------------------------------
+.PP
+All other options will produce a diagnostic error.
+.so man/man1/z_exit.so
+.SH SEE ALSO
+.TP 8n
+\f[I]ucsdpsys_assemble\fP(1)
+UCSD p\[hy]System cross assembler, for multiple CPU types
+.TP 8n
+\f[I]ucsdpsys_opcodes\fP(5)
+format of the OPCODES.II.0 file
+.so man/man1/z_copyright.so
+.\" vim: set ts=8 sw=4 et :

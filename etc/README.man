@@ -1,0 +1,166 @@
+'\" t
+.\" UCSD p-System cross compiler
+.\" Copyright (C) 2006, 2007, 2010, 2012 Peter Miller
+.\"
+.\" This program is free software; you can redistribute it and/or modify
+.\" it under the terms of the GNU General Public License as published by
+.\" the Free Software Foundation; either version 3 of the License, or
+.\" (at your option) any later version.
+.\"
+.\" This program is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+.\" General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU General Public License
+.\" along with this program. If not, see <http://www.gnu.org/licenses/>.
+.\"
+.TH "Read Me" ucsd\[hy]psystem\[hy]xc ucsd\[hy]psystem\[hy]xc "Reference Manual"
+.so etc/version.so
+.hy 0
+.ad l
+.SH NAME
+ucsd\[hy]psystem\[hy]xc \- UCSD p\[hy]System Pascal cross compiler
+.XX "" "The README file"
+.SH DESCRIPTION
+The \fIucsd\[hy]psystem\[hy]xc\fP package is a collection of tools for
+compiling Pascal source files to produce UCSD p_System code files.
+The package includes:
+.TP 8n
+\f[I]ucsdpsys\fP(1)
+A laucher to run the virtual machine comfortably from the command line.
+It includes a batch mode for automating (scripting) operations.
+.TP 8n
+\f[I]ucsdpsys_assemble\fP(1)
+The cross assembler.
+It is able to assemble several different target microprocessor
+architectures in the one executable.
+.TP 8n
+\f[I]ucsdpsys_compile\fP(1)
+The cross compiler.
+It understands the UCSD Pascal dialect,
+including UNIT definitions and references.
+.TP
+\f[I]ucsdpsys_depends\fP(1)
+May be used to determine include file dependencies,
+for use with \f[I]make\fP(1) and other build tools.
+.TP 8n
+\f[I]ucsdpsys_disassemble\fP(1)
+For disassembling UCSD p\[hy]System code files.
+This is used to verify the correctness of the compiler.
+.TP 8n
+\f[I]ucsdpsys_downcase\fP(1)
+A untility for converting Pascal code to lower case,
+leaving string constants and comments unaltered.
+.TP 8n
+\f[I]ucsdpsys_errors\fP(1)
+A utility to translate back and forth between text and binary
+representations of the assembler error message files.
+.TP 8n
+\f[I]ucsdpsys_libmap\fP(1)
+A utility for printing segment maps of UCSD p\[hy]System library files.
+.TP 8n
+\f[I]ucsdpsys_librarian\fP(1)
+A utility for manipulating the segments within UCSD p\[hy]System codefiles.
+.TP 8n
+\f[I]ucsdpsys_link\fP(1)
+A utility for linking UCSD p\[hy]System codefiles to their assembler components.
+.TP 8n
+\f[I]ucsdpsys_opcodes\fP(1)
+A utility to translate back and forth between text and binary
+representations of the assembler opcode files.
+.TP 8n
+\f[I]ucsdpsys_setup\fP(1)
+A utility to translate back and forth between text and binary
+representations of the \f[CW]system.miscinfo\fP file.
+.SS Sister Projects
+Some other projects will be of interest to you.
+.TP 8n
+ucsd\[hy]psystem\[hy]fs
+This package contains tools for manipulating UCSD p\[hy]System floppy
+disk images,
+and a file system for mounting them in Linux as real file systems.
+.br
+http://ucsd\[hy]psystem\[hy]fs.sourceforge.net/
+.TP 8n
+ucsd\[hy]psystem\[hy]os
+This project provides a self\[hy]hosting set of system sources.  You
+need the disk images produced by this project for the virtual machine to
+have a \[lq]system.pascal\[rq] file to run (this provides runtime support
+and the user command executive).  This is a work in progress.
+.TP 8n
+uvsd\[hy]psystem\[hy]vm
+This package provides a fully featured UCSD p\[hy]Machine emulator.
+.br
+.ne 1i
+.SH ARCHIVE SITE
+The latest version of
+.I ucsd\[hy]psystem\[hy]xc
+is available on the Web from:
+.RS 4m
+.TS
+tab(;);
+l l s
+l l l.
+URL:;http://ucsd\[hy]psystem\[hy]xc.sourceforge.net/
+File:;ucsd\[hy]psystem\[hy]xc\[hy]\*(v).README;# Description, from the tar file
+File:;ucsd\[hy]psystem\[hy]xc\[hy]\*(v).lsm;# Description, LSM format
+File:;ucsd\[hy]psystem\[hy]xc\[hy]\*(v).tar.gz;# the complete source
+File:;ucsd\[hy]psystem\[hy]xc\[hy]\*(v).pdf;# Reference Manual
+.TE
+.RE
+.br
+.ne 1i
+.SH BUILDING ucsd\[hy]psystem\[hy]xc
+Full instructions for building
+.I ucsd\[hy]psystem\[hy]xc
+may be found in the
+.I BUILDING
+file included in this distribution.
+.br
+.ne 1i
+.SH COPYRIGHT
+.I ucsd\[hy]psystem\[hy]xc
+version \*(v)
+.br
+Copyright
+.if t \(co
+.if n (C)
+\*(Y) Peter Miller
+.PP
+This program is free software;
+you can redistribute it
+and/or modify it under the terms of the GNU General Public
+License as published by the Free Software Foundation;
+either version 3 of the License,
+or (at your option) any later version.
+.PP
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY;
+without even the implied
+warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+PURPOSE.
+See the GNU General Public License for more details.
+.PP
+You should have received a copy of the GNU General Public License along
+with this program. If not, see <http://www.gnu.org/licenses/>.
+.PP
+It should be in the
+.I LICENSE
+file included with this distribution.
+.br
+.ne 1i
+.SH AUTHOR
+.TS
+tab(;);
+l l l.
+Peter Miller;E\[hy]Mail:;pmiller@opensource.org.au
+\f(CW/\e/\e*\fP;WWW:;http://miller.emu.id.au/pmiller/
+.TE
+.br
+.bp
+.SH RELEASE NOTES
+.XX "" "Release Notes"
+This section details the features and bug fixes of each of the releases.
+.so etc/new.so
+.\" vim: set ts=8 sw=4 et :

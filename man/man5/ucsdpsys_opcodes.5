@@ -1,0 +1,92 @@
+'\" t
+.\"     UCSD p-System cross compiler
+.\"     Copyright (C) 2010-2012 Peter Miller
+.\"
+.\"     This program is free software; you can redistribute it and/or modify
+.\"     it under the terms of the GNU General Public License as published by
+.\"     the Free Software Foundation; either version 3 of the License, or
+.\"     (at your option) any later version.
+.\"
+.\"     This program is distributed in the hope that it will be useful,
+.\"     but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\"     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\"     GNU General Public License for more details.
+.\"
+.\"     You should have received a copy of the GNU General Public License
+.\"     along with this program. If not, see
+.\"     <http://www.gnu.org/licenses/>.
+.\"
+.ds n) ucsdpsys_opcodes
+.TH \*(n) 5 ucsd\[hy]psystem\[hy]xc "Reference Manual"
+.SH NAME
+ucsdpsys_opcodes \- format of the OPCODES.II.0 file
+.if require_index \{
+.XX "ucsdpsys_opcodes(5)" "format of the OPCODES.II.0 file"
+.\}
+.SH DESCRIPTION
+The \f[I]ucsdpsys_opcodes\fP(1) command is used to generate the binary
+\f[I]name\fP\f[CW].OPCODES\fP system file expected by the UCSD p\[hy]System
+assemblers.  It can also be used to reverse engineer and existing file
+into the text equivalent.
+.PP
+The \f[I]ucsdpsys_opcodes\fP(1) command is used to generate the binary
+\f[CW]OPCODES.II.0\fP system file expected by the UCSD p\[hy]System
+disassembler (for p\[hy]code architectures).  It can also be used to reverse
+engineer and existing file into the text equivalent.
+.SS Format if the Assembler text file
+Comments are permitted, they start at a hash (#) character, and finish
+at the end of the line.
+.PP
+Each opcode is a line of the form
+.PP
+.ce 1
+\f[CW]{ "\fP\f[I]name\fP\f[CW]", \fP\f[I]value\fP\f[CW], \
+\fP\f[I]type\fP\f[CW] }, \fP
+.PP
+Where \f[I]type\fP is one of the known opcode type
+(see the Adaptive Assembler sources for more information).
+.PP
+The resemblance to a C initializer is not a coincidence.
+.SS Format if the Disassembler text file
+Comments are permitted, they start at a hash (#) character, and finish
+at the end of the line.
+.PP
+The opcode lines make take one of two forms
+.PP
+.ce 2
+\f[I]number\fP\f[CW] = \fP\f[I]type\fP\f[CW], "\fP\f[I]name\fP\f[CW]";\fP
+\f[I]number\fP\f[CW] = \fP\f[I]type\fP\f[CW];\fP
+.PP
+The first format describes most of the lines in the file.
+The second format describes undefined opcodes, or opcodes with names
+already known to the disassembler.
+.SS Format of the Assembler binary file
+Each line of the source file is encoded into 12 bytes in the binary file.
+.TP 8n
+0..7
+The name, space padded on the right
+.TP
+8, 9
+The value.  The byte sex depends on the architecture.
+.TP 8n
+10, 11
+The opcode type.
+.PP
+The first 12 bytes are treated differently.  They indicate the byte sex
+of the file.  All bytes are zero, except for the value bytes; they are
+to evaluate to 1, if you have the byte sex correct.
+.SS Format of the Disassembler binary file
+There are two parts to the file: the opcode names and the opcode types.
+.PP
+For the opcode names, each entry in the file is 8 bytes wide, and
+space padded, indexed by opcode number.  Absent entries are set to all
+spaces.  The first 52 opcodes do not appear in the table.
+.PP
+For the opcode types, each entry in the table is 2 bytes wide.
+.PP
+Just why they felt the need for a file formatted differently than the
+assembler's data file is a mystery.  The answer is lost in the mists of
+time.
+.so man/man1/z_exit.so
+.so man/man1/z_copyright.so
+.\" vim: set ts=8 sw=4 et :

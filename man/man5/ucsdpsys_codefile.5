@@ -1,0 +1,324 @@
+'\" t
+.\"     UCSD p-System cross compiler
+.\"     Copyright (C) 2010-2012 Peter Miller
+.\"
+.\"     This program is free software; you can redistribute it and/or modify
+.\"     it under the terms of the GNU General Public License as published by
+.\"     the Free Software Foundation; either version 3 of the License, or
+.\"     (at your option) any later version.
+.\"
+.\"     This program is distributed in the hope that it will be useful,
+.\"     but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\"     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\"     GNU General Public License for more details.
+.\"
+.\"     You should have received a copy of the GNU General Public License
+.\"     along with this program. If not, see
+.\"     <http://www.gnu.org/licenses/>.
+.\"
+.ds n) ucsdpsys_codefile
+.TH \*(n) 5 ucsd\[hy]psystem\[hy]xc "Reference Manual"
+.SH NAME
+ucsdpsys_codefile \- UCSD p\[hy]System codefile format
+.if require_index \{
+.XX "ucsdpsys_codefile(5)" "UCSD p\[hy]System codefile format"
+.\}
+.SH DESCRIPTION
+The UCSD p\[hy]System codefiles serve as both intermediate object files (the
+equivalent of Unix \f[CW]\.o\fP files), and executables (the equivalent
+of Windows \f[CW].exe\fP files).
+.PP
+By convention, UCSD codefiles have a \f[CW].code\fP suffix, and their
+file type in the filesystem is set code \f[CW]CODE\fP as well.
+For most commands that deal with codefiles, the UCSD system will
+automatically append \f[CW].code\fP if the user does not.
+.PP
+As the UCSD p\[hy]System evolved, so did the codefile format.
+Most of these changes are backwards compatible (later versions of the
+p\[hy]System can read the codefiles of previous versions), and a few are
+forwards compaitible (earlier versions of the p\[hy]System can cope with
+codefiles from later versions of the system).
+.PP
+A word of caution: while the I.5 linker can mostly handle II.0 codefiles,
+the p\[hy]code is different between the two systems.
+Do not try to run a <= I.5 executable on a >= II.0 system,
+or \f[I]vice versa\fP.
+.PP
+By examining the Segment Dictionary, it is usually possible to determine
+whether a codefile is I.5 or earlier, or II.0 or later.
+.SH CODEFILE LAYOUT
+A UCSD p\[hy]System codefile has a one\[hy]block segment dictionary, followed by
+each of the segments.
+.PP
+.TS
+allbox,center,tab(;);
+c.
+T{
+Segment
+.br
+Dictionary
+T}
+T{
+First Segment
+T}
+T{
+Second Segment
+T}
+T{
+\f[I]etc\fP
+T}
+.TE
+.PP
+Note that segments do not have to appear in order, although they frequently do.
+The Segment Dictionary is able to place segments anywhere in the codefile.
+.PP
+Each segment has three parts:
+.PP
+.TS
+allbox,center,tab(;);
+c.
+T{
+Interface Text
+.br
+(may be empty)
+T}
+T{
+Procedures
+T}
+T{
+Link Info
+.br
+(may be empty)
+T}
+.TE
+.PP
+While the Segment Dictionary format (see below) would suggest that
+Interface text can be placed anywhere in the codefile, rather than
+immediately before the Procedure code, in practive this is not done,
+thus providing an indirect way of knowing how many blocks of interface
+text are present.
+.SH SEGMENT DICTIONARY
+The Segment Dictionary contains the locations of the segments, and also
+some meta\[hy]data about each segment.
+Historically, it has been added to with each major release.
+.SS Byte Sex
+The UCSD p\[hy]System can be hosted by both little\[hy]endian and
+big\[hy]endian machines.  The native byte ordering of the host is used
+in codefiles, including the segment dictionary.  Whenever you see
+integers (16\[hy]bits) and packed records, byte sex must be taken into
+account.
+.SS Version I.5
+The Pascal declaration looks like this:
+.PP
+.RS
+.ft CW
+.nf
+record
+  diskinfo: array [0..15] of
+    record
+      codeaddr: integer;
+      codeleng: integer
+    end;
+  segname: array [0..15] of array[0..7] of char;
+  segkind: array [0..15] of integer;
+  textaddr: array [0..15] of integer;
+  filler: array [0..87] of integer;
+  comment: string[79]
+end;
+.fi
+.ft R
+.RE
+.PP
+The record field are defines as follows:
+.TP 8n
+\f[I]codeaddr\fP
+The start of the segment's code, in units of 512\[hy]byte blocks.
+.TP 8n
+\f[I]codeleng\fP
+The sizeof of the segment's code, in bytes.
+.TP 8n
+\f[I]segname\fP
+The segment's name, truncated to 8 bytes, padded with spaces on the
+right if necessary.  Must be upper case.  Must consist of letters and
+digits only, as this is checked by the UCSD p\[hy]System native linker.
+.TP 8n
+\f[I]segkind\fP
+.RS
+The segment kind.
+.TP 8n
+LINKED (0)
+No work is needed for this segment, it is executable as is.
+.TP 8n
+HOSTSEG (1)
+PASCAL host program outer block, when there is at least one EXTERNAL
+procedure or function.  Not executable.
+.TP 8n
+SEGPROC (2)
+PASCAL segment procedure, not host
+.TP 8n
+UNITSEG (3)
+If \f[I]codeleng\fP is non\[hy]zero, this is a library UNIT definition.
+If \f[I]codeleng\fP is zero, this is a library UNIT reference.
+.TP 8n
+SEPRTSEG (4)
+The assembler procuces this kind of segment.
+It is populated entirely with native code procedures and functions.
+You use the linker to link HOSTSEG segments with SEPRTSEG segments to
+produce LINKED segments.
+.RE
+.TP 8n
+\f[I]textaddr\fP
+The text of the INTERFACE section of a UNIT.
+Always ends with an IMPLEMENTATION keyword followed by ten (10) spaces.
+It is in the usual textfile format (see \f[I]ucsdpsys_text\fP(5) for
+more information) except that (a) it does not have the two block editor
+header, and (b) it could be an odd number of blocks long, if the last
+block would have been all NUL bytes.
+.TP 8n
+\f[I]filler\fP
+Unused.  Must be filled to zero, so that zero can be used as the defualt
+value for backwards compatibility.
+.TP 8n
+\f[I]comment\fP
+The is the copyright string added to the codefile using the
+\f[CW](*$C\fP \f[I]comment\fP \f[CW]*)\fP control comment in the source
+code.  It will be empty if none was given; fill unused bytes with zero.
+.SS Version II.0
+The II.0 codefiles had the same format as the I.5 codefiles.
+The big change in II.0 were the alterations to the opcodes.
+.SS Version II.1
+The Pascal declaration looks like this:
+.PP
+.RS
+.ft CW
+.nf
+record
+  diskinfo: array [0..15] of
+    record
+      codeaddr: integer;
+      codeleng: integer
+    end;
+  segname: array [0..15] of array[0..7] of char;
+  segkind: array [0..15] of integer;
+  textaddr: array [0..15] of integer;
+  seginfo: array [0..15] of
+    packed record
+      segnum: 0..255;
+      mtype: 0..15;
+      version: 0..7
+    end;
+  intrins: set [0..63] of boolean;
+  filler: array [0..67] of integer;
+  comment: string[79]
+end;
+.fi
+.ft R
+.RE
+.PP
+Most of the fields are the same as for I.5.
+The differences are:
+.TP 8n
+segkind
+.RS
+There are several new values
+.RE
+.TP 8n
+seginfo.segnum
+blah blah blah
+.TP 8n
+seginfo.mtype
+blah blah blah
+.TP 8n
+seginfo.version
+blah blah blah
+.SS Version IV
+The Pascal declaration looks like this:
+.PP
+dictionary chaining
+.PP
+endian word
+.so man/man1/z_copyright.so
+.SS SEGMENT LAYOUT
+Each segment has three parts:
+.PP
+.TS
+allbox,center,tab(;);
+c.
+T{
+Interface Text
+.br
+(may be empty)
+T}
+T{
+Procedures
+T}
+T{
+Link Info
+.br
+(may be empty)
+T}
+.TE
+.PP
+.SS Interface Text
+write this section.
+see above.
+.SS Procedures
+The procedures section is indicated by the \f[I]codeaddr\fP and \f[I]codeleng\fP
+fields in the Segment Dictioary.
+The procedures are laid out as
+.PP
+.TS
+allbox,center;
+c.
+T{
+First Procedure
+T}
+T{
+Second Procedure
+T}
+T{
+\f[I]etc\fP
+T}
+T{
+Procedure Dictionary
+T}
+.TE
+.PP
+The procedure dictionary can be located by using the \f[I]codeleng\fP
+value, because it appears and the \f[B]end\fP of the segment's code.
+.PP
+Procedures do not always appear in the segment in strict numerical order.
+Procedure numbers
+are allocated by the compiler when it sees a procedure declaration.  If
+it is declared \f[CW]forward\fP, or if it has nested procedures, the code of
+other procedures may appear before it in the segment.
+.PP
+.TS
+allbox,center,tab(;);
+cs,cs,cs,cc.
+T{
+\f[I]etc\fP
+T}
+T{
+Procedure 2 Pointer
+T}
+T{
+Procedure 1 Pointer
+T}
+T{
+Segment
+.br
+Number
+T};T{
+Number of
+.br
+Procedures
+T}
+.TE
+.PP
+The shortes segment ins two bytes: one byte for the segment number, and
+one byte for the procedure count (zero).
+.SS Link Information
+write this section
+.so man/man1/z_copyright.so
+.\" vim: set ts=8 sw=4 et :

@@ -1,0 +1,133 @@
+.\"
+.\" UCSD p-System cross compiler
+.\" Copyright (C) 2011, 2012 Peter Miller
+.\"
+.\" This program is free software; you can redistribute it and/or modify
+.\" it under the terms of the GNU General Public License as published by
+.\" the Free Software Foundation; either version 2 of the License, or (at
+.\" you option) any later version.
+.\"
+.\" This program is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+.\" General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU General Public License along
+.\" with this program. If not, see <http://www.gnu.org/licenses/>
+.\"
+.nf
+.ad l
+.hy 0
+<html>
+<head>
+<title>
+Miller, P. A. (2010) Factory Factory Factories
+</title>
+</head>
+<body>
+<table width="100%" ><tr>
+<td><small><a href="index.html" >Up</a>,
+    <a href="page06.html" >Prev</a></small></td>
+<td align="right" >
+    <small><a href="page08.html" >Next</a></small></td>
+</tr></table>
+
+<h1 align="center" >What's in a Name?</h1>
+<p>
+<table align="center" >
+
+<tr><th bgcolor="#ffbbbb" >...imperative type-based dispatch</th>
+    <th bgcolor="#bbffbb" >... facility of the C++ language</th></tr>
+
+<tr><td>
+<pre>
+expression
+    : NAME
+        { $$ = context-&gt;name_expression($1); }
+    | <i>etc etc etc</i>
+    ;
+</pre>
+</td><td bgcolor="#eeffee" >
+<pre>
+class symbol
+{
+public:
+    <b>virtual</b> expression *name_expression_factory(const char *name);
+};
+</pre>
+</td></tr>
+
+<tr><td bgcolor="#ffeeee" valign="top" >
+<pre>expression *
+translator_compiler::name_expr_factory(const char *name) {
+    symbol *sp = lookup(name);
+    if (!sp) {
+        yyerror("name \"%s\" unknown", name);
+        return new expr_error();
+    }</pre>
+</td>
+<td bgcolor="#eeffee" >
+<pre>expression *
+<b>translator</b>::name_expr_factory(const char *name) {
+    symbol *sp = lookup(name);
+    if (!sp) {
+        yyerror("name \"%s\" unknown", name);
+        return new expr_error();
+    }</pre>
+</td></tr>
+
+<tr><td bgcolor="#ffe8e8" valign="top" >
+&nbsp;
+</td>
+<td bgcolor="#e8ffe8" >
+<pre>
+    return sp-&gt;name_expression_factory() const;
+}
+</pre>
+</td></tr>
+
+<tr><td bgcolor="#ffeeee" >
+<pre>
+    const symbol_global *test1 =
+        dynamic_cast&lt;const symbol_global *&gt;(sp);
+    if (test1)
+        return new expression_ldo(sp-&gt;get_address());
+</pre>
+</td><td bgcolor="#eeffee">
+<pre>
+expression *
+symbol_global::name_expression_factory()
+    const
+{
+    return new expression_ldo(get_address());
+}
+</pre>
+</td></tr>
+
+<tr><td bgcolor="#ffe8e8" valign="bottom" >
+<pre>
+    yyerror("can't use name \e"%s\e" here", sp-&gt;get_name());
+    return new expression_error();
+}
+</pre>
+</td><td bgcolor="#e8ffe8" >
+<pre>
+expression *
+symbol::name_expression_factory()
+{
+    yyerror("can't use name \e"%s\e" here", get_name());
+    return new expression_error();
+}
+</pre>
+</td></tr>
+
+<tr><td align="right" >
+Now we have a factory factory <i>factory</i>.
+</td><td>
+<img src="page07fig1.png" />
+</td></tr>
+
+</table>
+</body>
+</html>
+.\" vim: set ts=8 sw=4 et :

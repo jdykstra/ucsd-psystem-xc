@@ -1,0 +1,116 @@
+'\" t
+.\"     UCSD p-System cross compiler
+.\"     Copyright (C) 2006, 2007, 2010, 2012 Peter Miller
+.\"
+.\"     This program is free software; you can redistribute it and/or modify
+.\"     it under the terms of the GNU General Public License as published by
+.\"     the Free Software Foundation; either version 3 of the License, or
+.\"     (at your option) any later version.
+.\"
+.\"     This program is distributed in the hope that it will be useful,
+.\"     but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\"     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\"     GNU General Public License for more details.
+.\"
+.\"     You should have received a copy of the GNU General Public License
+.\"     along with this program. If not, see
+.\"     <http://www.gnu.org/licenses/>.
+.\"
+.\" ------------------------------------------------------------------------
+.TP 2n
+.if n *
+.if t \(bu
+The following built\[hy]in functions are understood:
+CHR,
+MEMAVAIL,
+ODD,
+ORD,
+PRED,
+SIZEOF,
+SQR,
+SUCC,
+TIME.
+.TP 2n
+.if n *
+.if t \(bu
+All of the usual Pascal expresion operators are understood,
+although not always across the full range of parameter types.
+.TP 2n
+.if n *
+.if t \(bu
+The cross compiler can produce both little\[hy]endian codefiles and
+big\[hy]endian codefiles.
+.TP 2n
+.if n *
+.if t \(bu
+A number of features from modern Pascal implementations are avilable:
+hex constants, binary constants, short\[hy]circuit boolean evaluation,
+the address\[hy]of (@) operator,
+.TP 2n
+.if n *
+.if t \(bu
+Most of the Pascal statement types are available, including:
+BEGIN END,
+CASE (and OTHERWISE),
+FOR,
+GOTO (local),
+IF THEN (ELSE),
+NEW (including variant types),
+REPEAT UNTIL,
+WHILE,
+WITH,
+WRITE,
+WRITELN.
+It is not yet possble to use non\[hy]local GOTO.
+.TP 2n
+.if n *
+.if t \(bu
+Segment procedures can be created, and UNIT interfaces can be accessed
+from library codefiles.  It is not yet possible to compile UNITs.
+While FORWARD procedures and functions are understood,
+EXTERNAL procedures and functions are not yet supported.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 375
+All of the UCSD Pascal data types are supported:
+ARRAY (including PACKED ARRAY),
+BOOLEAN,
+CHAR,
+enumerated,
+FILE,
+INTEGER
+INTERACTIVE,
+pointers,
+REAL,
+RECORD (including PACKED RECORD),
+SET,
+STRING (including STRING[n]),
+subrange,
+TEXT.
+The long integer types are not yet supported.
+.TP 2n
+.if n *
+.if t \(bu
+The cross compiler understands
+many of the UCSD Pascal constants, including:
+FALSE,
+MAXINT,
+NIL,
+TRUE,
+.TP 2n
+.if n *
+.if t \(bu
+The cross compiler is able to optimize most statements and expressions
+better than the Apple Pascal native compiler.
+Constant expressions are folded at compile time.
+.TP 2n
+.if n *
+.if t \(bu
+There is a \f[I]ucsdpsys_depends\fP(1) command, that can be used by your
+build system to scan for \f[CW](*$I filename*)\fP include directives.
+.\" ------------------------------------------------------------------------
+.\" Add new entries above this line.
+.SS Version 0.0 (2006\[hy]May\[hy]22)
+No public release.
+.\" vim: set ts=8 sw=4 et :

@@ -1,0 +1,183 @@
+'\" t
+.\"     UCSD p-System cross compiler
+.\"     Copyright (C) 2006, 2007, 2010, 2012 Peter Miller
+.\"
+.\"     This program is free software; you can redistribute it and/or modify
+.\"     it under the terms of the GNU General Public License as published by
+.\"     the Free Software Foundation; either version 3 of the License, or
+.\"     (at your option) any later version.
+.\"
+.\"     This program is distributed in the hope that it will be useful,
+.\"     but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\"     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\"     GNU General Public License for more details.
+.\"
+.\"     You should have received a copy of the GNU General Public License
+.\"     along with this program. If not, see
+.\"     <http://www.gnu.org/licenses/>.
+.\"
+.\" ------------------------------------------------------------------------
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 53, 54
+A bug has been fixed in the code generation for large set constants.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 49
+The CASE statement now understands negative case values.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 40
+The compiler now understands how to cast string constants into
+packed\[hy]array\[hy]of\[hy]char constants, when they are procedure and
+functions parameters.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 47
+The compiler now understands when a case control expression is a
+function call with no parameters.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 46
+The compiler now understands functions calls with no parameters
+on either side of the IN operator.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 43
+The compiler now generates the correct code for segment
+procedures that are declared forward.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 42
+The compiler now understands how to pass parameters that are
+records, by value.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 41
+The compiler now generates correct code for array parameters
+when they are passed by value.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 39
+A bug has been fixed in the READLN code generation, it no longer
+throws an assert.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 38
+The compiler no longer issues syntax errors when semicolons
+appear in questionable places in RECORD declarations.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 37
+The way symbol conflicts and shadows are calaculated has been
+changed, it was getting false positive on the conflict tests.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 36
+The compiler now understands passing a string as the first
+parameter to the FILLCHAR procedure.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 165
+The compiler now understands the unary plus operator.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 32, 134, 135, 138, 139, 140, 163
+The compiler now understands the built\[hy]in
+GET,
+GOTOXY,
+PAGE,
+PUT,
+SEEK,
+UNITSTATUS and
+UNITWAIT
+procedures.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 123, 124, 125, 126, 127, 128, 179
+There is a new (*$feature inline\[hy]math true*) control comment.  When this
+is enabled, the compiler now understands the built\[hy]in ATAN, COS, EXP,
+LN, LOG, SIN and SQRT functions.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 33, 35, 50
+There is a new \f[I]ucsdpsys_assemble\fP(1) command, that may be used
+to assemble machine code and p\[hy]code.  It isn't particularly capable, as
+yet, but it will become more so as work proceeds on the p\[hy]machine validation
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 31
+The compiler now accepts for loops of char values where one or
+both limits are char constants.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 30
+The built\[hy]in FILLCHAR procedure now accepts its third paramater being
+an enumerated type. This is for backwards compatibility with the UCSD
+native compiler.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 29
+The compiler now understands how to index an array by a char
+value.  Previously it was throwing an assert.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 26
+There is a new (*$feature ignore\[hy]undefined\[hy]segment\[hy]zero true *)
+option, that can be used to turn off checking for undefined
+forward declarations, when those symbols would be in segment
+zero.  This \[lq]feature\[rq] is used by system utilities.
+All other cases of forward functions being undefined result in a fatal error;
+use EXTERNAL for procedures to be linked later.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 28
+The disassembler can now cope with broken pointers in a
+segment's procedure dictionary.  Usually undefined (external)
+procedures with have a zero (0) entry in the procedure table.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 20, 23
+The string parameters length check is now a warning, rather than
+an error.  This is because the implicit copy at run\[hy]time will
+throw a run\[hy]time error of the string doesn't fit.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 17, 18
+The compiler now accepts calls to the built\[hy]in EOF and EOLN functions with
+no parameters.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 16
+The code generation for empty set constant has been improved.  It
+no longer throws an assert.  The same assert revealed that empty
+sets as a function parameter was not correctly being cast to the
+appropriate type of set.
+.\" ------------------------------------------------------------------------
+.\" Add new entries above this line.
+.SS Version 0.3 (2010\[hy]Apr\[hy]25)
+.\" vim: set ts=8 sw=4 et :

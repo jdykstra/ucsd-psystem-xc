@@ -1,0 +1,186 @@
+.\"
+.\" UCSD p-System cross compiler
+.\" Copyright (C) 2006, 2007, 2012 Peter Miller
+.\"
+.\" This program is free software; you can redistribute it and/or modify
+.\" it under the terms of the GNU General Public License as published by
+.\" the Free Software Foundation; either version 2 of the License, or (at
+.\" you option) any later version.
+.\"
+.\" This program is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+.\" General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU General Public License along
+.\" with this program. If not, see <http://www.gnu.org/licenses/>
+.\"
+.ad l
+.hy 0
+<html>
+<head>
+<title>
+Compilers and Factories, 7
+</title>
+</head>
+<body>
+    <table width="100%"><tr><td>
+    <a href="slide-06.html"><img src="back.png" alt="Back" border=0></a>
+    </td><td align="right">
+    <a href="slide-08.html"><img src="next.png" alt="Next" border=0></a>
+    </td></tr></table>
+<h1 align=center>
+<img src="observations.png" alt="Observations">
+</h1>
+A common implementation of expression trees in C looks like this.  The
+pattern has a struct with and ID member and a union, selected by the ID.
+Each of the method functions contains a switch statement:
+<table align=center>
+
+<tr bgcolor="#ccffcc"><th width=400>expr.h</th><th width=400>expr.c</th></tr>
+
+<tr bgcolor="#ddffdd"><td valign="top">
+<small><pre>
+typedef struct expr expr;
+struct expr
+{
+    int             e_op;
+    union
+    {
+        expr            *e__branch[2];
+        char            *e__string;
+        int             e__int;
+        double          e__double;
+        symbol          *e__symbol;
+    } e_u;
+};
+
+expr *expr_alloc(int op);
+void expr_free(expr *ep);
+char *expr_text(expr *ep);
+int expr_is_constant(expr *ep);
+expr *expr_optimize(expr *ep);
+void expr_generate_code(expr *ep);
+<i>etc etc etc</i>
+
+#define INT_CONST 1
+#define CHAR_CONST 2
+#define DOUBLE_CONST 3
+#define PLUS 4
+#define UNARY_MINUS 5
+<i>etc etc etc</i>
+
+#define e_branch e_u.e__branch
+#define e_string e_u.e__string
+#define e_int e_u.e__int
+#define e_double e_u.e__double
+#define e_symbol e_u.e__symbol
+</pre></small>
+</td><td valign="top">
+<small><pre>
+#include "expr.h"
+
+expr *
+expr_alloc(int op)
+{
+    expr            *result;
+
+    result = new(expr);
+    result->e_op = op;
+    return result;
+}
+
+void
+expr_generate_code(expr *e)
+{
+    switch(e->e_op)
+    {
+    case PLUS:
+        expr_generate_code(e->e_branch[0]);
+        expr_generate_code(e->e_branch[1]);
+        emit(OP_ADI);
+        break;
+
+    case IDENT:
+        gen_emit_address(e->e_symbol->address);
+        break;
+
+    case INT_CONST:
+        gen_emit_int(e->e_int);
+        break;
+
+    case DOUBLE_CONST:
+        gen_emit_double(e->e_double);
+        break;
+
+    case CHAR_STRING:
+        gen_emit_string(e->e_string);
+        break;
+    }
+}
+
+expression *
+expr_optimize(expr *e)
+{
+    if (!expr_is_constant(e))
+        return e;
+    switch(e->e_op)
+    {
+    case AND:
+        {
+            int             n1;
+            int             n2;
+            expr            *result;
+
+            n1 = expr_generate_code(e->e_branch[0]);
+            n2 = expr_generate_code(e->e_branch[1]);
+            result = expr_alloc(INT_CONST);
+            result->e_int = (n1 & n2);
+            return result;
+        }
+
+    case INT_CONST:
+        return e;
+
+    <i>etc etc etc</i>
+    }
+}
+
+void
+expr_free(expr *ep)
+{
+    if (!ep)
+        return;
+    switch(ep->e_op)
+    {
+    case INT_CONST:
+    case DOUBLE_CONST:
+    case CHAR_CONST:
+        break;
+
+    case IDENT:
+    case CHAR_STRING:
+        free(ep->e_string);
+        break;
+
+    case PLUS:
+    <i>etc etc etc</i>
+        expr_free(ep->e_branch[1]);
+        /* fall through... */
+
+    case UNARY_MINUS:
+    <i>etc etc etc</i>
+        expr_free(ep->e_branch[0]);
+        break;
+    }
+    free(ep);
+}
+</pre></small>
+</td></tr>
+
+</table>
+</body>
+</html>
+
+
+/* vim: set ts=8 sw=4 et : */

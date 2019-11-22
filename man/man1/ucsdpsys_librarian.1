@@ -1,0 +1,276 @@
+'\" t
+.\"     UCSD p-System cross compiler
+.\"     Copyright (C) 2010-2012 Peter Miller
+.\"
+.\"     This program is free software; you can redistribute it and/or modify
+.\"     it under the terms of the GNU General Public License as published by
+.\"     the Free Software Foundation; either version 3 of the License, or
+.\"     (at your option) any later version.
+.\"
+.\"     This program is distributed in the hope that it will be useful,
+.\"     but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\"     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\"     GNU General Public License for more details.
+.\"
+.\"     You should have received a copy of the GNU General Public License
+.\"     along with this program. If not, see
+.\"     <http://www.gnu.org/licenses/>.
+.\"
+.ds n) ucsdpsys_librarian
+.TH \*(n) 1 ucsd\[hy]psystem\[hy]xc "Reference Manual"
+.SH NAME
+ucsdpsys_librarian \- UCSD p\[hy]System codefile librarian
+.if require_index \{
+.XX "ucsdpsys_librarian(1)" "UCSD p\[hy]System codefile librarian"
+.\}
+.SH SYNOPSIS
+.B \*(n)
+\fB\-\-file\fP \f[I]codefile\fP
+[
+.IR option \&...
+]
+.br
+.B \*(n)
+.B \-\-version
+.SH DESCRIPTION
+The \fI\*(n)\fP program is used to manipulate UCSD p\[hy]System Codefiles.
+It has functionality similar to the LIBRARIAN program distributed with
+the UCSD p\[hy]System.
+.br
+.ne 1i
+.SH OPTIONS
+The following options are understood:
+.\" ----------  A  ---------------------------------------------------------
+.TP 8n
+\fB\-a\fP \f[I]filename\fP
+.TQ 8n
+\fB\-\-copy=\fP\f[I]filename\fP
+This option is used to name an alternate codefile from which to copy
+segments, using the \fB\-\-segment\fP option.
+This file must already exist, and must be a valid codefile.
+This option must appear on the command line \f[I]after\fP the
+\fB\-\-file\fP or \fB\-\-create\fP options.
+This option may be used more than once.
+.\" ----------  B  ---------------------------------------------------------
+.\" ----------  C  ---------------------------------------------------------
+.TP 8n
+\fB\-c\fP \f[I]filename\fP
+.TQ 8n
+\fB\-\-create=\fP\f[I]filename\fP
+This option is used to name a codefile to be created.
+It will replace any file of the same name.
+This codefile will initially be empty.
+If you use this option, you cannot also use the \fB\-\-file\fP option.
+.\" ----------  D  ---------------------------------------------------------
+.\" ----------  E  ---------------------------------------------------------
+.\" ----------  F  ---------------------------------------------------------
+.TP 8n
+\fB\-f\fP \f[I]filename\fP
+.TQ 8n
+\fB\-\-file=\fP\f[I]filename\fP
+This option is used to specify the codefile being manipulated.
+This file must already exist, and must be a valid codefile.
+If you use this option, you cannot also use the \fB\-\-create\fP option.
+.\" ----------  G  ---------------------------------------------------------
+.\" ----------  H  ---------------------------------------------------------
+.\" ----------  I  ---------------------------------------------------------
+.\" ----------  J  ---------------------------------------------------------
+.\" ----------  K  ---------------------------------------------------------
+.\" ----------  L  ---------------------------------------------------------
+.TP 8n
+\fB\-l\fP
+.TQ 8n
+\fB\-\-list\fP
+This option may be used to obtain a library listing.
+If use by itself, the \fB\-\-file\fP codefile is unchanged.
+If use on the end of a more complex command line,
+it will show you the map of the codefile it is going to write.
+This option must appear on the command line \f[I]after\fP
+the \fB\-\-file\fP option.
+.\" ----------  M  ---------------------------------------------------------
+.\" ----------  N  ---------------------------------------------------------
+.TP 8n
+\fB\-n\fP \f[I]text\fP
+.TQ 8n
+\fB\-\-notice=\fP\f[I]text\fP
+.TQ 8n
+\fB\-\-copyright=\fP\f[I]text\fP
+This option may be used to change the text of the copyright notice
+embedded in the \fB\-\-file\fP codefile, or to add a notice to a
+codefile that does not already have one.
+You will probably need to use quotes to insulate white space and
+punctuation characters from the shell (or you can use underscores
+instead of spaces, and they will be replaced by spaces).
+To remove the copyright notice, use the empty string; you
+will need to quote it.  This option must appear on the command line
+\f[I]after\fP the \fB\-\-file\fP option.
+The notice is limited to 79 characters, more than that will be silently
+truncated.
+.\" ----------  O  ---------------------------------------------------------
+.TP 8n
+\fB\-o\fP \f[I]filename\fP
+.TQ 8n
+\fB\-\-output=\fP\f[I]filename\fP
+Usually the \fI\*(n)\fP command makes the changes to the \fB\-\-file\fP
+codefile in\[hy]place.  This option is used to select a different codefile
+to receive the results.
+This option may not be used with the \fB\-\-create\fP option.
+.\" ----------  P  ---------------------------------------------------------
+.so man/man1/o_pmachine.so
+.\" ----------  Q  ---------------------------------------------------------
+.\" ----------  R  ---------------------------------------------------------
+.TP 8n
+\fB\-r\fP \f[I]name\fP
+.TQ 8n
+\fB\-\-remove=\fP\f[I]name\fP
+This option is used to remove the named segment from the \fB\-\-file\fP
+codefile.
+It is an error if the segment is not present.
+The segment name is \f[I]not\fP case sensitive.
+This option must appear on the command line \f[I]after\fP
+the \fB\-\-file\fP option.
+This option may be used more than once.
+.TP 8n
+\fB\-R\fP \f[I]name\fP
+.TQ 8n
+\fB\-\-force\[hy]remove=\fP\f[I]name\fP
+This option is used to remove the named segment from the \fB\-\-file\fP
+codefile.
+It is \f[B]not\fP an error if the segment is not present.
+The segment name is \f[I]not\fP case sensitive.
+This optional also works for segment numbers.
+This option must appear on the command line \f[I]after\fP
+the \fB\-\-file\fP option.
+This option may be used more than once.
+.TP 8n
+\fB\-X\fP
+.TQ 8n
+\fB\-\-remove\[hy]system\[hy]segments\fP
+This option is used to remove segments 0 and 2..6 from a codefile.  This
+can be necessary when a \f[CW](*$U\-*)\fP utility program contains dummy
+system segments.
+.\" ----------  S  ---------------------------------------------------------
+.TP 8n
+\fB\-s\fP \f[I]name\fP
+.TQ 8n
+\fB\-\-segment=\fP\f[I]name\fP
+.RS
+The option is used to a name segment from the \fB\-\-copy\fP codefile
+to be added to the \fB\-\-file\fP codefile.
+The segment name is \f[I]not\fP case sensitive.
+This option must appear on the command line \f[I]after\fP
+the \fB\-\-copy\fP option.
+This option may be used more than once.
+.PP
+If the form \fB\-\-segment\fP \f[I]name\fP\f[CW]=\fP\f[I]number\fP
+is used, the segment will also be renumbered to the given segment number.
+.RE
+.\" ----------  T  ---------------------------------------------------------
+.\" ----------  U  ---------------------------------------------------------
+.\" ----------  V  ---------------------------------------------------------
+.TP 8n
+\fB\-V\fP
+.TQ 8n
+\fB\-\-version\fP
+.br
+Print the version of the \fI\*(n)\fP program being executed.
+.\" ----------  W  ---------------------------------------------------------
+.\" ----------  X  ---------------------------------------------------------
+.\" ----------  Y  ---------------------------------------------------------
+.\" ----------  Z  ---------------------------------------------------------
+.PP
+All other options will produce a diagnostic error.
+.SH EXAMPLES
+This section contains a few example commands.
+.SS List the segments in the file
+You can obtain a list of the segments in the codefile using the
+following command.
+.PP
+.RS
+.ft CW
+.nf
+\*(n) \-\-file example.code \-\-list
+.fi
+.ft R
+.RE
+.PP
+This will produce the same output as the \f[I]ucsdpsys_libmap\fP(1) command.
+.SS Copyright Notice
+You can change the copyright notice in a codefile using the following command.
+.PP
+.RS
+.nf
+.ft CW
+\*(n) \-\-file example.code \e
+    \-\-notice "Copyright (C) 1812 Tchaikovsky"
+.ft R
+.fi
+.RE
+.PP
+The same command can be used to add a copyright notice to a codefile
+that doesn't have one.
+.SS Remove Segments
+You can remove a segment from a codefile using the following command.
+.PP
+.RS
+.nf
+.ft CW
+\*(n) \-\-file example.code \-\-remove DUMMYSEG
+.ft R
+.fi
+.RE
+.PP
+The segment name is \f[I]not\fP case sensitive.
+.SS Transfer Segments
+You can transfer segments between codefiles using the following command.
+.PP
+.RS
+.nf
+.ft CW
+\*(n) \-\-file example.code \e
+    \-\-copy fromhere.code \-\-segment EXAMPLE
+.ft R
+.fi
+.RE
+.PP
+The segment name is case \f[B]in\fPsensitive.
+.PP
+In this example, all of the segments in \[lq]example.code\[rq]
+are preserved.  If there was already a segment called EXAMPLE it will be
+replaced.  The \[lq]fromhere.code\[rq] codefile will be unchanged.
+.SS New Library
+You can create a new library form a series of other codefiles using a
+command such as
+.PP
+.RS
+.nf
+.ft CW
+\*(n) \-\-create=system.library \e
+    \-\-copy pascalio.code \-\-segment pascalio=31 \e
+    \-\-copy long_integer.code \-\-segment longinte=30 \e
+    \-\-copy transcendental.code \-\-segment transcen=29
+.ft R
+.fi
+.RE
+.PP
+This leaves the contributing codefiles unchanged,
+and creates a completely new file file to hold the results.
+.so man/man1/z_exit.so
+.SH SEE ALSO
+.TP 8n
+\f[I]ucsdpsys_assemble\fP(1)
+UCSD p\[hy]System cross assembler, for multiple CPU types
+.TP 8n
+\f[I]ucsdpsys_compile\fP(1)
+A cross compiler from Pascal to UCSD p\[hy]System codefiles.
+.TP 8n
+\f[I]ucsdpsys_disassemble\fP(1)
+A utility to disassemble UCSD p\[hy]System codefiles.
+.TP 8n
+\f[I]ucsdpsys_libmap\fP(1)
+Print segment maps of UCSD p\[hy]System codefiles.
+.TP 8n
+\f[I]ucsdpsys_link\fP(1)
+UCSD p\[hy]System codefile linker
+.so man/man1/z_copyright.so
+.\" vim: set ts=8 sw=4 et :

@@ -1,0 +1,292 @@
+.\"
+.\" UCSD p-System cross compiler
+.\" Copyright (C) 2006, 2007, 2010-2012 Peter Miller
+.\"
+.\" This program is free software; you can redistribute it and/or modify
+.\" it under the terms of the GNU General Public License as published by
+.\"     the Free Software Foundation; either version 3 of the License, or
+.\"     (at your option) any later version.
+.\"
+.\"     This program is distributed in the hope that it will be useful,
+.\"     but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\"     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\"     GNU General Public License for more details.
+.\"
+.\"     You should have received a copy of the GNU General Public License
+.\"     along with this program. If not, see
+.\"     <http://www.gnu.org/licenses/>.
+.\"
+.ad l
+.hy 0
+.so etc/version.so
+.nf
+<html><head>
+<link rel="icon" href="favicon.ico"
+type="image/x-icon">
+<link rel="shortcut icon" href="favicon.ico"
+type="image/x-icon">
+<title>ucsd-psystem-xc \*(v)</title></head>
+<body bgcolor=white><h1>
+<img src="icon64.png" align=left>
+<img src="icon64.png" align=right>
+<center>ucsd-psystem-xc \*(v)</center></h1>
+<br clear=all>
+.\" ------------------------------------------------------------------------
+<table align=center><tr>
+<td width="20%" bgcolor="#dddddd" align=center>
+<a href="http://sourceforge.net"><img
+src="http://sourceforge.net/sflogo.php?group_id=169955&amp;type=1"
+width="88" height="31" border="0" alt="SourceForge.net
+Logo"></a>
+<p>
+This page is hosted by <a
+href="http://sourceforge.net">SourceForge</a>:
+see also the
+<a
+href="http://sourceforge.net/projects/ucsd-psystem-xc/"
+>Project</a> and
+<a
+href="http://sourceforge.net/project/stats/?group_id=169955&ugn=ucsd-psystem-xc"
+>Statistics</a> pages.
+</td><td width="60%">
+.\" ------------------------------------------------------------------------
+<p align=center>
+The <i>ucsd-psystem-xc</i> package provides a Pascal cross compiler for
+producing UCSD p-System code files, and some other related tools.
+</p>
+<p align=center>
+[ <a href="download.html" ><b>Download</b></a> |
+<a href="documentation.html" >Documentation</a> |
+.\" <a href="mailing-list.html" >Mailing List</a> |
+<a
+href="http://aegis.sourceforge.net/cgi-bin/aeget/ucsd-psystem-xc.\*(v)/?menu"
+>Aegis Repo</a> ]
+</p>
+.\" ------------------------------------------------------------------------
+</td><td width="20%" bgcolor="#dddddd" align=center>
+<a
+href="https://sourceforge.net/donate/index.php?group_id=169955"
+><img
+src="https://sourceforge.net/images/project-support.jpg"
+border=0 width=88 height=32></a>
+<p>
+You could <a
+href="https://sourceforge.net/donate/index.php?group_id=169955">
+support this project</a> with a donation.
+</td></tr></table>
+.\" ------------------------------------------------------------------------
+<table><tr><td valign="top" bgcolor="#ffffdd">
+<h2>About This Project</h2>
+The <b>ucsd-psystem-xc</b> project
+provides a Pascal cross compiler for producing UCSD p-System code files
+on Posix hosts, such as Linux.  It also provides some other related
+tools, such as a disassembler.
+<p>
+While it is possible to run the original UCSD p-System compiler from
+within an emulator, this is very cumbersome for modern developers more
+accustomed to the GNU tool chain.  This cross compiler also has far
+better error messages and other feedback than the original compiler,
+because much more code space is available to modern programs.
+<p>
+The other issue a cross compiler addresses is that of bootstrapping.
+It is not enough to have the UCSD p-System source files (<a
+href="http://invent.ucsd.edu/technology/cases/1995-prior/SD1991-807.shtml"
+>recently licensed for non-profit use by UCSD</a>).  In order to bootstrap
+to a self-hosting system, you must first compile the operating system
+and compiler (at least) into p-code files, so that the rest of the tools
+can be compiled &ldquo;natively&rdquo;.
+</td>
+.\" ------------------------------------------------------------------------
+<td valign="top" bgcolor="#ddffdd">
+<h2>Ancient History</h2>
+The UCSD P-System is a portable operating system that was popular in the
+early days of personal computers, in the late 1970s and early 1980s.
+<p>
+Like today's Java, it was based on a &ldquo;virtual machine&rdquo; with
+a standard set of low-level,
+machine-language-like &ldquo;p-code&rdquo;
+instructions that were emulated on different hardware, including the
+6502, the 8080, the Z-80, and the PDP-11.  In this way, a Pascal
+compiler that emitted
+p-code executables could produce a program that
+could be run under the P-System on an Apple II, a Xerox 820, or a DEC
+PDP-11.
+<p>
+The most popular language for the P-System was UCSD Pascal.  In fact,
+the P-System operating system itself was written in UCSD Pascal, making
+the entire operating system relatively easy to port between platforms.
+<p>
+By writing a p-code interpreter in the platform's native assembly
+language, and a few minimal hooks to operating system functions for
+the file system and interacting with the user, you could move a
+p-code
+executable from another system and run it on the new platform.  In this
+way, the p-code generated on one computer could be used to bootstrap the
+port of the P-System to another computer.
+<p align=right>
+<i>From the
+<a href="http://www.threedee.com/jcm/psystem/">
+Jefferson Computer Museum</a>
+web site.</i>
+</p>
+</td></tr>
+.\" ------------------------------------------------------------------------
+<tr><td valign="top" bgcolor="#ddffdd">
+<h2>See Also</h2>
+<dl>
+<dt><a href="http://en.wikipedia.org/wiki/UCSD_Pascal"
+>Wikipedia</a><dd>
+    There is a <a href="http://en.wikipedia.org/wiki/UCSD_Pascal"
+    >UCSD Pascal</a> article on Wikipedia.
+    <p>
+
+<dt><a href="http://www.threedee.com/jcm/psystem/"
+    >Jefferson Computer Museum</a><dd>
+    This site has links and history for the UCSD p-System.
+    <p>
+
+<dt><a href="http://groups.yahoo.com/group/ucsdpascal/"
+    >Mailing List</a><dd>
+    In 2004 Yahoo! group devoted to UCSD Pascal was started.
+    <p>
+
+<dt><a
+href="http://invent.ucsd.edu/technology/cases/1995-prior/SD1991-807.htm"
+    >UCSD</a><dd>
+    In 2006 UCSD officially released some of the source, along with its
+    non-profit license.
+    <p>
+
+<dt><b>Online Pascal References:</b><dd>
+    There are several Pascal language reference manuals available
+    online, including:
+    <ul><li> The <a href="http://www.gnu-pascal.de/gpc/">GNU Pascal</a> manual.
+    <li> <a href="http://goforit.unk.edu/pascal/pstart.htm">Pascal Programming
+        Notes</a>
+    <li>
+    <a href="http://www2.toki.or.id/fpcdoc/ref/ref.html">Free Pascal Reference
+        Guide</a>
+    </ul>
+</dl>
+.\" ------------------------------------------------------------------------
+</td><td valign="top" bgcolor="#ffffdd">
+<h2> Sister Projects </h2>
+<table>
+
+<tr><td valign="top">
+    <img
+    src="http://ucsd-psystem-fs.sourceforge.net/icon64.png"
+    ></td><td valign="top">
+    <a href="http://ucsd-psystem-fs.sourceforge.net/"
+    >UCSD p-System File System</a>:
+    These tools allow you to create and manipulate UCSD p-System disk
+    images.  You can add files to, and extract files from, UCSD p-System
+    disk images.  You can even mount UCSD p-System disk images as Linux
+    file systems, with automatic transparent text format conversion in
+    both directions.
+    <td></tr>
+
+<tr><td valign="top">
+    <img
+    src="http://miller.emu.id.au/pmiller/ucsd-psystem-os/icon64.png"
+    ></td><td valign="top">
+    <a href="http://miller.emu.id.au/pmiller/ucsd-psystem-os/"
+    >UCSD p-System Operating System</a>:
+    The ucsd-psystem-os project contains the II.0 source files (and some
+    bug fixes) plus a Makefile that uses the cross compiler to build the
+    sources, and the <a href="http://ucsd-psystem-fs.sourceforge.net/"
+    >file system tools</a> to build working disk images that can be
+    executed using the <a href="http://ucsd-psystem-vm.sourceforge.net/"
+    >virtual machine</a>.
+    <td></tr>
+
+<tr><td valign="top">
+    <img
+    src="http://miller.emu.id.au/pmiller/ucsd-psystem-um/image/icon64.png"
+    >
+    </td><td valign="top">
+    <a href="http://miller.emu.id.au/pmiller/ucsd-psystem-um/"
+    >UCSD p-System User Manual</a>:
+    A modern reconstruction of the UCSD p-System II.0 User Manual is
+    available as HTML. It includes complete system documentation for
+    the p-machine, file formats, the Pascal dialect supported by the
+    compiler, and more.
+    </td></tr>
+<tr><td valign="top">
+    <img
+src="http://ucsd-psystem-vm.sourceforge.net/icon64.png"
+    >
+    </td><td valign="top">
+    <a href="http://ucsd-psystem-vm.sourceforge.net/"
+    >UCSD p-System Virtual Machine</a>:
+    A portable virtual machine (p-code interpreter) for the UCSD
+    p-System. It supports execution of Apple ][ Pascal programs, it can
+    even display TurtleGraphics using X11.
+    </td></tr>
+</table>
+
+</td></tr>
+</table>
+<hr>
+.\" ------------------------------------------------------------------------
+<table border=0>
+
+<tr><td valign="top" >
+<a href="http://www.fsf.org/">
+<img
+src="http://upload.wikimedia.org/wikipedia/commons/b/bf/\
+GNU-FDL-ic%C3%B4ne-Transparente.PNG"
+border=0 ></a>
+</td>
+
+<td valign="top" width="35%" >
+The <i>ucsd-psystem-xc</i> package is written and owned by <a
+href="mailto:pmiller@opensource.org.au" >Peter Miller</a> and is freely
+distributable under the terms and conditions of the
+<a href="http://www.gnu.org/licenses/gpl.txt" >GNU GPL</a>.
+</td>
+
+<td valign="top" >
+<a href="http://www.opensource.org/docs/definition.php"><img
+src="http://www.opensource.org/trademarks/opensource/web/opensource-110x95.png"
+border="0" /></a>
+</td>
+
+<td valign="top" align="right" >
+There is more <a href="http://miller.emu.id.au/pmiller/"
+>Software by Peter Miller</a>
+at his home page.
+</td>
+
+<td valign="top" >
+<a href="http://miller.emu.id.au/pmiller/" ><img
+src="http://miller.emu.id.au/pmiller/pmiller_2003_colour.64.png"
+border=0></a>
+</td></tr>
+
+</table>
+<hr>
+This page has been accessed approximately
+<img
+src="\
+http://miller.emu.id.au/\
+cgi-bin/web_hit_counter?\
+pmiller-ucsd-psystem-xc-\*(v)"
+>
+times since
+.ds MO1 Jan
+.ds MO2 Feb
+.ds MO3 Mar
+.ds MO4 Apr
+.ds MO5 May
+.ds MO6 Jun
+.ds MO7 Jul
+.ds MO8 Aug
+.ds MO9 Sep
+.ds MO10 Oct
+.ds MO11 Nov
+.ds MO12 Dec
+.nr y4 \n[yr]+1900
+\n[dy]-\*[MO\n[mo]]-\n[y4].
+</body></html>
+.\" vim: set ts=8 sw=4 et :

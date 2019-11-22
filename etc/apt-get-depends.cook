@@ -1,0 +1,68 @@
+/*
+ * UCSD p-System cross compiler
+ * Copyright (C) 2012 Peter Miller
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or (at
+ * you option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program. If not, see <http://www.gnu.org/licenses/>
+ */
+
+apt-package-list = ;
+
+function apt-get-command =
+{
+    if [not [find_command [@1]]] then
+        apt-package-list += [@1];
+}
+
+function apt-get-package =
+{
+    if [not [collect dpkg -l | grep "'^ii  "[@1]" '" | wc -l || true]] then
+        apt-package-list += [@1];
+}
+
+/*
+ * Make sure the package we want are present
+ */
+if [find_command apt-get] then
+{
+    function apt-get-command tardy;
+    function apt-get-package autoconf;
+    function apt-get-package automake;
+    function apt-get-package bison;
+    function apt-get-package build-essential;
+    function apt-get-package coreutils; /* ptx, md5sum */
+    function apt-get-package debhelper;
+    function apt-get-package devscripts; /* debuild cmd */
+    function apt-get-package doxygen;
+    function apt-get-package dpkg-dev; /* dpkg-buildpackage cmd */
+    function apt-get-package exuberant-ctags; /* ctags cmd */
+    function apt-get-package ghostscript; /* ps2pdf */
+    function apt-get-package imagemagick; /* convert */
+    function apt-get-package libboost-dev;
+    function apt-get-package libexplain-dev;
+    function apt-get-package libpng12-dev;
+    function apt-get-package lintian;
+    function apt-get-package psutils; /* psselect */
+    function apt-get-package tar;
+
+    if [count [apt-package-list]] then
+    {
+        sudo apt-get install -y [apt-package-list]
+            < /dev/tty > /dev/tty 2>&1
+                set errok no-silent
+            ;
+    }
+}
+
+
+/* vim: set ts=8 sw=4 et : */

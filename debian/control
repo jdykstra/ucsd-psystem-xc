@@ -1,0 +1,24 @@
+Source: ucsd-psystem-xc
+Section: utils
+Priority: extra
+Maintainer: Peter Miller <pmiller@opensource.org.au>
+Homepage: http://ucsd-psystem-xc.sourceforge.net
+Build-Depends: bison, debhelper (>= 5), ghostscript, groff, libboost-dev,
+ libexplain-dev, libpng12-dev, sharutils
+Standards-Version: 3.9.1
+
+Package: ucsd-psystem-xc
+Architecture: any
+Description: UCSD Pascal cross compiler
+ The ucsd-psystem-xc package contains a Cross compiler for the UCSD Pascal p-
+ machine, and associated tools.
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Conflicts: ucsd-psystem-fs (<=1.19)
+
+Package: ucsd-psystem-xc-doc
+Architecture: all
+Section: doc
+Description: UCSD p-System cross compiler - documentation
+ The ucsd-psystem-xc package contains a Cross compiler for the UCSD Pascal p-
+ machine, and associated tools.
+Depends: ${misc:Depends}

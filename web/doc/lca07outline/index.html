@@ -1,0 +1,87 @@
+.\"
+.\" UCSD p-System cross compiler
+.\" Copyright (C) 2006, 2007, 2010, 2012 Peter Miller
+.\"
+.ad l
+.hy 0
+<html>
+<head>
+<title>
+Compilers and Factories, Abstract
+</title>
+</head>
+<body bgcolor="#FFFFFF">
+<h1 align="center">
+Compilers and Factories
+</h1>
+<p align="center">By <i>Peter Miller</i><br>
+&lt;pmiller@opensource.org.au&gt;
+</p>
+
+<h2>Abstract</h2>
+
+The techniques presented in this paper came about from a project
+where it was known in advance that at least two tools needed to be
+based on the same grammar.  The requirement was to translate an
+application-specific language into C, and also produce a pretty-printer.
+This is often done with two separate grammar files which differ not in
+syntax but in the semantic code added to each grammar production.  Is
+it possible to have a single grammar file and use it in two different
+tools?
+<p>
+A technique is presented which separates the grammar from the semantic
+processing, using simple C++ polymorphism, allowing two or more tools
+to share the same grammar code.  The use of factory methods makes this
+possible.  The implementation of a grammar using these factories is
+described, as well as some unexpected benefits and simplifications.
+
+<h3>Assumed Knowledge</h3>
+
+The reader is expected to be aware of Yacc grammars and
+understand basic OO concepts as implemented in C++.
+
+<h3>Open Source Projects</h3>
+
+There are two open source (GPL) projects which are using
+the techniques in this paper:
+<ul><li>
+The <a
+.nf
+href="http://ucsd-psystem-xc.sourceforge.net/"
+.fi
+> UCSD p-System
+Cross Compiler</a> project provides a Pascal cross compiler for
+producing UCSD p-System code files on Posix hosts, such as Linux.  This
+started as a nostalgic trip down memory lane, and turned into a serious
+piece of retro-computing.
+<li>
+The <a
+.nf
+href="http://tickle.sourceforge.net/"
+.fi
+> Tickle</a> project is
+an open-source implementation of a compiler for the domain-specific
+language called Transaction Control Language (TCL).
+</ul>
+
+<h2>Biographical Details</h2>
+
+Peter Miller have been a code cutter since he was 14, and built his
+first computer with a soldering iron, it was a kit from Dick Smith.
+Since then he has been coding for a little over 30 years, and have (so
+far) avoided the management trap and still codes professionally.  He
+have been giving away code since before there was a GPL, and once he
+came across it he has used the GPL for all of his "non commercial"
+output ever since.  He has 25 years experience with C and 15 years
+experience with C++.
+
+
+<h2>Previous Speaking Experience</h2>
+
+Peter Miller has presented papers at AUUG conferences and chapter
+meetings.  He has given talks at SLUG meetings.  He has organised a few
+CodeCon weekends for "camping and coding".
+
+</body>
+</html>
+.\" vim: set ts=8 sw=4 et :

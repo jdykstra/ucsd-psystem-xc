@@ -1,0 +1,76 @@
+'\" t
+.\"     UCSD p-System cross compiler
+.\"     Copyright (C) 2012 Peter Miller
+.\"
+.\"     This program is free software; you can redistribute it and/or modify
+.\"     it under the terms of the GNU General Public License as published by
+.\"     the Free Software Foundation; either version 3 of the License, or
+.\"     (at your option) any later version.
+.\"
+.\"     This program is distributed in the hope that it will be useful,
+.\"     but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\"     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\"     GNU General Public License for more details.
+.\"
+.\"     You should have received a copy of the GNU General Public License
+.\"     along with this program. If not, see
+.\"     <http://www.gnu.org/licenses/>.
+.\"
+.ds n) ucsdpsys_foto
+.TH \*(n) 1 ucsd-psystem-xc "Reference Manual"
+.SH NAME
+ucsdpsys_foto \- convert .foto images to and from .png
+.if require_index \{
+.XX "ucsdpsys_foto(1)" "convert .foto images to and from .png"
+.\}
+.SH SYNOPSIS
+\fB\*(n)\fP [ \f[I]option\fP... ] \fB\-\-decode\fP
+\f[I]filename\fP.foto \f[I]filename\fP.png
+.sp 0.3
+\fB\*(n)\fP [ \f[I]option\fP... ] \fB\-\-encode\fP
+\f[I]filename\fP.png \f[I]filename\fP.foto
+.sp 0.3
+.B \*(n)
+.B -VERSion
+.SH DESCRIPTION
+The \fI\*(n)\fP program is used to convert \f[CW].foto\fP images to and
+from \f[CW].png\fP images.
+.br
+.ne 1i
+.SH OPTIONS
+The following options are understood:
+.TP 8n
+\fB\-d\fP
+.TQ
+\fB\-\-decode\fP
+This option is used to specify that the conversion is
+from \f[CW].foto\fP to \f[CW].png\fP files.
+.TP 8n
+\fB\-e\fP
+.TQ
+\fB\-\-encode\fP
+This option is used to specify that the conversion is
+from \f[CW].png\fP to \f[CW].foto\fP files.
+.TP 8n
+\fB\-i\fP
+.TQ
+\fB\-\-invert\fP
+This option may be used to
+invert the pixel values before writing.
+.TP 8n
+\fB\-s\fP \f[I]width\fP\f[B]x\fP\f[I]height\fP
+.TQ
+\fB\-\-size=\fP\f[I]width\fP\f[B]x\fP\f[I]height\fP
+When reading from a \f[CW].foto\fP file,
+this option may be used to specify the size of the image.
+If not specified, the image size will be estimated from the file size.
+.TP 8n
+\fB\-V\fP
+.TQ
+\fB\-\-version\fP
+Print the version of the \fI\*(n)\fP program being executed.
+.PP
+All other options will produce a diagnostic error.
+.so man/man1/z_exit.so
+.so man/man1/z_copyright.so
+.\" vim: set ts=8 sw=4 et :

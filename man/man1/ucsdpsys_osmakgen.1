@@ -1,0 +1,292 @@
+'\" t
+.\" UCSD p-System cross compiler
+.\" Copyright (C) 2010-2012 Peter Miller
+.\"
+.\" This program is free software; you can redistribute it and/or modify
+.\" it under the terms of the GNU General Public License as published by
+.\" the Free Software Foundation; either version 3 of the License, or
+.\" (at your option) any later version.
+.\"
+.\" This program is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+.\" General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU General Public License
+.\" along with this program. If not, see <http://www.gnu.org/licenses/>.
+.\"
+.char \[lsq] \[u2018]
+.char \[rsq] \[u2019]
+.ad b
+.ds n) ucsdpsys_osmakgen
+.TH \*(n) 1 ucsd\[hy]psystem\[hy]xc "Reference Manual"
+.SH NAME
+ucsdpsys_osmakgen \- write the Makefile for the ucsd\[hy]psystem\[hy]os project
+.if require_index \{
+.XX "ucsdpsys_osmakgen(1)" "write Makefile for ucsd\[hy]psystem\[hy]os project"
+.\}
+.SH SYNOPSIS
+\fB\*(n)\fP [ \f[I]option\fP\&... ][ \f[I]filename\fP\&... ]
+.sp 0.3
+\fB\*(n) \-\-arch\[hy]from\[hy]host \f[I]name\fP
+.sp 0.3
+\fB\*(n) \-\-version\fP
+.SH DESCRIPTION
+The \fI\*(n)\fP program is used to write the \f[CW]Makefile.in\fP file for the
+ucsd\[hy]psystem\[hy]os project, based on the file names provided.
+.TP 2n
+\[bu]
+The generated \f[CW]Makefile.in\fP file uses the \f[I]ucsdpsys_compile\fP(1)
+cross compiler to bootstrap a UCSD p\[hy]System from sources alone.
+This becomes \f[CW]SYSTEM.COMPILER\fP on the system disk images,
+and some support files.
+.TP
+\[bu]
+The source files will be scanned, using the \f[I]ucsdpsys_depends\fP(1)
+tool, for include dependencies, and the results incorportaed into the
+generated \f[CW]Makefile.in\fP file.
+.TP 2n
+\[bu]
+The \f[I]ucsdpsys_assemble\fP(1) multi\[hy]target cross assembler
+is used to assemble any necessary assembler code.
+This becomes \f[CW]SYSTEM.ASSMBLER\fP [sic] on the system disk images,
+and some support files.
+.TP 2n
+\[bu]
+The \f[I]ucsdpsys_setup\fP(1) tool is used to translate a text
+representation of \f[CW]SYSTEM.MISCINFO\fP, if present, into the binary form.
+.TP 2n
+\[bu]
+The \f[I]ucsdpsys_charset\fP(1) tool is used to translate a text
+representation of \f[CW]SYSTEM.CHARSET\fP, if present, into the binary form.
+.TP 2n
+\[bu]
+The executables, and other system files, are then combined into disk
+images, using the \f[I]ucsdpsys_mkfs\fP(1) and \f[I]ucsdpsys_disk\fP(1)
+file system tools.
+.SS Directory Structure
+The \fI\*(n)\fP command takes its cues from the names of the files you
+give to it.
+.TP 8n
+\f[I]program\fP\f[CW]/main.text
+.RS
+The existence of a file with this name pattern indicates that the
+\f[I]program\fP is to be compiled using a Pascal compiler.
+That file can always include other files, but only from the same directory.
+The codefile resulting from the compilation will be placed into
+\f[CW]stage\fP\f[I]n\fP\f[CW]/\fP\f[I]host\fP\f[CW]/codefiles/\
+\fP\f[I]program\fP\f[CW]/main.code\fP
+.PP
+If there is an assembler component, the output of the compilation is
+\f[CW]main.pas.code\fP, and then the \f[I]ucsdpsys_link\fP(1) command is
+used to link \f[CW]main.pas.code\fP and \f[CW]main.asm.code\fP to form
+the final \f[CW]main.code\fP file.
+.RE
+.TP
+\f[CW]arch/\fP
+This directory contains subdirectories, each one named for a specfic
+microprocessor.
+Each of these subdirectories contain various programs and library
+components specific to that microprocessor.
+Examples include \[lq]pdp11\[rq], \[lq]z80\[rq], and \[lq]6502\[rq].
+.TP
+\f[CW]arch/$(arch)/\fP
+Within the generated \f[CW]Makefile\fP file, the relevant subdirectoiry
+is always accessed using this construct.
+.TP 8n
+\f[CW]arch/$(arch)/\fP\f[I]program\fP\f[CW]/main.asm.text
+.RS
+The existence of a file with this name pattern indicates that the
+\f[I]program\fP is to be built using a cross assembler.
+That file can always include other files, but only from the same directory.
+The codefile resulting from the assembly will be placed into
+\f[CW]stage\fP\f[I]n\fP\f[CW]/\fP\f[I]host\fP\f[CW]/codefiles/\
+\fP\f[I]program\fP\f[CW]/main.asm.code\fP
+.PP
+The \f[I]ucsdpsys_link\fP(1) command is used to link \f[CW]main.pas.code\fP
+and \f[CW]main.asm.code\fP to form the final \f[CW]main.code\fP file.
+.PP
+\f[B]Note:\fP the assembler component is in a directory named the same
+as the Pascal portion of the program.  However, it is an \f[I]arch\fP
+sub\[hy]directory, so that it is possible to have all of the sourec code,
+including all architecture variants, in the same source tree.
+.RE
+.TP
+\f[CW]arch/$(arch)/assembler/main.text\fP
+Each microprocessor has its own assembler, and this is where it may be found.
+Note we have not yet recovered the source code to all of the assemblers,
+so coverage will be inconsistent.
+.TP
+\f[CW]arch/$(arch)/assembler/error\[hy]messages.text\fP
+This file, if present, will be used to create the \f[CW]$(arch).ERRORS\fP
+data file, by processing it with the \f[I]ucsdpsys_errors\fP(1) command.
+.TP
+\f[CW]arch/$(arch)/assembler/opcode\[hy]data.text\fP
+This file, if present, will be used to create the \f[CW]$(arch).OPCODES\fP
+data file, by processing it with the \f[I]ucsdpsys_opcodes\fP(1) command.
+.TP
+\f[CW]host/\fP
+This directory contains subdirectories, each one named for a specfic
+host system (brand name) that are implemented using a micro processor,
+but include varying sets of peripherals.
+Each of these subdirectories contain various programs and library
+components specific to that host hardware.
+Examples include \[lq]terak\[rq], \[lq]cpm\[rq], and \[lq]apple\[rq].
+.TP
+\f[CW]host/$(host)/\fP
+Within the generated \f[CW]Makefile\fP file, the relevant subdirectoiry
+is always accessed using this construct.
+.TP
+\f[CW]host/$(host)/miscinfo.text\fP
+This is the location of the host\[hy]specific text source file of the
+\f[CW]SYSTEM.MISCINFO\fP data file.
+.TP
+\f[CW]stage\fP\f[I]n\fP\f[CW]/system.syntax\fP
+This file is constructed from the
+\f[CW]compiler/error\[hy]messages.text\fP file,
+if present.
+.TP
+\f[CW]host/$(host)/charset/system.text\fP
+.RS
+This is the character set to use to build the \f[CW]SYSTEM.CHARSET\fP
+file.  It is translated into the \f[CW]charset/system.charset\fP
+file using the \f[I]ucsdpsys_charset\fP(1) command.  Any other
+\f[CW].text\fP files in this directory will also be translated into
+binary \[lsq]\f[CW].charset\fP\[rsq] files.
+.PP
+The Terak manual (section 4.4) has this to say about file names:
+\[lq]The monochromatic character set file carries the extension
+\[lsq]\f[CW]\&.charset\fP\[rsq].  The utilities for working with a
+monochromatic character set will use this extension as the default.\[rq]
+(Note that UCSD Pascal file names are not case\[hy]sensitive, but Unix
+file names are.)
+.RE
+.TP
+\f[CW]charset/system.text\fP
+This is the default character set to use to build the
+\f[CW]SYSTEM.CHARSET\fP file, if a host\[hy]specific charset is not
+available.  It is translated into \f[CW]charset/system.charset\fP
+using the \f[I]ucsdpsys_charset\fP(1) command.  Any other
+\[lsq]\f[CW].text\fP\[rsq] files in this directory will also be
+translated into binary \[lsq]\f[CW].charset\fP\[rsq] files.
+.TP
+\f[CW]host/$(host)/charset/system.png\fP
+.RS
+If present, this image is loaded as a 64\[mu]64 icon at the end of
+the \f[CW]SYSTEM.CHARSET\fP file.
+Otherwise, if \f[CW]triton.png\fP (the UCSD mascot) is present, use that.
+Otherwise, use any \[lsq]\f[CW]charset/*.png\fP\[rsq] file that is available.
+.PP
+From the Terak Manual (section 4.4):
+\[lq]Bytes 2049\[hy]3072: If the character set file is 5 blocks in length,
+these bytes contain the graphics logo displayed on the monochrome
+monitor at boot time.\[rq]
+.PP
+Why they didn't just give the boot logo it its own file is a mystery.
+Maybe it saved a few bytes of p\[hy]code,
+it certainly didn't save any disk space.
+.PP
+The file must be \f[I]at least\fP 5 blocks, not \f[I]exactly\fP 5 blocks.
+The Terak manual fails to mention that the image is 64\[mu]64 pixels, 8 bytes
+per row, least significant bit of each byte is on the left, top row first.
+The pixel values are inverted, compared to modern conventions.
+.RE
+.TP
+\f[CW]charset/system.png\fP
+If present, this image is loaded as a 64\[mu]64 icon into the end of
+the \f[CW]SYSTEM.CHARSET\fP file.  It is the fall back when looking
+for boot images, and a host\[hy]specific image is not available.
+.br
+.ne 1i
+.SH OPTIONS
+The following options are understood:
+.\" ----------  A  ---------------------------------------------------------
+.so man/man1/o_architecture.so
+This option may be used to specify an alternative architecture name in
+the generated Makefile.  By default, it is calculated from the name of
+the host.  You should need this option very rarely.
+.TP 8n
+\fB\-a\fP \f[I]name\fP
+.TQ 8n
+\fB\-\-arch\[hy]from\[hy]host=\fP\f[I]name\fP
+This option may be used to translate
+a host name (\f[I]e.g.\fP \[lq]terak\[rq]) into
+an architecture name (\f[I]e.g.\fP \[lq]pdp11\[rq]).
+.\" ----------  B  ---------------------------------------------------------
+.TP 8n
+\fB\-b\fP
+.TQ 8n
+\fB\-\-no\[hy]blurb\fP
+This option may be used to suppress the extensive comments generated
+into the Makefile.
+.\" ----------  C  ---------------------------------------------------------
+.TP 8n
+\fB\-c\fP \f[I]number\fP
+.TQ 8n
+\fB\-\-change=\fP\f[I]number\fP
+This option is used to specify the number of the Aegis change set to ask
+for the list of file names.
+.TP 8n
+\fB\-C\fP \f[I]text\fP
+.TQ 8n
+\fB\-\-copyright=\fP\f[I]text\fP
+This option may be used to specify the copyright notice to be attached
+to the system library.  Use the empty string to have no copyright notice.
+.\" ----------  H  ---------------------------------------------------------
+.so man/man1/o_host.so
+This option may be used to specify an alternative host system name.
+Defaults to \[lq]klebsch\[rq], in reference to the \f[I]ucsdpsys_vm\fP(1)
+interpreter written by Mario Klebsch.
+.\" ----------  O  ---------------------------------------------------------
+.TP 8n
+\fB\-o\fP \f[I]filename\fP
+.TQ 8n
+\fB\-\-output=\fP\f[I]filename\fP
+This option may be used to specify the name of the file to be written.
+Defaults to \[lq]Makefile\[rq] if not given.
+The name \[lq]\-\[rq] is understood to mean the standard output.
+.\" ----------  P  ---------------------------------------------------------
+.TP 8n
+\fB\-p\fP \f[I]name\fP
+.TQ 8n
+\fB\-\-project=\fP\f[I]name\fP
+This option is used to specify the name of the Aegis project to ask for
+the list of file names.  If you specify neither an Aegis change set nor
+an Aegis project name, only filename named omn the command line are
+considered.
+.\" ----------  VV  ---------------------------------------------------------
+.TP 8n
+\fB\-V\fP
+.TQ 8n
+\fB\-\-version\fP
+Print the version of the \fI\*(n)\fP program being executed.
+.\" ----------  Z  ---------------------------------------------------------
+.PP
+All other options will produce a diagnostic error.
+.so man/man1/z_exit.so
+.SH SEE ALSO
+.TP 8n
+\f[I]ucsdpsys_assemble\fP(1)
+UCSD p\[hy]System multi\[hy]target Cross Assembler
+.TP 8n
+\f[I]ucsdpsys_compile\fP(1)
+UCSD p\[hy]System Cross Compiler
+.TP 8n
+\f[I]ucsdpsys_depends\fP(1)
+Include file dependency finder.
+.TP 8n
+\f[I]ucsdpsys_disk\fP(1)
+UCSD p\[hy]System disk image manipulation.
+.TP 8n
+\f[I]ucsdpsys_mkfs\fP(1)
+UCSD p\[hy]System disk image creator.
+.TP 8n
+\f[I]ucsdpsys_setup\fP(1)
+UCSD p\[hy]System SYSTEM.MISCINFO encoder and decoder
+.TP 8n
+\f[I]ucsdpsys_vm\fP(1)
+UCSD p\[hy]System virtual machine (p\[hy]code interpreter).
+.so man/man1/z_copyright.so
+
+
+/* vim: set ts=8 sw=4 et : */

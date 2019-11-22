@@ -1,0 +1,103 @@
+'\" t
+.\"     UCSD p-System cross compiler
+.\"     Copyright (C) 2010-2012 Peter Miller
+.\"
+.\"     This program is free software; you can redistribute it and/or modify
+.\"     it under the terms of the GNU General Public License as published by
+.\"     the Free Software Foundation; either version 3 of the License, or
+.\"     (at your option) any later version.
+.\"
+.\"     This program is distributed in the hope that it will be useful,
+.\"     but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\"     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\"     GNU General Public License for more details.
+.\"
+.\"     You should have received a copy of the GNU General Public License
+.\"     along with this program. If not, see
+.\"     <http://www.gnu.org/licenses/>.
+.\"
+.ds n) ucsdpsys_setup
+.TH \*(n) 1 ucsd\[hy]psystem\[hy]xc "Reference Manual"
+.SH NAME
+ucsdpsys_setup \- manipulate the SYSTEM.MISCINFO file
+.if require_index \{
+.XX "ucsdpsys_setup(1)" "manipulate the SYSTEM.MISCINFO file"
+.\}
+.SH SYNOPSIS
+\fB\*(n) \-e\fP \f[I]textfile\fP \f[I]datafile\fP
+.sp 0.3
+\fB\*(n) \-d \fP \f[I]datafile\fP \f[I]textfile\fP
+.sp 0.3
+.B \*(n)
+.B \-V
+.SH DESCRIPTION
+The \fI\*(n)\fP program is used to encode and decode the
+\f[CW]SYSTEM.MISCINFO\fP configuration file.
+.PP
+This configuration file is read by \f[CW]SYSTEM.PASCAL\fP when
+the system boots, and is used to control how the system output
+terminal is used for many operations.  It is also used by editors
+(\f[CW]SYSTEM.EDITOR\fP or \f[CW]YALOE\fP) to understand how to
+manipulate the screen.
+.PP
+Think of it as a very poor \f[I]terminfo\fP(3) substitute.  The
+\f[I]ucsdpsys_vm\fP(1) virtual machine takes care of translating the
+terminal control characters, and uses \f[I]curses\fP(3) to be terminal
+independent.
+.PP
+The result of the \f[I]ucsdpsys_setup \-d\fP command is in the same
+format as the \f[I]ucsdpsys_setup \-e\fP expects as input.  This means
+you can, for example, track its contents with a version control system.
+.SS Field Values
+A effort has been made to be as similar as possible to the original
+\f[CW]SETUP\fP program, except that it isn't interactive.  The fields
+all have the same names as the original \f[CW]SETUP\fP program, and
+accept similar values.
+.TP 8n
+boolean
+The values \f[CW]true\fP and \f[CW]false\fP, and several synonyms for
+each, are understood.
+.TP 8n
+char
+The values are given as decimal integers, or control characters may be
+given using their tradition three\[hy]character ASCI names.
+.TP 8n
+integer
+Integer values fields may be given as decimal text.
+.br
+.ne 1i
+.SH OPTIONS
+The following options are understood:
+.\" ----------  A  ---------------------------------------------------------
+.so man/man1/o_architecture.so
+This is used to encode and decode the 16\[hy]bit fields in the data.
+.\" ----------  D  ---------------------------------------------------------
+.TP 8n
+\fB\-d\fP
+.TP 8n
+\fB\-\-decode\fP
+This option is used to decode the binary form into the text form.
+.\" ----------  E  ---------------------------------------------------------
+.TP 8n
+\fB\-e\fP
+.TP 8n
+\fB\-\-encode\fP
+This option is used to encode the text form into the binary form.
+.\" ----------  H  ---------------------------------------------------------
+.so man/man1/o_host.so
+.\" ----------  P  ---------------------------------------------------------
+.so man/man1/o_pmachine.so
+.\" ----------  V  ---------------------------------------------------------
+.TP 8n
+\fB\-V\fP
+.TP 8n
+\fB\-\-version\fP
+Print the version of the
+.I \*(n)
+program being executed.
+.\" ----------  Z  ---------------------------------------------------------
+.PP
+All other options will produce a diagnostic error.
+.so man/man1/z_exit.so
+.so man/man1/z_copyright.so
+.\" vim: set ts=8 sw=4 et :

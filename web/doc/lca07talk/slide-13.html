@@ -1,0 +1,118 @@
+.\"
+.\" UCSD p-System cross compiler
+.\" Copyright (C) 2006, 2007, 2012 Peter Miller
+.\"
+.\" This program is free software; you can redistribute it and/or modify
+.\" it under the terms of the GNU General Public License as published by
+.\" the Free Software Foundation; either version 2 of the License, or (at
+.\" you option) any later version.
+.\"
+.\" This program is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+.\" General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU General Public License along
+.\" with this program. If not, see <http://www.gnu.org/licenses/>
+.\"
+.ad l
+.hy 0
+<html>
+<head>
+<title>
+Compilers and Factories, 13
+</title>
+</head>
+<body>
+    <table width="100%"><tr><td>
+    <a href="slide-12.html"><img src="back.png" alt="Back" border=0></a>
+    </td><td align="right">
+    <a href="slide-14.html"><img src="next.png" alt="Next" border=0></a>
+    </td></tr></table>
+<h1 align=center>
+<img src="method.png" alt="Method">
+<img src="method.png" alt="Method">
+</h1>
+We solve this with a multi method,
+something C++ has no direct support for...
+
+<table align="center">
+
+<td valign="top" bgcolor="#ffeeee" width=400>
+<small><pre>
+expression *
+translator::expression_plus(expression *lhs, expression *rhs)
+{
+    switch (std::pair(lhs-><b>e_id</b>, rhs-><b>e_id</b>))
+    {
+    case std::pair(TYPE_INTEGER, TYPE_INTEGER):
+        return new expression_add_integer(lhs, rhs);
+
+    case std::pair(TYPE_REAL, TYPE_INTEGER):
+        rhs = cast_int_real_factory(rhs);
+        return new expression_add_real(lhs, rhs);
+
+    case std::pair(TYPE_INTEGER, TYPE_REAL):
+        lhs = cast_int_real_factory(lhs);
+        return new expression_add_real(lhs, rhs);
+
+    case std::pair(TYPE_REAL, TYPE_REAL):
+        return new expression_add_real(lhs, rhs);
+    }
+    error("invalud additon expression");
+    return new expression_error();
+}
+</pre></small>
+</td>
+<td valign="top" bgcolor="#eeffee" width=400 rowspan=2>
+<small><pre>
+class translator
+{
+    <i>blah blah</i>
+private:
+    binary_dispatch op_add;
+    <i>blah blah</i>
+};
+
+void
+translator::translator()
+{
+    <i>blah blah</i>
+    op_plus.push_back(type_integer::is_a, type_integer::is_a,
+        &translator::expression_plus_integer_factory);
+    op_plus.push_back(type_real::is_a, type_real::is_a,
+        &translator::expression_plus_real_factory);
+    op_plus.push_back(type_integer::is_a, type_real::is_a,
+        &translator::expression_integer_plus_real);
+    <i>blah blah</i>
+}
+
+expression *
+translator::expression_plus(expression *lhs, expression *rhs)
+{
+    return op_plus.dispatch(lhs, rhs);
+}
+
+expression *
+translator::expression_integer_plus_real(expression *lhs, expression *rhs)
+{
+    lhs = cast_int_real_factory(lhs);
+    return expression_plus_real_factory(lhs, rhs);
+}</pre></small>
+</td>
+</tr>
+
+<tr>
+<td bgcolor="#ffcccc" align=center>
+<br><p><br><p>
+Problem: we replaced those
+<b><tt>id</tt></b> things with <i>vptr</i>s.
+<br><p><br><p>
+</td>
+</tr>
+
+</table>
+
+</body>
+</html>
+.\" vim: set ts=8 sw=4 et :

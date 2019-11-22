@@ -1,0 +1,59 @@
+//
+// ${project trunk_description}
+// Copyright (C) ${date %Y} ${copyright-owner}
+//
+// This program is free software; you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation; either version 2 of the License, or (at
+// you option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License along
+// with this program. If not, see <http://www.gnu.org/licenses/>
+//
+
+#include <${trim_ext $fn}.h>
+
+
+${id ${trim_dir ${trim_ext $fn}}}::~${id ${trim_dir ${trim_ext $fn}}}()
+{
+}
+
+
+${id ${trim_dir ${trim_ext $fn}}}::${id ${trim_dir ${trim_ext
+$fn}}}(assembler *a_context) :
+    ${id ${trim_dir ${dirname_rel $fn}}}(a_context)
+{
+}
+
+
+${id ${trim_dir ${trim_ext $fn}}}::pointer
+${id ${trim_dir ${trim_ext $fn}}}::create(assembler *a_context)
+{
+    return pointer(new ${id ${trim_dir ${trim_ext $fn}}}(a_context));
+}
+
+
+void
+${id ${trim_dir ${trim_ext $fn}}}::interpret(const expression_list &args)
+{
+    if (!check_argument_count(args, nnn))
+        return;
+
+    emit_byte(${upcase ${basename $fn .cc}});
+}
+
+
+rcstring
+${id ${trim_dir ${trim_ext $fn}}}::get_name(void)
+    const
+{
+    return "${basename $fn .cc}";
+}
+
+
+// vim: set ts=8 sw=4 et :

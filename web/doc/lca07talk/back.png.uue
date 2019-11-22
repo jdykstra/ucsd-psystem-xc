@@ -1,0 +1,65 @@
+#
+# UCSD p-System cross compiler
+# Copyright (C) 2006, 2007, 2012 Peter Miller
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or (at
+# you option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+# General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program. If not, see <http://www.gnu.org/licenses/>
+#
+begin 644 back.png
+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
+#0F""
+`
+end
+
+
+/* vim: set ts=8 sw=4 et : */

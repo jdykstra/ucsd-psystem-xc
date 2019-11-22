@@ -1,0 +1,104 @@
+'\" t
+.\"     UCSD p-System cross compiler
+.\"     Copyright (C) 2010-2012 Peter Miller
+.\"
+.\"     This program is free software; you can redistribute it and/or modify
+.\"     it under the terms of the GNU General Public License as published by
+.\"     the Free Software Foundation; either version 3 of the License, or
+.\"     (at your option) any later version.
+.\"
+.\"     This program is distributed in the hope that it will be useful,
+.\"     but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\"     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\"     GNU General Public License for more details.
+.\"
+.\"     You should have received a copy of the GNU General Public License
+.\"     along with this program. If not, see
+.\"     <http://www.gnu.org/licenses/>.
+.\"
+.ds n) ucsdpsys_link
+.TH \*(n) 1 ucsd\[hy]psystem\[hy]xc "Reference Manual"
+.SH NAME
+ucsdpsys_link \- UCSD p\[hy]System codefile linker
+.if require_index \{
+.XX "ucsdpsys_link(1)" "UCSD p\[hy]System codefile linker"
+.\}
+.SH SYNOPSIS
+.B \*(n)
+[
+.IR option \&...
+]
+.IR filename \&...
+.sp 0.3
+.B \*(n)
+.B \-\-version
+.SH DESCRIPTION
+The \fI\*(n)\fP program is used to link incomplete programs with the
+library units and external procedures and functions that complete them.
+.br
+.ne 1i
+.SH OPTIONS
+The following options are understood:
+.\" ----------  D  ---------------------------------------------------------
+.TP 8n
+\fB\-d\fP
+.TQ 8n
+\fB\-\-debug\fP
+.br
+This option may be used to increase the debug output.
+The more time given, the more voluminous the output.
+.\" ----------  M  ---------------------------------------------------------
+.TP 8n
+\fB\-m\fP \f[I]filename\fP
+.TQ 8n
+\fB\-\-map=\fP\f[I]filename\fP
+This option may be used to request that a link map be written to the given file.
+.\" ----------  N  ---------------------------------------------------------
+.TP 8n
+\fB\-n\fP \f[I]text\fP
+.TQ 8n
+\fB\-\-notice=\fP\f[I]text\fP
+.TQ 8n
+\fB\-\-copyright=\fP\f[I]text\fP
+.br
+This option may be used to set the copyright notice of the output codefile.
+.\" ----------  O  ---------------------------------------------------------
+.TP 8n
+\fB\-o\fP \f[I]filename\fP
+.TP
+\fB\-\-output=\fP\f[I]filename\fP
+The option is used to specify the output file.
+Not optional.
+.\" ----------  P  ---------------------------------------------------------
+.so man/man1/o_pmachine.so
+.\" ----------  V  ---------------------------------------------------------
+.TP 8n
+\fB\-v\fP
+.TQ 8n
+\fB\-\-verbose\fP
+This option may be used to request progress information during the link.
+This was useful in 1.0MHz days, not so useful now.
+.TP 8n
+\fB\-V\fP
+.TQ 8n
+\fB\-\-version\fP
+Print the version of the \fI\*(n)\fP program being executed.
+.\" ----------  W  ---------------------------------------------------------
+.PP
+All other options will produce a diagnostic error.
+.so man/man1/z_exit.so
+.SH SEE ALSO
+.TP 8n
+\f[I]ucsdpsys_assemble\fP(1)
+UCSD p\[hy]System cross assembler, for multiple CPU types
+.TP 8n
+\f[I]ucsdpsys_compile\fP(1)
+A cross compiler from Pascal to UCSD p\[hy]System codefiles.
+.TP 8n
+\f[I]ucsdpsys_disassemble\fP(1)
+A utility to disassemble UCSD p\[hy]System codefiles.
+.TP 8n
+\f[I]ucsdpsys_librarian\fP(1)
+UCSD p\[hy]System codefile librarian
+.so man/man1/z_copyright.so
+.\" vim: set ts=8 sw=4 et :

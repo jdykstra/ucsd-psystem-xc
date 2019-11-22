@@ -1,0 +1,87 @@
+'\" t
+.\"     UCSD p-System cross compiler
+.\"     Copyright (C) 2010-2012 Peter Miller
+.\"
+.\"     This program is free software; you can redistribute it and/or modify
+.\"     it under the terms of the GNU General Public License as published by
+.\"     the Free Software Foundation; either version 3 of the License, or
+.\"     (at your option) any later version.
+.\"
+.\"     This program is distributed in the hope that it will be useful,
+.\"     but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\"     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\"     GNU General Public License for more details.
+.\"
+.\"     You should have received a copy of the GNU General Public License
+.\"     along with this program. If not, see
+.\"     <http://www.gnu.org/licenses/>.
+.\"
+.ds n) ucsdpsys_errors
+.TH \*(n) 5 ucsd\[hy]psystem\[hy]xc "Reference Manual"
+.SH NAME
+ucsdpsys_errors \- UCSD p\[hy]System assembler error file format
+.if require_index \{
+.XX "ucsdpsys_errors(5)" "UCSD p\[hy]System assembler error file format"
+.\}
+.SH DESCRIPTION
+The UCSD Adaptive Assembler uses a binary error file.
+This simplifies the error processing, at the cost of
+.TP 2n
+\[bu]
+error texts of limited length,
+.TP 2n
+\[bu]
+significant difficulty of editing, and
+.TP 2n
+\[bu]
+when measured in whole 512\[hy]byte blocks, little or no space savings.
+.TP 2n
+\[bu]
+Inconsistent with the textual error file format used by the compiler.
+.PP
+By using a text file as the primary source, it can be edited easily, and
+placed under version control.  The binary file can be created from the
+text file using the \f[I]ucsdpsys_errors\fP(1) command.
+.SS Format of the Text file
+The text file is the same as for the compiler.
+.PP
+Comments have a hash (\[lq]\f[CW]#\fP\[rq]) in the first column,
+and extend to the end of the line.  Blank lines are ignored.
+.PP
+Each error message has a number, a colon (\[lq]\f[CW]:\fP\[rq]), and the
+text of the error message.  Excess white space is discarded.
+The lines do not need to be in order, but there may be no duplicates.
+Error text lengths in excess of 40 characters are an error.
+.SS Format of the Binary file
+The error file declared as
+.PP
+.RS
+.ft CW
+.nf
+type error_string: string[40];
+var error_file: file of error_string;
+.fi
+.ft R
+.RE
+.PP
+That is, each error occupies 42 bytes of the file,
+even if the error text is significantly shorter.
+There is no way to cram a longer error message into the file.
+.PP
+The file is indexed by error number, using
+.PP
+.RS
+.ft CW
+seek(error_file, error_num);
+.ft R
+.RE
+.PP
+Error numbers that are not used contain a value of one space.
+Error zero exists in the file, and is unused.
+.so man/man1/z_exit.so
+.SH SEE ALSO
+.TP 8n
+\f[I]ucsdpsys_errors\fP(1)
+UCSD p\[hy]System assembler error file builder
+.so man/man1/z_copyright.so
+.\" vim: set ts=8 sw=4 et :

@@ -1,0 +1,116 @@
+.\"
+.\" UCSD p-System cross compiler
+.\" Copyright (C) 2006, 2007, 2012 Peter Miller
+.\"
+.\" This program is free software; you can redistribute it and/or modify
+.\" it under the terms of the GNU General Public License as published by
+.\" the Free Software Foundation; either version 2 of the License, or (at
+.\" you option) any later version.
+.\"
+.\" This program is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+.\" General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU General Public License along
+.\" with this program. If not, see <http://www.gnu.org/licenses/>
+.\"
+.ad l
+.hy 0
+<html>
+<head>
+<title>
+Compilers and Factories, 12
+</title>
+</head>
+<body>
+    <table width="100%"><tr><td>
+    <a href="slide-11.html"><img src="back.png" alt="Back" border=0></a>
+    </td><td align="right">
+    <a href="slide-13.html"><img src="next.png" alt="Next" border=0></a>
+    </td></tr></table>
+<h1 align=center>
+<img src="double_trouble.png" alt="Double Trouble">
+</h1>
+There is another case to be covered when you are generating code, not
+just pretty printing.  It's the manual polymorphism, again, but the 2D
+case this time...
+
+<table align="center">
+
+<tr>
+<td bgcolor="#ffcccc">Not uncommon C implemntation...</td>
+<td bgcolor="#ccffcc">Desired C++ implementation...</td>
+</tr>
+<td valign="top" bgcolor="#ffeeee" width=400>
+<small><pre>
+void
+expression_plus_compile::generate_code()
+{
+    lhs->generate_code();
+    rhs->generate_code();
+    switch (PAIR(lhs->get_type(), rhs->get_type()))
+    {
+    case PAIR(TYPE_INTEGER, TYPE_INTEGER):
+        emit(OP_ADI);
+        break;
+
+    case PAIR(TYPE_REAL, TYPE_INTEGER):
+        emit(OP_FLT);
+        emit(OP_ADR);
+        break;
+
+    case PAIR(TYPE_INTEGER, TYPE_REAL):
+        emit(OP_FLO);
+        emit(OP_ADR);
+        break;
+
+    case PAIR(TYPE_REAL, TYPE_REAL):
+        emit(OP_ADR);
+        break;
+    }
+}
+</pre></small>
+</td>
+<td valign="top" bgcolor="#eeffee" width=400>
+<small><pre>
+void
+expression_plus_integer_compile::generate_code()
+{
+    lhs->generate_code();
+    rhs->generate_code();
+    emit(OP_ADI);
+}
+
+
+
+
+
+// <i>and take care of the implict casts</i>
+// <i>somewhere else, too.</i>
+
+
+
+
+
+void
+expression_plus_real_compile::generate_code()
+{
+    lhs->generate_code();
+    rhs->generate_code();
+    emit(OP_ADR);
+}
+</pre></small>
+</td>
+</tr>
+
+</table>
+<p align=right>
+But how do we get there?
+</p>
+
+</body>
+</html>
+
+
+// vim: set ts=8 sw=4 et :

@@ -1,0 +1,170 @@
+'\" t
+.\"     UCSD p-System cross compiler
+.\"     Copyright (C) 2006, 2007, 2010-2012 Peter Miller
+.\"
+.\"     This program is free software; you can redistribute it and/or modify
+.\"     it under the terms of the GNU General Public License as published by
+.\"     the Free Software Foundation; either version 3 of the License, or
+.\"     (at your option) any later version.
+.\"
+.\"     This program is distributed in the hope that it will be useful,
+.\"     but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\"     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\"     GNU General Public License for more details.
+.\"
+.\"     You should have received a copy of the GNU General Public License
+.\"     along with this program. If not, see
+.\"     <http://www.gnu.org/licenses/>.
+.\"
+.\" ------------------------------------------------------------------------
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 56, 45
+.\" Change 48
+.\" Change 47
+.\" Change 46
+.\" Change 44
+The slides of the LCA 2011 talk "Factory Factory Factories" is now
+available in the web site.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 54, 50
+The \f[I]ucsdpsys_osmakgen\fP(1) command has been improved,
+with a view to Debian packaging of the OS.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 49
+The \f[I]ucsdpsys\fP(1) command has a new \fB\-\-no\-system\fP option, to
+suppress the construction of a system disk image.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 41
+There is a new \f[I]ucsdpsys_compile\fP(1) option, \fB\-\-library\-path\fP for
+adding directories to the library search path.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 104
+The \f[I]ucsdpsys_compile\fP(1) command now fully supports the \f[CW](*$U
+\fP\f[I]filename\fP\f[CW] *)\fP control comment.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 190
+.\" Change 142
+.\" Change 143
+The \f[I]ucsdpsys_assemble\fP(1) command now understands the
+\f[CW].error\fP
+\f[CW].print\fP
+\f[CW].sbttl\fP
+.\" Change 122
+\f[CW].title\fP
+pseudo\[hy]ops, mostly named for PDP\[hy]11 assmebler pseudo\[hy]ops of
+the same name.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 37
+The \f[I]ucsdpsys_charset\fP(1) command has been moved to this project,
+out of the ucsd\[hy]psystem\[hy]fs project.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 25
+The \f[I]ucsdpsys_assemble\fP(1) command now understands how to
+produce assembler listings, using the \fB\-L\fP option.  See
+\f[I]ucsdpsys_assemble\fP(1) for more information.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 158
+The \f[I]ucsdpsys_compile\fP(1) command now issues warnings for
+unreachange statements. There is a new \f[CW](*$warning unreachable
+false *)\fP control comment to disable the warning.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 27
+The project download web page now includes a link to the LunchPad PPA,
+where pre\[hy]compiled Ubuntu packages are available.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 52
+The \f[I]ucsdpsys_assemble\fP(1) command now understands the \f[CW].ref\fP
+pseudo\[hy]op, and generates the appropriate relocation information.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 22
+The \f[I]ucsdpsys_assemble\fP(1) command now more closely emulates the
+UCSD native assembler, in the way it forgets symbols created between one
+\f[CW].proc\fP and another.  This stops historical source files from
+complaining about multiply defined symbols all over the place.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 21
+The \f[I]ucsdpsys_assemble\fP(1) command now requires that the
+architecture be explicitly stated, either with the \f[CW].arch\fP
+pseudo\[hy]op, or the \fB\-\-arch\fP command line option, in all cases.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 20
+The \f[I]ucsdpsys_assemble\fP(1) command now ignores all input after the
+\f[CW].end\fP directive.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 15
+The \f[I]ucsdpsys_assembler\fP(1) command now understands
+\f[CW].gt\fP greater than,
+.\" Change 18
+\f[CW]>=\fP greater than or equal,
+.\" Change 17
+\f[CW].lt\fP less than,
+.\" Change 16
+\f[CW]<=\fP less than or equal,
+.\" Change 126
+\f[CW]<>\fP inequality, and
+.\" Change 125
+\f[CW]=\fP equality
+comparisons.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 12
+The \f[I]ucsdpsys_assemble\fP(1) command, now understands, for 6502
+opcodes, how to relocate segment relative addresses for absolute
+addressing opcodes.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 116
+The \f[I]ucsdpsys_assemble\fP(1) command now understands conditional
+assembly \f[CW].if\fP, \f[CW].else\fP and \f[CW].endc\fP pseudo\[hy]op
+directives.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 14
+The \f[I]ucsdpsys_assembler\fP(1) command now understands the
+\f[CW].macro\fP pseudo\[hy]op, for defining an substituting macros into the
+code stream.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 11
+A bug has been fixed in the code that checks codefiles for
+validity.  It no longer rejects segment dictionaries with
+zero\[hy]length UNITSEG segments.  These are produced when a program
+USES a non\[hy]intrinsic unit, but is not yet linked.
+.\" ------------------------------------------------------------------------
+.\" Add new entries above this line.
+.SS Version 0.8 (2010\[hy]Aug\[hy]28)
+.\" vim: set ts=8 sw=4 et :

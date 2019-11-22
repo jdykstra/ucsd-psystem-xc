@@ -1,0 +1,64 @@
+'\" t
+.\"     UCSD p-System cross compiler
+.\"     Copyright (C) 2006, 2007, 2010, 2012 Peter Miller
+.\"
+.\"     This program is free software; you can redistribute it and/or modify
+.\"     it under the terms of the GNU General Public License as published by
+.\"     the Free Software Foundation; either version 3 of the License, or
+.\"     (at your option) any later version.
+.\"
+.\"     This program is distributed in the hope that it will be useful,
+.\"     but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\"     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\"     GNU General Public License for more details.
+.\"
+.\"     You should have received a copy of the GNU General Public License
+.\"     along with this program. If not, see
+.\"     <http://www.gnu.org/licenses/>.
+.\"
+.\" ------------------------------------------------------------------------
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 24
+The compiler now understands EXTERNAL function and procedure
+declarations, and produces corresponding linker records.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Changes 25, 26, 27, 32, 33, 37, 38, 40, 41, 42, 44, 45, 46, 47, 48,
+.\" 49, 51, 54, 58, 61, 129, 130, 131, 132, 134, 135, 136, 137, 140, 152
+The compiler now has complete long integer support.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 102
+The compiler now understands the built\[hy]in STR function.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 59
+It is now possible to write long integer constants in the source
+code.  They take the same forms as other integer constants, except
+they are suffixed with the letter L.  This is an idea
+transplanted from C, the UCSD native compiler does not recognise
+such constants.  It makes testing and debugging the long integer constant
+folding much easier.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Changes 12, 13, 14, 17, 19, 20, 22, 23, 28
+The compiler now understands \f[CW]unit\fP definitions, using II.1
+syntax and semantics.  If II.0 \f[CW]separate unit\fP definitions are
+seen, they result in a warning, and the \f[CW]separate\fP keyword is
+otherwise ignored.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 55
+The compiler now understands a C\[hy]style ternary operator expression
+\f[CW](e1 ? e2 : e3)\fP.  The UCSD native compiler doesn't have this.
+.\" ------------------------------------------------------------------------
+.\" Add new entries above this line.
+.SS Version 0.5 (2010\[hy]May\[hy]17)
+.\" vim: set ts=8 sw=4 et :

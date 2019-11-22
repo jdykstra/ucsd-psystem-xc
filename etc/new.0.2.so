@@ -1,0 +1,161 @@
+'\" t
+.\"     UCSD p-System cross compiler
+.\"     Copyright (C) 2006, 2007, 2010, 2012 Peter Miller
+.\"
+.\"     This program is free software; you can redistribute it and/or modify
+.\"     it under the terms of the GNU General Public License as published by
+.\"     the Free Software Foundation; either version 3 of the License, or
+.\"     (at your option) any later version.
+.\"
+.\"     This program is distributed in the hope that it will be useful,
+.\"     but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\"     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\"     GNU General Public License for more details.
+.\"
+.\"     You should have received a copy of the GNU General Public License
+.\"     along with this program. If not, see
+.\"     <http://www.gnu.org/licenses/>.
+.\"
+.\" ------------------------------------------------------------------------
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 179
+A warning is now issued if a case statement contains an
+\f[CW]otherwise\fP clause.  You can disable the warning by using the
+\f[CW](*$warning otherwise false*)\fP control comment.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 71
+The compile listing now includes the symbol table for each procedure and
+function.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 58, 72, 73
+A bug has been fixed in the code that derefereces pointers to strings.
+It no longer tries to laod the whole string onto the stack.
+The compiler now understands how to deal with string\[hy]typed fields on the
+right hand side of dot (expr.name) expressions.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 67
+A bug has been fixed where function parameters that were the
+names of functions that had no parameters were not being called.
+.TP 2n
+.if n *
+The compiler no longer issues duplicate label warnings. In some
+cases it was issuing warnings about unused labels twice.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 121
+.\" Change 126
+.\" Change 127
+.\" Change 128
+.\" Change 129
+.\" Change 131
+.\" Change 132
+.\" Change 138
+.\" Change 139
+The compiler now understands the built\[hy]in COPY, DELETE, EOF, EOLN,
+FILLCHAR, INSERT, POS, UNITBUSY and UNITCLEAR functions and procedures.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 65
+The compiler no loger throws an assert if a procedure in segment
+zero is EXIT()ed.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 63
+The compiler now correctly scopes enumerated constant definitions
+that are declared within the record scopes.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 33
+A bug has been fixed in the code that copied non\[hy]var string
+parameters into their local temporaries.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 39
+Thw compiler now understands how to perform a non\[hy]local function return
+assignment.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 38
+The compiler now also accepts an integer value as the third parameter
+of fillchar, even thouh it is documented to take a char value.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 35
+A bug has been fixed where constant negative array indexes would
+cause an assert to fail. It turned out that some optimizations
+were not checking the range of offsets, and creating invalid
+offsets.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 31, 32
+The compiler now understands declaring and accessing arrays using multi
+dimension syntax.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 30
+A number of error messages concerning forward declared types have
+been improved; they are now earlier, and less cryptic.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 28
+A bug has been fixed in the code generation of constant sets.
+They are no longer all\[hy]bits\[hy]zero, but instead contain the
+correct value.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 27
+The compiler now only range checks the CHR parameter if
+requested.  The UCSD native compiler did not range check CHR.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 26
+The compiler now checks parameter string
+lengths (declared \f[I]vs\fP actual) for overruns.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 23
+The compiler now understands about file^ variables.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 18
+The \f[I]ucsdpsys\fP(1) command is now better at cleaning up its
+temporary files.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 12
+The boolean comparison operators (=, <>, <=, <, >=, >) now have
+additional code to cope with one side or the other being a
+constant.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 11
+A bug has been fixed in the way constant folding
+was handled around the FOR statement's limits.
+.\" ------------------------------------------------------------------------
+.\" Add new entries above this line.
+.SS Version 0.2 (2010\[hy]Apr\[hy]19)
+.\" vim: set ts=8 sw=4 et :

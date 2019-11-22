@@ -1,0 +1,55 @@
+.\"
+.\" ucsd-psystem-xc - UCSD p-System cross compiler
+.\" Copyright (C) 2012 Peter Miller
+.\" Written by Peter Miller <pmiller@opensource.org.au>
+.\"
+.\" This program is free software; you can redistribute it and/or modify it
+.\" under the terms of the GNU General Public License as published by the Free
+.\" Software Foundation; either version 3 of the License, or (at your option)
+.\" any later version.
+.\"
+.\" This program is distributed in the hope that it will be useful, but
+.\" WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+.\" or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+.\" for more details.
+.\"
+.\" You should have received a copy of the GNU General Public License along
+.\" with this program. If not, see <http://www.gnu.org/licenses/>.
+.\"
+.\" ------------------------------------------------------------------------
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 27, 31, 33, 34, 35, 42
+The \f[I]ucsdpsys_charset\fP(1) command now understands more font file
+formats, including Terak and PSF Tools format.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 24
+The \f[I]ucsdpsys_charset\fP(1) command has a new \fB\-negative\fP option,
+that is used to calculate the inverted \[lq]top half\[rq] of a font from the
+normal \[lq]bottom half\[rq], as is common in Terak fonts.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 32
+The \f[I]ucsdpsys_charset\fP(1) is now able
+manipulate the boot logo in Terak system.charset files.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 29
+The \f[I]ucsdpsys_osmakgen\fP(1) command now takes advantage of recent
+\f[I]ucsdpsys_osmakgen\fP(1) features.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 25, 26
+There is a new \f[I]ucsdpsys_foto\fP(1) command, used to convert UCSD
+Pascal \f[CW].foto\fP files into \f[CW].png\fP files, and \f[I]vice versa\fP.
+.\" ------------------------------------------------------------------------
+.\" Add new entries above this line.
+.ne 2i
+.SS Version 0.12 (2012\[hy]Nov\[hy]02)
+.\" vim: set ts=8 sw=4 et :

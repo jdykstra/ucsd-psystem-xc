@@ -1,0 +1,186 @@
+'\" t
+.\"     UCSD p-System cross compiler
+.\"     Copyright (C) 2006, 2007, 2010, 2012 Peter Miller
+.\"
+.\"     This program is free software; you can redistribute it and/or modify
+.\"     it under the terms of the GNU General Public License as published by
+.\"     the Free Software Foundation; either version 3 of the License, or
+.\"     (at your option) any later version.
+.\"
+.\"     This program is distributed in the hope that it will be useful,
+.\"     but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\"     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\"     GNU General Public License for more details.
+.\"
+.\"     You should have received a copy of the GNU General Public License
+.\"     along with this program. If not, see
+.\"     <http://www.gnu.org/licenses/>.
+.\"
+.\" ------------------------------------------------------------------------
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 29
+There is a new \f[CW](*$feature underscore\[hy]significant true*)\fP contol
+comment, that may be used for increased ISO 10206 conformance.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 55
+A bug has been fixed in the RECORD code, it no longer places the
+selector variable in the variant part of the record, and thus
+is no longer requesting memory from NEW that is one word short.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 120
+There is a new \f[CW](*$feature efj\[hy]nfj false*)\fP control comment to
+turn off the use of the EFJ and NFJ opcodes.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 53
+There is a new \f[CW](*$feature short\[hy]with false*)\fP control comment,
+that can be used to turn off WITH statement optimizations.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 47
+The built\[hy]in UNITWRITE procedure now accepts string constants
+for the second parameter.  The UCSD native compiler did not allow
+this.  Handy for debugging the system I/O procedures.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 16
+The compiler now optimizes IF stratements with GOTO clauses.
+It now goes directly to the label from the condition, when possible,
+rather than using UJP in the individual clauses.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 44
+The IF statement now generates better code for the case where
+THEN is empty but ELSE is not.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 22
+The compiler now understands the ISO 10206 integer constants
+with an explicit radix.
+This was not available in the UCSD native compiler, for obvious reasons.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 50
+The is a new \f[I]ucsdpsys_setup\fP(1) command, used to encode and
+decode the \f[CW]SYSTEM.MISCINFO\fP file.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 41
+There is a new \f[I]ucsdpsys_downcase\fP(1) command, that may be used to
+convert identifiers in Pascal source code from upper case to lower case.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 39
+The compiler no longer has a problem with sets passed as
+parameters.  The way sets are push onto the stack has been
+further optimized.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 36, 37, 38
+The compiler now understands how to optimize away MOVELEFT, MOVERIGHT
+and FILLCHAR with a constant zero or negative length.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 35
+A bug has been fixed in the IN operator, in the case where the
+set had a fixed size.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 34
+A bug has been fixed in the constant folding of string comparisons, it
+was getting relational comparisons (<, <=, >, >=) wrong, but equality
+comparisons (=, <>) right.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 33
+A bug has been fixed in the indexing of byte arrays (pointers)
+with enum types.  It no longer throws an assert.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 31
+The compiler now issues warnings for comments that are not ISO
+7185 comforming.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 30
+A bug has been fixed in the code generation of MOV opcodes,
+in the case where more than 127 words had to be moved.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 18
+The compiler now understands \f[CW]arctan\fP (ISO 10206) as a synonym
+for \f[CW]atan\fP, but only if \f[CW](*$feature inline\[hy]math true*)\fP is
+in effect.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 27
+The compiler now generates correct code for NOT logical
+expressions assigned to a boolean variable, or passed as a
+boolean parameter.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 26
+A bug has been fixed in the code that folds constant MPI
+(integer multiply) expressions.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 25
+A bug has been fixed in the optimization of integer subtraction.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 24
+A bug has been fixed in the optimization of the ADI (add integer) expression.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 23
+A bug has been fixed in the optimisation of the logical NOT
+expression.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 17, 19, 20
+The cross compiler now understands the bit\[hy]wise integer AND, OR and NOT
+expressions.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 14
+The compiler now generates LDB (load byte) and STB (store byte)
+instructions for packed arrays of 8\[hy]bit things, not just packed array of
+char.  This is the same behaviour as the UCSD native compiler.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 12
+There is a new \f[I]ucsdpsys_librarian\fP(1) \fB\-R\fP option,
+that can be used to remove segments by name or by number.
+.\" ------------------------------------------------------------------------
+.\" Add new entries above this line.
+.SS Version 0.4 (2010\[hy]May\[hy]06)
+.\" vim: set ts=8 sw=4 et :

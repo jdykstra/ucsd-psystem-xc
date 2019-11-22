@@ -1,0 +1,111 @@
+'\" t
+.\"     UCSD p-System cross compiler
+.\"     Copyright (C) 2006, 2007, 2010, 2012 Peter Miller
+.\"
+.\"     This program is free software; you can redistribute it and/or modify
+.\"     it under the terms of the GNU General Public License as published by
+.\"     the Free Software Foundation; either version 3 of the License, or
+.\"     (at your option) any later version.
+.\"
+.\"     This program is distributed in the hope that it will be useful,
+.\"     but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\"     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\"     GNU General Public License for more details.
+.\"
+.\"     You should have received a copy of the GNU General Public License
+.\"     along with this program. If not, see
+.\"     <http://www.gnu.org/licenses/>.
+.\"
+.\" ------------------------------------------------------------------------
+.TP 2n
+.if n *
+.if t \(bu
+The target for this release was to be able to compile the UCSD native
+Pascal compiler from source.  This has been achieved.  It has yet to be
+determined if the compiler thus created actually functions.
+.TP 2n
+.if n *
+.if t \(bu
+For differences between this cross compiler and the UCSD native
+compiler, see the \f[I]ucsdpsys_compile\fP(1) man page.  The most
+notable difference is that SIZEOF is a keyword, requiring the UCSD
+native compiler's PROCEDURE SIZEOF to be renamed.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 15, 16, 17, 18, 19, 65, 75, 77, 97, 210, 217
+Numerous bugs have been fixed, usually in unexplored corner cases.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 43, 45, 48, 55, 89, 111, 120, 121, 122, 123, 124, 125, 130
+.\" Change 134, 136, 137, 139, 144, 145, 148, 149, 150, 151, 153, 154
+.\" Change 157, 165, 184, 191, 192, 193, 194, 197
+The compiler now understands the ABS, BLOCKREAD, BLOCKWRITE, CLOSE,
+CONCAT, EXIT, HALT, IDSEARCH, IORESULT, KEYBOARD, LENGTH, MARK, MOD,
+MOVELEFT, MOVERIGHT, OPENNEW, OPENOLD, PWROFTEN, READ, READLN, RELEASE,
+RESET, REWRITE, ROUND, SCAN, TREESEARCH, TRUNC, UNITREAD, UNITWRITE and
+WRITELN built\[hy]in symbols.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 95
+The STRING type has been turned into a built\[hy]in named type.  This permits
+the unwise user to redefine STRING to be a variable or a procedure or
+a function, or (for maximum confusion) a different type.  This is
+what shadow warnings are for.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 14, 20, 22, 23, 79, 81, 94
+The compiler now understands the CASE, FOR, REPEAT UNTIL and WITH
+statements.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 83, 84, 85, 86, 87, 88
+The compiler now understands comparisons of CHAR values.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 80
+The compiler now accepts pointers as parameters to the ORD function.
+This seems oddly inconsistent, in a language as intent as Pascal is,
+with the protection of the programmer from his own folly.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 33, 34, 35, 36, 37, 38, 68, 69, 70, 71, 73
+The compiler now understands set arithmetic and set comparisons.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 61, 62, 63
+It is now possible, using the \f[I]ucsdpsys_compile \-\-listing\fP option,
+to obtain a compiler listing.
+The listing contains the source code interleaved with the disassembled
+p\[hy]code.
+The \f[CW](*$L)\fP control comment is ignored.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 31, 32
+The compiler now understands = and <> comparisons of multi\[hy]word values
+(arrays and records).
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 42
+The compiler can now be configured to have longer identifier
+(name) lengths.  It defaults to 8 for compatibility, and it
+still drops underscores.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 25, 26, 27, 28, 29, 30
+The compiler now understands comparisons of packed arrays of char.
+.\" ------------------------------------------------------------------------
+.\" Add new entries above this line.
+.SS Version 0.1 (2010\[hy]Apr\[hy]01)
+First public release.
+.\" vim: set ts=8 sw=4 et :

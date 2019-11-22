@@ -1,0 +1,57 @@
+.\"
+.\" UCSD p-System cross compiler
+.\" Copyright (C) 2011, 2012 Peter Miller
+.\"
+.\" This program is free software; you can redistribute it and/or modify
+.\" it under the terms of the GNU General Public License as published by
+.\" the Free Software Foundation; either version 2 of the License, or (at
+.\" you option) any later version.
+.\"
+.\" This program is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+.\" General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU General Public License along
+.\" with this program. If not, see <http://www.gnu.org/licenses/>
+.\"
+.nf
+.ad l
+.hy 0
+<html>
+<head>
+<title>
+Miller, P. A. (2010) Factory Factory Factories
+</title>
+</head>
+<body>
+<table width="100%" ><tr>
+<td><small><a href="index.html" >Up</a>,
+    <a href="page07.html" >Prev</a></small></td>
+<td align="right" >
+    <small><a href="page09.html" >Next</a></small></td>
+</tr></table>
+
+<h1 align="center" >Remind me how I got Here?</h1>
+<p>
+<table align="center" >
+
+<tr><td>
+<img src="coaster.png" />
+</td><td>
+<pre>
+void
+expression_sro::generate_code()
+    const
+{
+    rhs-&gt;generate_code();
+    gen_emit_byte(SRO);
+    gen_emit_big(address);
+}
+</pre>
+</td></tr>
+
+</table>
+</body>
+</html>
+.\" vim: set ts=8 sw=4 et :

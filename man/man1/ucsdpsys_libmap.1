@@ -1,0 +1,70 @@
+'\" t
+.\"     UCSD p-System cross compiler
+.\"     Copyright (C) 2006, 2007, 2010-2012 Peter Miller
+.\"
+.\"     This program is free software; you can redistribute it and/or modify
+.\"     it under the terms of the GNU General Public License as published by
+.\"     the Free Software Foundation; either version 3 of the License, or
+.\"     (at your option) any later version.
+.\"
+.\"     This program is distributed in the hope that it will be useful,
+.\"     but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\"     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\"     GNU General Public License for more details.
+.\"
+.\"     You should have received a copy of the GNU General Public License
+.\"     along with this program. If not, see
+.\"     <http://www.gnu.org/licenses/>.
+.\"
+.ds n) ucsdpsys_libmap
+.TH \*(n) 1 ucsd\[hy]psystem\[hy]xc "Reference Manual"
+.SH NAME
+ucsdpsys_libmap \- print map of UCSD p\[hy]System code file
+.if require_index \{
+.XX "ucsdpsys_libmap(1)" "print map of UCSD p\[hy]System code file"
+.\}
+.SH SYNOPSIS
+\fB\*(n)\fP [ \fIoption\fP... ] \fIcode\[hy]file\[hy]name\fP...
+.br
+\fB\*(n) \-V\fP
+.SH DESCRIPTION
+The \fI\*(n)\fP program is used to print out a map of a UCSD p\[hy]System
+code file.  This is equivalent to the \f[CW]LIBMAP\fP program which
+comes with the UCSD p\[hy]System, but you can run it from Unix.
+.br
+.ne 1i
+.SH OPTIONS
+The following options are understood:
+.\" ----------  D  ---------------------------------------------------------
+.TP 8n
+\fB\-d\fP
+.TQ 8n
+\fB\-\-debug\fP
+Increase the debug output level.
+.\" ----------  O  ---------------------------------------------------------
+.TP
+\fB\-o\fP \fIfilename\fP
+.TP
+\fB\-\-output=\fP\fIfilename\fP
+Write the output to the named file, rather than the standard output.
+.\" ----------  P  ---------------------------------------------------------
+.so man/man1/o_pmachine.so
+.\" ----------  V  ---------------------------------------------------------
+.TP 8n
+\fB\-V\fP
+.TQ 8n
+\fB\-\-version\fP
+Print the version of the \fI\*(n)\fP program being executed.
+.\" ----------  W  ---------------------------------------------------------
+.PP
+All other options will produce a diagnostic error.
+.so man/man1/z_exit.so
+.SH SEE ALSO
+.TP 8n
+\f[I]ucsdpsys_disassemble\fP(1)
+disassemble a UCSD p\[hy]System code file
+.TP 8n
+\f[I]ucsdpsys_link\fP(1)
+UCSD p\[hy]System codefile linker
+.so man/man1/z_copyright.so
+.\" vim: set ts=8 sw=4 et :

@@ -1,0 +1,52 @@
+/*
+ * UCSD p-System cross compiler
+ * Copyright (C) 2006, 2007, 2010, 2012 Peter Miller
+ *
+ *      This program is free software; you can redistribute it and/or modify
+ *      it under the terms of the GNU General Public License as published by
+ *      the Free Software Foundation; either version 3 of the License, or
+ *      (at your option) any later version.
+ *
+ *      This program is distributed in the hope that it will be useful,
+ *      but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *      GNU General Public License for more details.
+ *
+ *      You should have received a copy of the GNU General Public License
+ *      along with this program. If not, see
+ *      <http://www.gnu.org/licenses/>.
+ */
+
+/*
+ * How to use yacc sources.
+ */
+
+yacc_flags = -v;
+
+%1/%0%2.yacc.cc %1/%0%2.yacc.h: %1/%0%2.y
+    single-thread y.tab.c y.tab.h
+{
+    if [not [verbose]] then
+        function print GEN [target];
+    rm -f %1/%0%2.list y.output
+        set silent;
+    [yacc] -d [yacc_flags] [resolve %1/%0%2.y];
+    yy = [collect echo %0%2 | sed -e "'s|[^a-zA-Z0-9]|_|g'"];
+    sed -e "'s/[yY][yY]/"[yy]"_/g'"
+        -e "'/<stdio.h>/d'"
+        -e "'/<stdlib.h>/d'"
+        -e "'/<stddef.h>/d'"
+        < y.tab.c > %1/%0%2.yacc.cc;
+    rm y.tab.c;
+    sed -e "'s/[yY][yY]/"[yy]"_/g'" -e "'s/Y_TAB_H/"[yy]"_TAB_H/g'"
+        < y.tab.h > %1/%0%2.yacc.h;
+    rm y.tab.h;
+    if [exists y.output] then
+        mv y.output %1/%0%2.list
+            set clearstat;
+}
+
+cascade lib/pascal/lex.cc = lib/pascal/grammar.yacc.h;
+
+
+/* vim: set ts=8 sw=4 et : */

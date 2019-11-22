@@ -1,0 +1,90 @@
+'\" t
+.\"     UCSD p-System operating system
+.\"     Copyright (C) 2006, 2010-2012 Peter Miller
+.\"
+.\"     This program is free software; you can redistribute it and/or modify
+.\"     it under the terms of the GNU General Public License as published by
+.\"     the Free Software Foundation; either version 3 of the License, or
+.\"     (at your option) any later version.
+.\"
+.\"     This program is distributed in the hope that it will be useful,
+.\"     but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\"     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\"     GNU General Public License for more details.
+.\"
+.\"     You should have received a copy of the GNU General Public License
+.\"     along with this program. If not, see
+.\"     <http://www.gnu.org/licenses/>.
+.\"
+.ds n) ucsdpsys_depends
+.TH \*(n) 1 ucsd\[hy]psystem\[hy]xc "Reference Manual"
+.SH NAME
+ucsdpsys_depends \- UCSD Pascal file dependency tracker
+.if require_index \{
+.XX "ucsdpsys_depends(1)" "UCSD Pascal file dependency tracker"
+.\}
+.SH SYNOPSIS
+\fB\*(n)\fP [ \f[I]option\fP... ] \f[I]filename\fP...
+.br
+\fB\*(n) \-V\fP
+The \f[I]\*(n)\fP program is used to
+scan a Pascal source file for include directives.
+.br
+.ne 1i
+.SH OPTIONS
+The following options are understood:
+.TP 8n
+\fB\-I\fP \f[I]directory\fP
+.TQ 8n
+\fB\-\-include=\fP\f[I]directory\fP
+This option is used to specify an include file directory to search.
+This option may be given more than once.
+.TP 8n
+\fB\-J\fP \f[I]directory\fP
+.TQ 8n
+\fB\-\-view\[hy]path=\fP\f[I]directory\fP
+This option is used to specify a directory to append to the view path.
+This option may be given more than once.
+.TP 8n
+\fB\-L\fP
+.TQ 8n
+\fB\-\-one\[hy]per\[hy]line\fP
+The dependencies are usually written all on the one line.
+This option requests that each be on a separate line.
+.TP 8n
+\fB\-o\fP \f[I]filename\fP
+.TQ 8n
+\fB\-\-output=\fP\f[I]filename\fP
+This option may be used to specify the output file.
+Defaults to the standard output.
+.TP 8n
+\fB\-P\fP \f[I]string\fP
+.TQ 8n
+\fB\-\-prefix=\fP\f[I]string\fP
+The prefix to put at the start of the output line.
+.TP 8n
+\fB\-r\fP
+.TQ 8n
+\fB\-\-recursive\fP
+This option may be used to request recursive analysis.
+Because \f[I]cook\fP(1) cascade directives are being used, recursive
+analysis is rarely needed.
+.TP 8n
+\fB\-S\fP \f[I]string\fP
+.TQ 8n
+\fB\-\-suffix=\fP\f[I]string\fP
+The suffix to put at the end of the output line.
+.TP 8n
+\fB\-V\fP
+.TQ 8n
+\fB\-\-version\fP
+Print the version of the \f[I]\*(n)\fP program being executed.
+.PP
+All other options will produce a diagnostic error.
+.so man/man1/z_exit.so
+.SH SEE ALSO
+.TP 8n
+\f[I]ucsdpsys_compile\fP(1)
+UCSD p\[hy]System Pascal compiler
+.so man/man1/z_copyright.so
+.\" vim: set ts=8 sw=4 et :

@@ -1,0 +1,143 @@
+'\" t
+.\"     UCSD p-System cross compiler
+.\"     Copyright (C) 2006, 2007, 2010-2012 Peter Miller
+.\"
+.\"     This program is free software; you can redistribute it and/or modify
+.\"     it under the terms of the GNU General Public License as published by
+.\"     the Free Software Foundation; either version 3 of the License, or
+.\"     (at your option) any later version.
+.\"
+.\"     This program is distributed in the hope that it will be useful,
+.\"     but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\"     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\"     GNU General Public License for more details.
+.\"
+.\"     You should have received a copy of the GNU General Public License
+.\"     along with this program. If not, see
+.\"     <http://www.gnu.org/licenses/>.
+.\"
+.\" ------------------------------------------------------------------------
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 152
+There is a new \f[I]ucsdpsys_osmakgen\fP(1) command, used to write the
+\f[CW]Makefile\fP for the ucsd\[hy]psystem\[hy]os project.
+.\" Change 170
+.\" Change 169
+.\" Change 166
+.\" Change 154
+.\" Change 158
+.\" Change 164
+.\" Change 163
+.\" Change 161
+.\" Change 159
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 175
+The \f[I]ucsdpsys_setup\fP(1) command now accepts an \fB\-\-arch\fP option, in
+order to select the byte sex of the \f[CW]SYSTEM.MISCINFO\fP file
+it generates.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 168
+There is a new \f[I]ucsdpsys_errors\fP(1) command, to translating the
+assembler error files from text to binary.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 167
+The \f[I]ucsdpsys_opcode\fP(1) command now understands the opcode file
+format used by the UCSD Adaptive Assembler.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 160
+A bug has been fixed in the \f[I]ucsdpsys_depends\fP(1) command, it no
+longer writes to a file called \[lq]\-\[rq] when it should write to the
+standard output.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 157
+The \f[I]ucsdpsys_librarian\fP(1) command has a new
+\f[CW]\-\-remove\[hy]system\[hy]segments\fP option, used to remove dummy
+segments from a \f[CW](*$U\-*)\fP utility.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 155
+The \f[I]ucsdpsys_librarian\fP(1) command is now able to renumber segments
+when they are transferred bwtween codefiles.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 153
+The \f[I]ucsdpsys_compile\fP(1) command has a new \fB\-\-host\fP option,
+that allows you to set the byte\[hy]sex based on the name of the host.
+Which helps those of us who don't necessarily remember what endian\[hy]ness
+all of the hosts actually are.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 83
+The \f[I]ucsdpsys_assemble\fP(1) command has a new \fB\-\-architecture\fP
+option, to permit the target architecture to be set from the command line.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 88
+.\" Change 148
+.\" Change 144
+The \f[I]ucsdpsys_assemble\fP(1) multi\[hy]target cross assembler now
+has the beginnings of support for PDP\[hy]11 assembler.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 19
+The cross compiler is now able to recognize the ord/odd hack
+(used to gain access to bit\[hy]wise opcodes) and turn such
+expression trees from logical operations into bit\[hy]wise
+operations.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 33
+The disassembler no longer rejects valid machine code segments
+with very short procedures.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 41
+.\" Change 43
+.\" Change 32
+.\" Change 82
+.\" Change 29
+.\" Change 34
+The \f[I]ucsdpsys_assemble\fP(1) multi\[hy]target cross assembler
+now has beginnings of 6502 support,
+including both the MosTech syntax and the Apple syntax.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 87
+A bug has been fixed in the cross compiler, it now generates the
+correct opcode for the inline\[hy]math sqrt function.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 25
+The assembler now has a \f[CW].radix\fP pseudo\[hy]op, that may be used to
+change the default radix being used by the assembler.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 18
+A bug has been fixed in repeat/until statements, it was
+generating no code in some cases.
+.\" ------------------------------------------------------------------------
+.\" Add new entries above this line.
+.SS Version 0.6 (2010\[hy]May\[hy]30)
+.\" vim: set ts=8 sw=4 et :

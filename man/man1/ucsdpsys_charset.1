@@ -1,0 +1,260 @@
+'\" t
+.\" UCSD p-System cross compiler
+.\" Copyright (C) 2006, 2007, 2010-2012 Peter Miller
+.\"
+.\" This program is free software; you can redistribute it and/or modify
+.\" it under the terms of the GNU General Public License as published by
+.\" the Free Software Foundation; either version 3 of the License, or
+.\" (at your option) any later version.
+.\"
+.\" This program is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+.\" General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU General
+.\" Public License along with this program.  If not, see
+.\" <http://www.gnu.org/licenses/>.
+.\"
+.ad b
+.ds n) ucsdpsys_charset
+.TH \*(n) 1 ucsd\[hy]psystem\[hy]xc "Reference Manual"
+.SH NAME
+ucsdpsys_charset \- UCSD p\[hy]System font builder
+.if require_index \{
+.XX "ucsdpsys_charset(1)" "UCSD p\[hy]System font builder"
+.\}
+.if require_index \{
+.XX "ucsdpsys_charset(1)" "UCSD p\[hy]System font builder"
+.\}
+.SH SYNOPSIS
+\fB\*(n)\fP \fB\-d\fP [ \f[I]input\[hy]binary\[hy]file\fP
+[ \f[I]output\[hy]text\[hy]file\fP [ \f[I]output\[hy]png\[hy]file\fP ]]]
+.sp 0.3
+\fB\*(n)\fP \fB\-e\fP [ \f[I]input\[hy]text\[hy]file\fP
+[ \f[I]output\[hy]binary\[hy]file\fP [ \f[I]input\[hy]png\[hy]file\fP ]]]
+.sp 0.3
+\fB\*(n) \-V\fP
+.SH DESCRIPTION
+The \fI\*(n)\fP program is used to decode and encode font characters for
+use as the \f[CW]SYSTEM.CHARSET\fP file.
+.br
+.ne 1i
+.SH OPTIONS
+The following options are understood:
+.\" ----------  A  ---------------------------------------------------------
+.so man/man1/o_architecture.so
+.\" ----------  D  ---------------------------------------------------------
+.TP 8n
+.B \-d
+.TQ 8n
+.B \-\-decode
+Decode the binary font file into a text file which can be edited.
+.\" ----------  E  ---------------------------------------------------------
+.TP 8n
+.B \-e
+.TQ 8n
+.B \-\-encode
+Encode a text file representation of the glyphs of the font
+into the binary for used for the \f[CW]SYSTEM.CHARSET\fP file.
+.\" ----------  H  ---------------------------------------------------------
+.so man/man1/o_host.so
+.\" ----------  I  ---------------------------------------------------------
+.TP 8n
+.B \-i
+.TQ 8n
+.B \-\-include
+Encode a text file representation of the glyphs of the font
+into C code for an include file to define an array of bytes of data.
+.TP 8n
+\fB\-\-input\-format=\fP\f[I]name\fP
+.RS
+This option is used to select the format of the input file to the
+conversion.  Whenever possible, the input file is examined to determine
+the format, but this is not always correct.  Use this option if you need
+to eliminate the guess work.
+.TP 8n
+apple
+The 1024 byte Apple Pascal 7\[mu]8 SYSTEM.CHARSET file format.
+.TP 8n
+terak
+The 2048..3072 byte Terak 8\[mu]10 SYSTEM.CHARSET file format.
+.TP 8n
+text
+The default text format used by the ucsd\[hy]psystem\[hy]os project.
+.TP 8n
+psftools
+The text file format used by the PSF Tools project.  This facilitates
+import of font data from numerous source formats, by using PSF Tools to
+convert the data.
+.RE
+.\" ----------  N  ---------------------------------------------------------
+.TP 8n
+\fB\-\-negative\fP
+.TQ
+\fB\-\-invert\-top\-half\fP
+This option requests that the \[lq]top half\[rq] 128..255 of the font be
+calculated form the \[lq]bottom half\[rq] 0..127 by inverting the pixels
+of the glyphs corresponding glyphs.
+This is very common in the Terak fonts.
+Apple fonts don't have a top half.
+.\" ----------  O  ---------------------------------------------------------
+.TP 8n
+\fB\-\-output\-format=\fP\f[I]name\fP
+.RS
+This option is used to select the format if the output file of the
+conversion.  This con often be inferred by context, but this is not
+always correct.  Use this option if you need to eliminate the guess
+work.
+.TP 8n
+apple
+The 1024 byte Apple Pascal 7\[mu]8 SYSTEM.CHARSET file format.
+.TP 8n
+terak
+The 2048..3072 byte Terak 8\[mu]10 SYSTEM.CHARSET file format.
+.TP 8n
+text
+The default text format used by the ucsd\[hy]psystem\[hy]os project.
+.TP 8n
+psftools
+The text file format used by the PSF Tools project.  This facilitates
+export of font data to numerous source formats, by using PSF Tools to
+convert the data.
+.RE
+.\" ----------  V  ---------------------------------------------------------
+.TP 8n
+.B \-V
+.TQ 8n
+.B \-\-version
+Print the version of the \fI\*(n)\fP program being executed.
+.\" ----------  Z  ---------------------------------------------------------
+.PP
+All other options will produce a diagnostic error.
+.so man/man1/z_exit.so
+.so man/man1/z_copyright.so
+.bp
+.SH SYSTEM.CHARSET FILE FORMAT
+The format of the \f[CW]SYSTEM.CHARSET\fP file is host dependent.  It
+had to adapt to the needs of the hardware, and 64kB machines had little
+luxury for more generalized font mechanisms, or variable pitch.
+.SS Terak
+From \f[I]Terak UCSD Pascal Version II.0 Operating System
+Software Release Guide
+for the
+Terak Graphics Computer Systems
+60\[hy]01330001A\fP, pp. 29\[hy]30.
+.PP
+\f[B]4.4. Character Set File Characteristics\fP
+.br
+\f[B]4.4.1. 8510 Monochromatic Character Set Format\fP
+.PP
+The character set of the 8510 Monochromatic Graphics Computer System
+must be initialized by the system software.  It is fetched from a system
+file named \f[CW]SYSTEM.CHARSET\fP which must be present on the diskette used to
+boot the system.  If the system power has not been turned off since the
+last character set load and the bootstrap finds no file \f[CW]SYSTEM.CHARSET\fP
+the previously loaded character set is retained.
+.PP
+The standard English language character set is present in the file
+\f[CW]SYSTEM.CHARSET\fP on the system disk provided with the Terak UCSD Pascal
+II.0 Software System.  A number of additional character sets are
+provided.  Using the system FILER, the standard character set can be
+replaced with one of the alternates by transferring the chosen character
+set file to the working diskette and renaming it \f[CW]SYSTEM.CHARSET\fP
+.PP
+The 8510 monochromatic character set file carries the extension
+\[lq]\f[CW]\&.CHARSET\fP\[rq].  The utilities for working with a monochromatic
+character set will use this extension as the default.  A monochromatic
+character set file contains a packed image of 192 character templates.
+Each template is a 10\[hy]byte field
+representing 10 rows (top row first) of 8 pixels each.  The right\[hy]most
+pixel corresponds to the least significant bit (of the byte) of a
+character.  Each half of the character set file contains a packed array
+of 96 character templates, covering character codes 40 (octal) thru
+177 in the first half (the standard set) and codes 240 thru 377 in
+the second half (the alternate set).  In general, each character in
+the alternate character set is the video reverse of the corresponding
+character in the standard set, but this need not be the case, as each
+half is created and modified separately by the Monochromatic Character
+Set Editor (CHEDIT) .
+.PP
+Monochromatic character sets have a fixed 8\[hy]bit by 10\[hy]bit template.  The
+96 alternate characters may be accessed from a program by setting bit 8
+of the character to be displayed.  In the text editor, typing the DC1 key
+will toggle between the standard and alternate character sets.
+.TP 4n
+Bytes 1\-960:
+These bytes contain the standard character set.  Each 10 bytes represents
+a printable character between 32 (blank) and 127 (delete).  The
+character matrix is a fixed 8 bits by 10 bits; if a bit in a byte = 1,
+then a pixel in the character is illuminated.  In the 10 by 8 bit array,
+1,1 is the upper right corner and 10,8 is the lower left.
+.TP
+Bytes 961\-1024:
+Filler for an even block boundary.
+.TP
+Bytes 1025\-1985:
+These bytes contain the alternate character set.  Each 10 bytes represent
+a printable character between 160 (alternate blank) and 255 (alternate
+delete).  As with the standard character set, the character matrix is a
+fixed 8 bits by 10 bits.  If a bit in a byte = 1, then a pixel in the
+character is illuminated.  In the 10 by 8 bit array, 1,1 is the upper
+right corner and 10,8 is the lower left.
+.TP
+Bytes 1986\-2048:
+Filler for an even block boundary.
+.TP
+Bytes 2049\-3072:
+If the character set file is 5 blocks in length, these bytes contain the
+graphics logo (64\[mu]64) displayed on the monochrome monitor at boot time.
+.SS Apple
+From \f[I]Apple Pascal Language Reference Manual\fP, pp. 99\[hy]100.
+.PP
+If you wish to create your own character set for use with WCHAR and
+WSTRING, it must be structured as follows:
+.TP 2m
+\[bu]
+The file consists of 1024 bytes.
+.TP
+\[bu]
+Starting with the first byte in the file, each character is
+the character set is represented by 8 contiguous bytes.
+The first byte of each character representation is the
+bottom row of the image.
+.TP
+\[bu]
+The least significant bit of each byte is the left most dot in
+the row.
+.TP
+\[bu]
+The most significant bit of each byte is ignored; the rows are
+only seven dots each.
+.PP
+Such a file can be created either in assembly language or in Pascal.
+In Pascal, you can build the character representations in memory as packed
+arrays of the type 0..255 since each element of such an array is in
+effect a byte.  For example, you might use the declarations
+.PP
+.RS
+.nf
+.ft CW
+TYPE CHARIMAGE = PACKED ARRAY[0..7] OF 0..255;
+     CHARSET = PACKED ARRAY[0..127] OF CHARIMAGE;
+     CHARFILE = FILE OF CHARSET;
+
+VAR CHARACTERS: CHARSET;
+    OUTFILE: CHARFILE;
+.ft R
+.fi
+.RE
+.SH SEE ALSO
+.TP 8n
+PSF Tools
+http://www.seasip.demon.co.uk/Unix/PSF/
+.TP 8n
+ucsd\[hy]psystem\[hy]os
+The programs which collectively form the UCSD p\[hy]System operating
+system II.0.
+.br
+http://miller.emu.id.au/pmiller/ucsd\[hy]psystem\[hy]os/
+.\" vim: set ts=8 sw=4 et :

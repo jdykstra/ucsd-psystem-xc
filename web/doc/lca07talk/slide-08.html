@@ -1,0 +1,123 @@
+.\"
+.\" UCSD p-System cross compiler
+.\" Copyright (C) 2006, 2007, 2012 Peter Miller
+.\"
+.\" This program is free software; you can redistribute it and/or modify
+.\" it under the terms of the GNU General Public License as published by
+.\" the Free Software Foundation; either version 2 of the License, or (at
+.\" you option) any later version.
+.\"
+.\" This program is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+.\" General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU General Public License along
+.\" with this program. If not, see <http://www.gnu.org/licenses/>
+.\"
+.ad l
+.hy 0
+<html>
+<head>
+<title>
+Compilers and Factories, 8
+</title>
+</head>
+<body>
+    <table width="100%"><tr><td>
+    <a href="slide-07.html"><img src="back.png" alt="Back" border=0></a>
+    </td><td align="right">
+    <a href="slide-09.html"><img src="next.png" alt="Next" border=0></a>
+    </td></tr></table>
+<h1 align=center>
+<img src="polymorphism.png" alt="Polymorphism">
+</h1>
+
+The equivalent code in C++ code uses polymorphism.  It is more verbose,
+but it is less fragile in maintenance mode, and as fast or faster, and
+uses slightly less storage.  The union ID becomes the <i>vptr</i>.
+
+<table align="center">
+
+<tr><td valign="top" bgcolor="#ddffdd" width=400>
+<small><pre>
+class expression
+{
+public:
+    virtual ~expression();
+    expression();
+    virtual char *text() = 0;
+    <b>virtual</b> bool is_constant() = 0;
+    <b>virtual</b> expr *optimize() = 0;
+    <b>virtual</b> void generate_code() = 0;
+    <i>etc etc etc</i>
+};
+</small></pre>
+</td><td valign="top" bgcolor="#eeffee" rowspan=2>
+<small><pre>
+expression_plus::~expression_plus()
+{
+    delete lhs;
+    delete rhs;
+}
+
+expression_plus::expression_plus(expression *a1,
+        expression *a2) :
+    lhs(a1),
+    rhs(a2)
+{
+}
+
+bool
+expression_plus::is_constant()
+{
+    return lhs->is_constant() && rhs->is_constant();
+}
+
+void
+expression_plus::generate_code()
+{
+    lhs->generate_code();
+    rhs->generate_code();
+    emit_opcode(OP_ADI);
+}
+</pre></small>
+</td></tr>
+
+<tr><td valign="top" bgcolor="#eeffee" width=400>
+<small><pre>
+class expression_plus:
+    public expression
+{
+public:
+    virtual ~expression_plus();
+    expression_plus(expression *, expression *);
+    char *text();
+    bool is_constant();
+    expr *optimize();
+    void generate_code();
+    <i>etc etc etc</i>
+private:
+    expression *lhs;
+    expression *rhs;
+};
+</pre></small>
+</td></tr>
+</table>
+
+<dl>
+<dt><b>Polymorphism</b><dd>
+the ability of objects belonging to different types to respond to method
+calls of methods of the same name, each one according to an appropriate
+type-specific behaviour.  The programmer (and the program) does not have
+to know the exact type of the object in advance, so this behavior can be
+implemented at run time.
+(<i><a
+.nf
+href="http://en.wikipedia.org/wiki/Polymorphism_in_object-oriented_programming"
+.fi
+>Wikipedia</a></i>)
+</dl>
+</body>
+</html>
+.\" vim: set ts=8 sw=4 et :

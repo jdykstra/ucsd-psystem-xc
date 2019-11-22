@@ -1,0 +1,110 @@
+'\" t
+.\"     UCSD p-System cross compiler
+.\"     Copyright (C) 2011, 2012 Peter Miller
+.\"
+.\"     This program is free software; you can redistribute it and/or modify
+.\"     it under the terms of the GNU General Public License as published by
+.\"     the Free Software Foundation; either version 3 of the License, or
+.\"     (at your option) any later version.
+.\"
+.\"     This program is distributed in the hope that it will be useful,
+.\"     but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\"     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\"     GNU General Public License for more details.
+.\"
+.\"     You should have received a copy of the GNU General Public License
+.\"     along with this program. If not, see
+.\"     <http://www.gnu.org/licenses/>.
+.\"
+.ds n) ucsdpsys_pretty
+.TH \*(n) 1 ucsd-psystem-xc "Reference Manual"
+.SH NAME
+ucsdpsys_pretty \- UCSD p\[hy]System Pascal pretty printer
+.if require_index \{
+.XX "ucsdpsys_pretty(1)" "UCSD p\[hy]System Pascal pretty printer"
+.\}
+.SH SYNOPSIS
+\fB\*(n)\fP [ \f[I]option\fP... ] \f[I]filename\fP
+.br
+\fB\*(n)\fP \fB\-\-version\fP
+.SH DESCRIPTION
+The \fI\*(n)\fP program is used to re\[hy]format the source file of a Pascal
+program.  The re\[hy]formatted program is written to the standard output.
+.br
+.ne 1i
+.SH OPTIONS
+The following options are understood:
+.\" --------  A  -----------------------------------------------------------
+.\" --------  B  -----------------------------------------------------------
+.\" --------  C  -----------------------------------------------------------
+.\" --------  D  -----------------------------------------------------------
+.TP 8n
+\fB\-d\fP
+.TQ 8n
+\fB\-\-debug\fP
+This option may be used to increase the verbosity of debug output.
+May be specified more than once.
+.\" --------  E  -----------------------------------------------------------
+.\" --------  F  -----------------------------------------------------------
+.TP 8n
+\fB\-f\fP\f[I]name\fP
+.TQ 8n
+\fB\-\-feature\fP \f[I]name\fP
+This option may be used to turn enable or disable the various features.
+See \f[I]ucsdpsys_compile\fP(1) for more information.
+.\" --------  G  -----------------------------------------------------------
+.\" --------  H  -----------------------------------------------------------
+.\" --------  I  -----------------------------------------------------------
+.TP 8n
+\fB\-I\fP\f[I]directory\fP
+.TQ 8n
+\fB\-\-include\fP \f[I]directory\fP
+This option may be used to nominate a directory to be search for include files.
+This option may be used more than once.
+.\" --------  J  -----------------------------------------------------------
+.\" --------  K  -----------------------------------------------------------
+.\" --------  L  -----------------------------------------------------------
+.\" --------  M  -----------------------------------------------------------
+.\" --------  N  -----------------------------------------------------------
+.\" --------  O  -----------------------------------------------------------
+.TP 8n
+\fB\-o\fP\f[I]filename\fP
+.TQ 8n
+\fB\-\-output\fP \f[I]filename\fP
+This option may be used to redirect the output to the named file.
+If not specified, output will be written to the standard output.
+.\" --------  P  -----------------------------------------------------------
+.\" --------  Q  -----------------------------------------------------------
+.\" --------  R  -----------------------------------------------------------
+.\" --------  S  -----------------------------------------------------------
+.\" --------  T  -----------------------------------------------------------
+.\" --------  U  -----------------------------------------------------------
+.\" --------  V  -----------------------------------------------------------
+.TP 8n
+\fB\-V\fP
+.TQ 8n
+\fB\-\-version\fP
+Print the version of the
+.I \*(n)
+program being executed.
+.\" --------  W  -----------------------------------------------------------
+.TP 8n
+\fB\-W\fP\f[I]name\fP
+.TQ 8n
+\fB\-\-warning\fP \f[I]name\fP
+This option may be used to enable or disable the various warnings.
+See \f[I]ucsdpsys_compile\fP(1) for more information.
+.\" --------  X  -----------------------------------------------------------
+.\" --------  Y  -----------------------------------------------------------
+.TP 8n
+\fB\-y\fP
+.TQ 8n
+\fB\-\-grammar\-trace\fP
+Turn on parse debugging.  Very verbose.
+Intended for compiler developers only.
+.\" --------  Z  -----------------------------------------------------------
+.PP
+All other options will produce a diagnostic error.
+.so man/man1/z_exit.so
+.so man/man1/z_copyright.so
+.\" vim: set ts=8 sw=4 et :

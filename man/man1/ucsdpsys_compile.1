@@ -1,0 +1,830 @@
+'\" t
+.\"     UCSD p-System cross compiler
+.\"     Copyright (C) 2006, 2007, 2010-2012 Peter Miller
+.\"
+.\"     This program is free software; you can redistribute it and/or modify
+.\"     it under the terms of the GNU General Public License as published by
+.\"     the Free Software Foundation; either version 3 of the License, or
+.\"     (at your option) any later version.
+.\"
+.\"     This program is distributed in the hope that it will be useful,
+.\"     but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\"     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\"     GNU General Public License for more details.
+.\"
+.\"     You should have received a copy of the GNU General Public License
+.\"     along with this program. If not, see
+.\"     <http://www.gnu.org/licenses/>.
+.\"
+.ds n) ucsdpsys_compile
+.TH \*(n) 1 ucsd\[hy]psystem\[hy]xc "Reference Manual"
+.SH NAME
+ucsdpsys_compile \- compile Pascal source to UCSD p\[hy]System code file
+.if require_index \{
+.XX "ucsdpsys_compile(1)" "compile Pascal source to UCSD p\[hy]System code file"
+.\}
+.SH SYNOPSIS
+\fB\*(n)\fP [ \fIoption\fP... ] \fIfilename\fP
+.br
+\fB\*(n) \-V\fP
+.SH DESCRIPTION
+The \fI\*(n)\fP program is used to
+compile Pascal source code to UCSD p\[hy]System code files.
+.br
+.ne 1i
+.SH OPTIONS
+The following options are understood:
+.\" ----------  A  ---------------------------------------------------------
+.so man/man1/o_architecture.so
+This option may be used to specify the machine architecture
+from the command line.
+This option behaves as if there was a
+\f[CW](*$feature host \fP\f[I]name\fP\f[CW]*)\fP
+comment at the start of the source file.
+There is an equivalent option for the \f[I]ucsdpsys_assemble\fP(1) command.
+.\" ----------  B  ---------------------------------------------------------
+.\" ----------  C  ---------------------------------------------------------
+.\" ----------  D  ---------------------------------------------------------
+.\" ----------  E  ---------------------------------------------------------
+.\" ----------  F  ---------------------------------------------------------
+.TP 8n
+\fB\-f\fP \f[I]feature\[hy]name\fP\fB=\fP\f[I]value\fP
+.TQ 8n
+\fB\-\-feature=\fP\f[I]feature\[hy]name\fP\fB=\fP\f[I]value\fP
+Set the selected feature to the given boolean value.
+(List of features may be found below.)
+.TP 8n
+\fB\-f\fP \f[I]feature\[hy]name\fP
+.TQ 8n
+\fB\-\-feature=\fP\f[I]feature\[hy]name\fP
+Set the selected feature to true.
+.TP 8n
+\fB\-f no\[hy]\fP\f[I]feature\[hy]name\fP
+.TQ 8n
+\fB\-\-feature=no\[hy]\fP\f[I]feature\[hy]name\fP
+Set the selected feature to false.
+.\" ----------  G  ---------------------------------------------------------
+.\" ----------  H  ---------------------------------------------------------
+.so man/man1/o_host.so
+This option may be used to specify the host machine
+from the command line.
+This option behaves as if there was a
+\f[CW](*$feature host \fP\f[I]name\fP\f[CW]*)\fP
+comment at the start of the source file.
+There is an equivalent option for the \f[I]ucsdpsys_assemble\fP(1) command.
+.\" ----------  I  ---------------------------------------------------------
+.TP 8n
+\fB\-I\fP \f[I]directory\fP
+.TQ 8n
+\fB\-\-include=\fP\f[I]directory\fP
+This option is used to specify an include file directory to search.
+This option may be given more than once.
+.\" ----------  J  ---------------------------------------------------------
+.TP 8n
+\fB\-J\fP \f[I]directory\fP
+.TQ 8n
+\fB\-\-view\[hy]path=\fP\f[I]directory\fP
+This option is used to specify a directory to append to the view path.
+This option may be given more than once.
+.\" ----------  K  ---------------------------------------------------------
+.\" ----------  L  ---------------------------------------------------------
+.TP 8n
+\fB\-L\fP \f[I]directory\fP
+.TQ 8n
+\fB\-\-library\[hy]path=\fP\f[I]directory\fP
+This option may be used to add another directory to the list of
+directories to be searched for library codefiles.  This option may
+be used more than once, directories will be searched in the order
+specified.
+.TP 8n
+\fB\-\-listing=\fP\f[I]filename\fP
+This option maybe used to name a file to accept the compiler listing.
+By default, no listing is produced.  The file name \[lq]\-\[rq] is
+understood to mean the standard output.  The listing will consist of the
+source code interleaved with the disassembled p\[hy]code.
+.TP 8n
+\fB\-l\fP
+.TQ 8n
+\fB\-\-long\[hy]addresses\fP
+This option may be used to emit addresses in into the listing as
+\[lq]s\f[I]n\fP p\f[I]n\fP o\f[I]nnn\fP\[rq] (\f[I]i.e.\fP the segment
+number, procedure number, and procedure offset).  This is the same
+format used by the \f[I]ucsdpsys_cm\fP(1) \fB\-\-trace\fP option, making
+it easier to cross reference from the trace back into the compiler
+listing.
+Has no effect without the \fB\-\-listing\fP option.
+.\" ----------  M  ---------------------------------------------------------
+.\" ----------  N  ---------------------------------------------------------
+.\" ----------  O  ---------------------------------------------------------
+.TP 8n
+\fB\-o\fP \fIfilename\fP
+.TQ 8n
+\fB\-\-output=\fP\fIfilename\fP
+This option may be used to set the name of the output file.
+It defaults to the name of the source file, with the suffix replaced with
+\[lq]\f[CW].code\fP\[rq].
+.\" ----------  P  ---------------------------------------------------------
+.so man/man1/o_pmachine.so
+.\" ----------  Q  ---------------------------------------------------------
+.\" ----------  R  ---------------------------------------------------------
+.\" ----------  S  ---------------------------------------------------------
+.\" ----------  T  ---------------------------------------------------------
+.\" ----------  U  ---------------------------------------------------------
+.\" ----------  V  ---------------------------------------------------------
+.TP 8n
+\fB\-V\fP
+.TQ 8n
+\fB\-\-version\fP
+Print the version of the \fI\*(n)\fP program being executed.
+.TP 8n
+\fB\-v\fP
+.TQ 8n
+\fB\-\-verbose\fP
+Verbose.  Statistics about the compilation are printed.
+.\" ----------  W  ---------------------------------------------------------
+.TP 8n
+\fB\-W\fP \f[I]warning\[hy]name\fP\fB=\fP\f[I]value\fP
+.TQ 8n
+\fB\-\-warning=\fP\f[I]warning\[hy]name\fP\fB=\fP\f[I]value\fP
+Set the selected warning to the given boolean value.
+(List of warnings may be found below.)
+.TP 8n
+\fB\-W\fP \f[I]warning\[hy]name\fP
+.TQ 8n
+\fB\-\-warning=\fP\f[I]warning\[hy]name\fP
+Set the selected warning to true.
+For example, use \[lq]\f[CW]\-Werror\fP\[rq] to turn all warnings into
+fatal errors.
+.TP 8n
+\fB\-W no\[hy]\fP\f[I]warning\[hy]name\fP
+.TQ 8n
+\fB\-\-warning=no\[hy]\fP\f[I]warning\[hy]name\fP
+Set the selected warning to false.
+For example, use \[lq]\f[CW]\-Wno\[hy]shadow\fP\[rq] to disable shadow warnings.
+.\" ----------  X  ---------------------------------------------------------
+.\" ----------  Y  ---------------------------------------------------------
+.TP 8n
+\fB\-y\fP
+.TQ 8n
+\fB\-\-grammar\[hy]trace\fP
+Turn on parse debugging.  Very verbose.
+Intended for compiler developers only.
+.\" ----------  Z  ---------------------------------------------------------
+.PP
+All other options will produce a diagnostic error.
+.SH ENVIRONMENT VARIABLES
+.TP 8n
+UCSD_PSYSTEM_XC_LIBRARY_PATH
+This is a colon\[hy]separated list of directories to be searched for
+codefiles containing library UNIT segments.
+.so man/man1/z_exit.so
+.SH SEE ALSO
+.TP 8n
+\f[I]ucsdpsys_assemble\fP(1)
+UCSD p\[hy]System cross assembler, for multiple CPU types
+.TP 8n
+\f[I]ucsdpsys_disassemble\fP(1)
+A utility to disassemble UCSD p\[hy]System codefiles.
+.TP 8n
+\f[I]ucsdpsys_link\fP(1)
+UCSD p\[hy]System codefile linker
+.so man/man1/z_copyright.so
+.bp
+.SH DIFFERENCES
+.if require_index \{
+.XX "" "Deviations from UCSD p\[hy]System Pascal"
+.\}
+There are a number of differences between this cross compiler and the
+UCSD p\[hy]System native Pascal compiler.
+.\" ------------------------------------------------------------------------
+.SS Policy
+In developing the cross compiler, a number of design decisions had to
+be made.  This section is more\[hy]or\[hy]less how to decide what to do in the
+interesting places.
+.TP 2n
+\[bu]
+When you can, do static analysis.  Finding bugs at compile time
+is better than finding bugs at run time, or worse, not finding them.
+.TP 2n
+\[bu]
+Evaluate constant expressions at compile time (no warning required).
+It makes for smaller code, and it also allows more static analysis.
+.TP 2n
+\[bu]
+Adding a new feature is OK, but all new features must issue a warning
+that the native compiler can't do it, and all new features need a
+(*$warning*) setting to turn off the warning if the user is doing it on
+purpose.
+.TP 2n
+\[bu]
+Adding new features for better ISO 7185:1990 Standard Pascal compliance
+is a good thing.
+.TP 2n
+\[bu]
+If new features are so different that they are disabled by default, and
+have a (*$feature*) setting to turn them on, they don't need a warning
+as well.
+.TP 2n
+\[bu]
+There is no need to produce code that is identical to that produced by
+the native compiler.  If you can produce better code, without changing
+the meaning, or the results, go for it.
+.TP 2n
+\[bu]
+Short circuit boolean evaluations subtly break at last one of the above
+policies, in the case where function calls within the conditions have
+side effects.  When we have enough flow analysis to know if functions
+have side effects, we can issue warnings.
+.TP 2n
+\[bu]
+It is essential that parameters are pushed onto the stack identically
+to the native compiler, or system calls will stop working.  The same
+applies how parameters are allocated space in the stack frame.
+.TP 2n
+\[bu]
+There is more leniency for variable allocations,
+especially temporary variables.
+.TP 2n
+\[bu]
+There is some evidence, in the system utilities, of using weird negative
+array indexes to access system internals.  There is no need to try for
+backwards compatibility in this, and thus no need for identical stack
+frame layouts, in order to preserve stack sizes for said weird negative
+offsets to continue to \[lq]work\[rq].
+.TP 2n
+\[bu]
+There is no need to reproduce native compiler bugs, provided that they
+really are bugs, and not mis\[hy]features that programs relied on.
+This clause is last, because it shouldn't be used very often.
+.PP
+At some point you are going to find stuff that is FUBAR:
+document it (see below).
+.\" ------------------------------------------------------------------------
+.SS Cross Compiler
+It is called a cross compiler because, rather than generate native code
+for the system the compiler is running on, it instead generates code to
+be run on a different system; in this case the UCSD p\[hy]System.  The code
+must be moved across to be executed.
+.PP
+The \f[I]\*(n)\fP(1) program does not run natively on a UCSD p\[hy]System,
+so it does not have to be invoked manually.
+The cross compiler can exist in a modern software development tool chain,
+and can be executed by build tools such as \f[I]make\fP(1).
+.PP
+You do not have to have a working UCSD p\[hy]System in order to compile
+UCSD Pascal programs.  This makes it possible to bootstrap a new UCSD
+p\[hy]System \[lq]from scratch\[rq].
+.\" ------------------------------------------------------------------------
+.SS Error Reporting
+The error messages are vastly improved.  Wherever possible accurate
+location data is included in messages, along with names and types.
+.PP
+The location of symbol declarations is tracked, so that errors relating
+to that symbol can refer back to the declaration location.
+.PP
+If you have spent the last 25 years writing C (or some other language
+with C\[hy]like syntax) the compiler will remind you whenever it sees an
+equality (=) operator where there should be an assignment (:=) operator.
+This is more helpful than \[lq]syntax error\[rq].
+Some other C\[hy]isms are also diagnosed.
+.\" ------------------------------------------------------------------------
+.SS Declarations
+The values presented to CONST declarations may be any expression,
+provided it evaluates to a constant value at compile time.
+A non\[hy]constant will be an error (but not a syntax error).
+.PP
+When declaring array types, and integer subrange types, expressions
+within the declaration may be any expression, provided they evaluate to
+constant values at compile time.
+.SS Boolean Expressions
+The cross compiler uses short\[hy]circuit evaluation of boolean expressions.
+For example, if the result of a logical AND expression can be determined
+from the left\[hy]hand side (being false) the right\[hy]hand side is never
+evaluated.  Similarly, if the result of a logical OR expression can be
+determined from the left hand side (being true) the right\[hy]hand side is
+never evaluated.
+.PP
+The cross compiler also makes use of the NFJ and EFJ opcodes that were
+present in the p\[hy]machine used by Apple Pascal, but were never generated
+by the Apple Pascal native compiler.
+.PP
+The UCSD native compiler did not allow nested SEGMENT procedures and functions.
+It would emit a \[lq]399 Implementation restriction\[rq] error if you did so.
+The cross compiler does not have this restriction.
+.\" ------------------------------------------------------------------------
+.SS Lexical Enhancements
+It is possible to use hexadecimal notation for integer constants, they
+have a leading dollar (\[lq]\f[CW]$\fP\[rq]) followed by hexadecimal
+digits, in either case.  This feature is common in modern Pascal
+implementations, but was not present in UCSD Pascal.
+.PP
+It is possible to use binary notation for integer constants, they have a
+leading percent (\[lq]\f[CW]%\fP\[rq]) followed by decimal digits.
+This feature is common in modern Pascal implementations, but was not
+present in UCSD Pascal.
+.PP
+It is possible to use exponential notation for real constants.
+That is, numbers such as \[lq]1.2e6\[rq] are recognized;
+exponents can be negative, too.
+This feature is common in modern Pascal implementations, but was not
+present in UCSD Pascal.
+.\" ------------------------------------------------------------------------
+.SS Reserved Words
+The following identifiers are reserved keywords in this compiler:
+OTHERWISE, SCAN, SEPARATE, SIZEOF, WRITE and WRITELN.
+They were not reserved words in the UCSD native compiler.
+.PP
+In the case of SCAN, SIZEOF, WRITE and WRITELN, this is because these
+functions do not fall into the regular call grammar.  The parameters of
+these calls are not simple expressions, or have the option of not being
+simple expressions, but need additional grammar support.
+.PP
+OTHERWISE was added to case statements, see the relevant section of this
+man page.
+.PP
+SEPARATE is like EXTERNAL but there is no compiler support for this, yet;
+however this keywords does appear in UCSD p\[hy]System sources.
+.\" ------------------------------------------------------------------------
+.SS Inline Variable Declarations
+It is possible to declare variables in\[hy]line with the code.
+.RS
+.ft CW
+.nf
+function sqrt(x: real): real;
+var
+  result, diff: real;
+begin
+  result := x / 2;
+  repeat
+    begin
+      \f[CB]var\fP approx := result \- (sqr(result) \- x) / (2 * result);
+      diff := abs(approx \- result);
+      result := approx
+    end
+  until
+    diff < 1e\-6;
+  sqrt := result
+end
+.fi
+.ft R
+.RE
+The \f[I]approx\fP temporary variable is created on\[hy]the\[hy]fly and the
+symbol is forgotten at the end of the enclosing \f[CW]begin end\fP
+scope.  The storage it used is released, and may be re\[hy]use in another,
+later, \f[CW]begin end\fP scope.  The \f[CW]repeat until\fP statement
+is slightly different, variables declared in\[hy]line persist until the end
+of the until condition, so that variables create inside the loop may be
+used to control the loop.
+.PP
+This feature was not present in UCSD Pascal.  It was introduced to the
+cross compiler principally to verify the temporary variable behavior
+required by some \f[CW]with\fP and \f[CW]for\fP statements.
+.\" ------------------------------------------------------------------------
+.SS Bit\[hy]wise Operators
+The compiler has some extensions present in modern Pascal compilers,
+allowing bit\[hy]wise operations on integers,
+.PP
+In addition to logical NOT expressions,
+the cross complier understands bit\[hy]wise NOT expressions.
+They have the same notation and precedence,
+but take an integer operand and the result is an integer.
+.PP
+In addition to logical AND expressions,
+the cross complier understands bit\[hy]wise AND expressions.
+They have the same notation and precedence,
+but take integer operands and the result is an integer.
+.PP
+In addition to logical OR expressions,
+the cross complier understands bit\[hy]wise OR expressions.
+They have the same notation and precedence,
+but take integer operands and the result is an integer.
+.PP
+The bit\[hy]wise operators do not use short\[hy]circuit evaluation.
+.\" ------------------------------------------------------------------------
+.SS Labels and Goto
+It is possible to have named labels, not just numeric labels.
+Warnings rather than errors are issued when a \f[CW]goto\fP statement is used.
+.\" ------------------------------------------------------------------------
+.SS If Statement
+As mentioned in Boolean Expressions, above, the if statement
+uses short circuit evaluation for the control statement.
+.PP
+If control expression is constant, only the code for the relevant branch
+is generated.
+.\" ------------------------------------------------------------------------
+.SS Case Statement
+It is possible to place an OTHERWISE clause at the end of CASE
+statements.  It will be used for all values not matching one of the
+preceding case values.
+.PP
+Case values (to the left of the colon) may be any expression,
+provided they evaluate to constant values at compile time.
+.PP
+Pathological uses of CASE statements that produce a huge code explosion
+are diagnosed, and a much more informative error message is produced
+than that of the UCSD p\[hy]System native compiler.
+.PP
+The native compiler generates XJP opcodes with the following table
+always pointing backwards to each of the cases (each is positive).  This
+requires an unconditional branch around all of the cases to the XJP
+opcode at the end.  The \f[CW](*$feature short\[hy]case true*)\fP
+control comment
+may be used to reverse this order.  This generates code that is slightly
+smaller, slightly faster, and uses forward pointing self relative
+pointers (\f[I]i.e.\fP each is negative).  While negative self\[hy]relative
+pointers work correctly on the Klebsch implementation, it isn't known if they
+work correctly on all p\[hy]machine implementations (they should, signed and
+unsigned subtraction are the same thing on twos\[hy]compliment machines).
+.\" ------------------------------------------------------------------------
+.SS Code Size
+The native UCSD p\[hy]System compiler was constrained in the amount of memory
+it had available for generating code.  Function bodies were limited to
+about 1200 bytes of code, and segments were limited to about 28000 bytes
+total for all functions in the segment.
+.PP
+The \f[I]\*(n)\fP(1) command is able to generate segments as large as
+65534 bytes, which is patently overkill for running on a 64kB system,
+because you wouldn't be able to load it into memory, the system segments
+wouldn't have left enough room.
+Functions can be as large as you want, provided they all fit into their
+segment.  Truly huge procedures may run out of jump table entries,
+however, because there is no way to increase the limit of 64.
+.PP
+The native UCSD Pascal compiler also has a limit of 140 functions per
+segment.  This, again, was a memory size constraint.  The cross compiler
+can have up to 255 functions per segment (the limit of addressability)
+without difficulty.
+.PP
+When possible constant expressions, or constant parts of expressions,
+are evaluated at compile time, and inserted into the code as constants.
+This is usually less code than the native compiler produces.
+.\" ------------------------------------------------------------------------
+.SS Control Comments
+There are a number of control comments that have been added, to fine
+tune the operation of the cross compiler.
+All control comment names are case\[hy]\f[B]in\f[P]sensitive.
+.\" lib/translator/comment.cc
+.TP 8n
+(*$b*)
+Synonym for (*$feature big\[hy]endian true*)
+.TP 8n
+(*$d+*)
+Synonym for (*$feature debug true*)
+.TP 8n
+(*$f*)
+Synonym for (*$feature big\[hy]endian true*)
+.TP 8n
+(*$feature \f[I]name\fP \f[I]value\fP)
+.RS
+This control comment is used to set a number of compiler features.
+You can also control features from the command line, using the \fB\-f\fP option.
+The features are:
+.TP 8n
+big\[hy]endian [ \f[I]bool\fP ]
+This control comment tells the compiler will produce big\[hy]endian p\[hy]code
+rather than the default little\[hy]endian.  Defaults to false.
+.TP 8n
+chr\[hy]range\[hy]check \f[I]bool\fP
+.RS
+This control comment is used to enable (true) or disable (false) the
+generation of range checking opcode around CHR parameters.
+Defaults to false.
+.PP
+The range checks are only issued if this feature and the regular
+\f[I]range\[hy]check\fP feature are both true.
+.RE
+.TP 8n
+debug [ \f[I]bool\fP ]
+This control comment many be used to turn on (true) or off (false) the
+generation of break point (source code line) opcodes into the output.
+Defaults to false.
+.TP 8n
+efj\[hy]nfj \f[I]bool\fP
+This option may be used to control the use of EFJ and NFJ opcodes
+(used to optimize some branch conditions) in the unlikely case where
+they are not available on your p\[hy]Machine implementation.  (The Apple
+p\[hy]machine has them, and so does the Klebsch p\[hy]machine).  Defaults to
+true, generate these opcodes.
+.TP 8n
+extra\[hy]set\[hy]comparisons \f[I]bool\fP
+This option says to the LES POWR and GRT POWR opcodes.
+These were not present in the original UCSD p\[hy]machine,
+and the compiler does not use them by default.
+.TP 8n
+ignore\[hy]undefined\[hy]segment\[hy]zero \f[I]bool\fP
+.RS
+The compiler always checks for procedures and functions that were
+declared forward, but were not later defined, and issues a fatal
+error for each such symbol.  This option tells the compiler to ignore
+procedures from segment zero that were declared forward, but were not
+defined.  This is only of use to system utilities.  Defaults to false.
+.PP
+You can turn this on and off for specific symbols.  The setting takes
+effect for all subsequent function and procedure declarations, if they
+are in segment zero.  To affect all of them, you must put the control
+comment at the start of the file, or on the command line.
+.RE
+.TP 8n
+inline\[hy]math \f[I]bool\fP
+.RS
+This flag is used to enable or disable the use of built\[hy]in math and trig
+functions that correspond to p\[hy]machine opcodes.  These were not in the
+Apple Pascal p\[hy]Machine (presumably) due to size constraints, but the
+p\[hy]machine spec still defines them.
+.PP
+This flag defaults to false, meaning you have to use the
+TRANSCENDENTAL unit if you want math functions.
+.PP
+This flag must be set prior to the PROGRAM or UNIT keywords,
+as it affects the contents of the built\[hy]in symbol table.
+.RE
+.TP 8n
+iocheck \f[I]bool\fP
+This control comment tells the compiler whether or not to issue IOCHECK
+opcodes after I/O statements.
+Defaults to true.
+.TP
+little\[hy]endian [ \f[I]bool\fP ]
+This is the opposite of the \f[I]big\[hy]endian\fP option.
+Defaults to true.
+.TP 8n
+long\[hy]integer\[hy]constants \f[I]bool\fP
+This option may be used to control constant folding of INTEGER[\f[I]n\fP]
+expressions, and the presence of long integer constants in the code.
+Defaults to true.
+.TP 8n
+long\[hy]integer\[hy]extensions \f[I]bool\fP
+This option may be used to control the use of INTEGER[\f[I]n\fP] opcode
+extensions (ABS, MOD, ODD, SQR) in the p\[hy]machine.  Defaults to false
+(most p\[hy]machine implementations don't have them).
+.TP 8n
+maximum\[hy]name\[hy]length \f[I]integer\fP
+The maximum length of an identifier.
+The setting must be in the range 8..32767.
+Defaults to 8, just as the UCSD native Pascal compiler did.
+.TP 8n
+range\[hy]check \f[I]bool\fP
+This control comment is used to enable (true) or disable (false) the
+generation of range checking opcode around array indexing and some
+assignments.  Defaults to true.
+.TP 8n
+short\[hy]case \f[I]bool\fP
+This control comment may be used to enable (true) or disable (false)
+the use of a shorter technique to generate CASE statements.
+Defaults to false.
+.TP 8n
+short\[hy]with \f[I]bool\fP
+This control comment may be used to enable (true) or disable (false)
+the use of a shorter technique to generate the implicit dot expressions
+required by WITH statements.  When enabled, if the base address in the
+WITH statement is simple enough, not temporary pointer value is created.
+When disabled, or when the base address expression is sufficiently
+complicated, a temporary pointer variable is used, just as in the UCSD
+native compiler.
+Defaults to true.
+.TP 8n
+tiny \f[I]bool\fP
+This control comment may be used to enable (true) or disable (false)
+several of the built\[hy]in functions.  This was a space\[hy]saving measure in
+the UCSD native compiler.  Defaults to false.
+.TP 8n
+underscore\[hy]significant \f[I]bool\fP
+This control comment may be used to modify the significance or
+underscores in identifiers (names).
+Setting to true gives ISO 10206 conforming behavior.
+Defaults to false, just as the UCSD native compiler did.
+.TP 8n
+user \f[I]bool\fP
+.RS
+This control comment may be used to enable (true) or disable (false)
+user\[hy]mode compiling.  Defaults to true.
+.PP
+The use of (*$feature user false*) produces system programs which use a
+different set of segments, and disable a number of other checks.  This
+is used when compiling the UCSD p\[hy]System itself, and a number of other
+system utilities.
+.RE
+.PP
+Other feature names will elicit diagnostic error messages.
+.RE
+.TP 8n
+(*$g+*)
+Synonym for (*$warning goto false*)
+.TP 8n
+(*$I\-*)
+Synonym for (*$feature io\[hy]check false*)
+.TP 8n
+(*$I \f[I]filename\fP *)
+Synonym for (*$include \f[I]filename\fP*)
+.TP 8n
+(*$include \f[I]filename\fP *)
+Include the named source file at this point in the code.
+The filename may not contain white space or comma characters.
+.TP 8n
+(*$r\-*)
+Synonym for (*$feature range\[hy]check false*)
+.TP 8n
+(*$r+*)
+Synonym for (*$feature range\[hy]check true*)
+.TP 8n
+(*$t+*)
+Synonym for (*$feature tiny true*)
+.TP 8n
+(*$u\-*)
+Synonym for (*$feature user false*)
+.TP 8n
+(*$warning \f[I]name\fP \f[I]value\fP *)
+.RS
+This control comment is used to enable and disable the various warnings
+produced by the compiler.
+You can also control warnings from the command line, using the \fB\-W\fP option.
+The warnings are:
+.TP 8n
+address\[hy]of \f[I]bool\fP
+This enables (true) or disables (false) the warning the accompanies the
+use of the address\[hy]of operator.  The address\[hy]of operator \[lq]@\[rq]
+allow you to take the address of a variable.  Most modern Pascal
+implementation have this, but the original UCSD p\[hy]System Pascal did not.
+Defaults to true.
+.TP 8n
+constant\[hy]branch \f[I]bool\fP
+This enables (true) or disables (false) warnings about constant control
+expressions for IF, WHILE, REPEAT UNTIL, and CASE statements.  Defaults
+to true.
+.TP 8n
+binary\[hy]constant \f[I]bool\fP
+The ability to write binary constants is a common feature of modern
+Pascal implementations, however they were not present in UCSD Pascal.
+When this flag is true, warnings are issued for binary constants
+(%01010) in the source code.  When this flag is false, binary
+constants are silently accepted.  Defaults to true.
+.TP 8n
+empty\[hy]parentheses \f[I]bool\fP
+This control comment may be used to enable (true) or disable (false) the
+warning that accompanies the use of empty parentheses for function calls
+and declarations.  This is a C coder coping strategy.  Defaults to true.
+.TP 8n
+error [ \f[I]bool\fP ]
+When this flag is true, all enabled warnings are treated as compile errors.
+When this flag is false, warnings do not cause the compile to fail.
+Defaults to false.
+.TP 8n
+goto \f[I]bool\fP
+This control comment may be used to enable (true) or disable (false) the
+warning is issued when the GOTO statement appears in the source code.
+Given that goto is considered harmful, it defaults to true.
+.TP 8n
+hex\[hy]constant \f[I]bool\fP
+The ability to write hexadecimal constants is a common feature of modern
+Pascal implementations, however they were not present in UCSD Pascal.
+When this flag is true, warnings are issued for hexadecimal constants
+($XX) in the source code.  When this flag is false, hexadecimal
+constants are silently accepted.  Defaults to true.
+.TP 8n
+named\[hy]label \f[I]bool\fP
+Named labels are a common feature in modern Pascal compilers,
+but they are not present in the native compiler.
+When this flag is true, named labels are complained about.
+When this flag is false, named labels are silently accepted.
+Defaults to true.
+.TP 8n
+otherwise \f[I]bool\fP
+This option controls whether or not to issue a warning when an OTHERWISE
+clause is seen attached to a CASE statement.  This is common in modern
+Pascal implementations, but was not present in UCSD Pascal.
+Defaults to true.
+.TP 8n
+shadow \f[I]bool\fP
+Shadowing occurs when declaring a symbol (function, variable,
+\f[I]etc\fP) blocks access to a symbol declared earlier.  This almost
+always creates a maintenance problem.  Set this to true to issue
+warnings when symbols are shadowed, set this to false to silence shadow
+warnings.  Defaults to true.
+.TP 8n
+set\[hy]comparisons \f[I]bool\fP
+This warning is issued if set<set or set>set comparisons are mode.
+The UCSD native Pascal compiler did not accept such expressions.
+.TP 8n
+silent \f[I]bool\fP
+When this flag is set to true, no warnings at all are produced
+(this is effectively a warning master disable).
+When this flag is set to false, warnings are printed.
+Defaults to false.
+.PP
+Other warning names will elicit diagnostic error messages.
+.RE
+.TP 8n
+ternary\[hy]expression \f[I]bool\fP
+This option is used to enable or disable warning when C\[hy]style ternary
+expressions (e1?e2:e3) are encountered.  Defaults to true.
+.TP 8n
+unreachable \f[I]bool\fP
+This option is used to enable or disable warning when unreachable
+statements are found by the compiler.  Unreachable statement are those
+for which the follow of execution does no flow into them from the
+previous statement, and statements that do not have a label.
+By default, this warning is enabled.
+.SS Compiling Separate Units
+The UCSD native compiler is able to compile programs in several separate
+compilation units, an either link them with the system linker, or link
+them implicitly at runtime if they are intrinsic units.
+How this was accomplished evolved over time,
+the cross compiler duplicates the II.1 implementation.
+.PP
+Some examples may help.
+This following code is what you may expect of a separate unit
+.RS
+.nf
+.ft CW
+(*$S+*)
+separate unit frog;
+interface
+
+  const fly_size = 10;
+  type wart_type = (green, brown);
+  procedure jump(dist: integer);
+  function warts: integer;
+
+implementation
+
+  const pi = 3.14159;
+  type etc = 0..13;
+
+  procedure jump;
+  begin
+  end;
+
+  function warts;
+  begin
+    warts := 0;
+  end;
+
+end.
+.ft P
+.fi
+.RE
+The II.1 compiler issues an error if the (*$S+*) was not present,
+the cross compiler will issue a warning.
+The II.1 compiler issued an error for the SEPARATE keyword,
+the cross compiler issues a warning.
+.PP
+System units, ones that needed to access the system global variables at
+lex level \-1, used a different syntax.
+This was never documented anywhere, as far as I can tell.
+.RS
+.nf
+.ft CW
+(*$S+*)
+(*$U\-*)
+program pascalsystem;
+
+  separate unit frog;
+  interface
+
+    const fly_size = 10;
+    type wart_type = (green, brown);
+    procedure jump(dist: integer);
+    function warts: integer;
+
+  implementation
+
+    const pi = 3.14159;
+    type etc = 0..13;
+
+    procedure jump;
+    begin
+    end;
+
+    function warts;
+    begin
+      warts := 0;
+    end;
+
+  end;
+
+begin
+end.
+.ft P
+.fi
+.RE
+.PP
+The II.1 compiler issues an error if the (*$S+*) or (*$U\-*) was not present,
+the cross compiler will issue a warning.
+The II.1 compiler issued an error for the SEPARATE keyword,
+the cross compiler issues a warning.
+.PP
+In summary: omit the SEPARATE keyword.
+.SS FUBAR: Fouled Up Beyond All Recovery
+See the \[lq]Policy\[rq] section, above.
+.PP
+The CHR built\[hy]in doesn't actually do anything.  That means that
+chr(32767) has the same value on the stack, it doesn't do a C\[hy]style
+value cast of masking its operand with 0xFF.  Most of this brain damage
+can be found by using the the (*$feature chr\[hy]range\[hy]check true*) control
+comment.  Constant foul ups will be found at compile time.
+.PP
+The ODD built\[hy]in doesn't actually do anything, the same vales is on the
+stack, it doesn't do a C\[hy]style cast of masking its operand with 1.  The
+boolean branch opcodes just look at the bottom bit.
+Constant folding by the compiler doesn't have this behavior.
+.\" vim: set ts=8 sw=4 et :

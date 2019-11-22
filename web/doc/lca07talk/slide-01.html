@@ -1,0 +1,91 @@
+.\"
+.\" UCSD p-System cross compiler
+.\" Copyright (C) 2006, 2007, 2012 Peter Miller
+.\"
+.\" This program is free software; you can redistribute it and/or modify
+.\" it under the terms of the GNU General Public License as published by
+.\" the Free Software Foundation; either version 2 of the License, or (at
+.\" you option) any later version.
+.\"
+.\" This program is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+.\" General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU General Public License along
+.\" with this program. If not, see <http://www.gnu.org/licenses/>
+.\"
+.ad l
+.hy 0
+<html>
+<head>
+<title>
+Compilers and Factories, 1
+</title>
+</head>
+<body>
+    <table width="100%"><tr><td>
+    <a href="index.html"><img src="back.png" alt="Back" border=0></a>
+    </td><td align="right">
+    <a href="slide-02.html"><img src="next.png" alt="Next" border=0></a>
+    </td></tr></table>
+<h1 align=center>
+Parser Theory Revision
+</h1>
+
+<table align="center">
+
+<tr bgcolor="#eeffee">
+  <td valign="top">
+    <b>Tokenization:</b>
+  </td>
+  <td valign="top" align="center">
+    <img src="tokenize.png">
+  </td>
+  <td valign="top" width="50%">
+    The process of partitioning the input text into tokens (the units of
+    work for a grammar) and discarding white space and comments.
+  </td>
+</tr>
+
+<tr bgcolor="#f8fff8">
+  <td valign="top">
+    <b>Grammar Productions:</b>
+  </td>
+  <td valign="top">
+    <pre>expression
+    : IDENTIFIER
+    | expression PLUS expression
+    | expression ASSIGN expression
+    ;</pre>
+  </td>
+  <td valign="top" width="50%">
+    A grammar is built up from many productions which describe the
+    structure if the language.  Parsing is the process of grouping
+    tokens to match the specified productions of the grammar.  These
+    productions are usually similar to &ldquo;BNF&rdquo; notation.  In
+    <i>yacc</i> you can attach <tt>{ C code in braces }</tt> to be
+    executed when a production matches.
+  </td>
+</tr>
+
+<tr bgcolor="#eeffee">
+  <td valign="top">
+    <b>Abstract Syntax Tree:</b>
+  </td>
+  <td valign="top" align="center">
+    <img src="ast.png">
+  </td>
+  <td valign="top" width="50%">
+    It is possible for a parser to build a series of dynamically
+    allocated linked data structures which represent the input which
+    has been parsed.  Where these data structures correspond closely to
+    the grammar, they are called <i>abstract syntax trees</i>.
+  </td>
+</tr>
+
+</table>
+
+</body>
+</html>
+.\" vim: set ts=8 sw=4 et :

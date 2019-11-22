@@ -1,0 +1,116 @@
+.\"
+.\" UCSD p-System cross compiler
+.\" Copyright (C) 2011, 2012 Peter Miller
+.\"
+.\" This program is free software; you can redistribute it and/or modify
+.\" it under the terms of the GNU General Public License as published by
+.\" the Free Software Foundation; either version 2 of the License, or (at
+.\" you option) any later version.
+.\"
+.\" This program is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+.\" General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU General Public License along
+.\" with this program. If not, see <http://www.gnu.org/licenses/>
+.\"
+.nf
+.ad l
+.hy 0
+<html>
+<head>
+<title>
+Miller, P. A. (2010) Factory Factory Factories
+</title>
+</head>
+<body>
+<table width="100%" ><tr>
+<td><small><a href="index.html" >Up</a>,
+    <a href="page03.html" >Prev</a></small></td>
+<td align="right" >
+    <small><a href="page05.html" >Next</a></small></td>
+</tr></table>
+
+<h1 align="center" >The Assignment Problem: Elegantly</h1>
+<p>
+<table align="center" >
+<tr bgcolor="#ffbbbb"><td valign="top" width=400 >
+\&... imperative type-based dispatch
+</td><td bgcolor="#bbffbb" valign="top" width=400 >
+\&... facility of the C++ language
+</td></tr>
+
+<tr bgcolor="#ffeeee" ><td>
+<pre>
+<pre>expression
+    : expression ASSIGN expression
+        { $$ = context-&gt;expression_assignment($1, $3); }
+    ;</pre>
+</pre>
+</td><td bgcolor="#eeffee">
+<pre>expression
+    : expression ASSIGN expression
+        { $$ = $1-&gt;expression_assignment($3); }
+    ;</pre>
+</td></tr>
+
+<tr bgcolor="#ffe8e8" ><td>
+<pre>void
+translator::expression_assignment(expression *lhs, expression *rhs)
+{</pre>
+</td><td bgcolor="#e8ffe8" >
+<pre>class expression
+{
+public:
+    <b>virtual</b> expression *assignment_expression(expression *rhs);
+};</pre>
+</td></tr>
+
+<tr bgcolor="#ffeeee" ><td>
+<pre>
+    expression_ldl *t1 = dynamic_cast&lt;expression_ldo&gt;(lhs)
+    if (t1)
+        return new expression_sro(t1-&gt;get_address(), rhs);
+<pre>
+</td><td bgcolor="#eeffee" >
+<pre>expression *
+expression_ldo::assignment_factory(expression *rhs)
+{
+    return new expression_sro(address, rhs);
+}</pre>
+</td></tr>
+
+<tr bgcolor="#ffe8e8" >
+<td><tt>&nbsp;&nbsp;&nbsp;&nbsp;</tt><i>etc etc etc</i></td>
+<td bgcolor="#e8ffe8" ><i>etc etc etc</i></td>
+</tr>
+
+<tr bgcolor="#ffeeee" ><td valign="bottom" >
+<pre>
+    yyerror("left hand side of assignment inappropriate");
+    return new expression_error();
+}</pre>
+</td><td bgcolor="#eeffee"  valign="bottom">
+<pre>expression *
+expression::assignment_factory(expression *)
+{
+    yyerror("left hand side of assignment inappropriate");
+    return new expression_error();
+}</pre>
+</td></tr>
+
+<tr><td align="right" >
+Now you have a translator class that can manufacture an expression class
+that can manufacture another expression class.
+<p>
+You have a factory <i>factory</i>.
+</td><td>
+<img src="page04fig1.png" />
+</td></tr>
+</table>
+
+</table>
+</body>
+</html>
+.\" vim: set ts=8 sw=4 et :

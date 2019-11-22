@@ -1,0 +1,60 @@
+#
+# UCSD p-System cross compiler
+# Copyright (C) 2010, 2012 Peter Miller
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or (at
+# you option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+# General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program. If not, see <http://www.gnu.org/licenses/>
+#
+When creating test cases, it is normal to compile the code with the
+Apple Pascal compiler, and then disassemble it.  This forms the expected
+output.
+
+1. prepare your source file
+
+   vi example.text
+
+2. you need a system to work in
+
+   cp /home/vault/ucsd-p-system/p-interp-0.5/apple_pascal_0.dsk work.dsk
+
+3. insert ("put") your source code into the disk image
+
+   ucsdpsys_disk -f work.dsk -p example.text
+
+4. run the vm using the disk image as 0:
+
+   ucsdpsys_vm -w work.dsk
+
+5. from within the system, compile your code
+
+   C(ompile
+   Compile what text? example^M
+   To what codefile? example^M
+
+6. from within the system, halt
+
+   H(alt
+
+7. extract the code file from the disk image
+
+   ucsdpsys_disk -f work.dsk -g example.code
+
+8. disassemble the code
+
+   linux-x86_64/bin/ucsdpsys_disassemble -a example.code -o test.ok
+
+9. OR, just use the shell script:
+
+   sh bl/etc/example.sh
+
+# vim: set ts=8 sw=4 et :

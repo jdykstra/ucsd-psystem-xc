@@ -1,0 +1,76 @@
+.\"
+.\" UCSD p-System cross compiler
+.\" Copyright (C) 2011, 2012 Peter Miller
+.\"
+.\" This program is free software; you can redistribute it and/or modify
+.\" it under the terms of the GNU General Public License as published by
+.\" the Free Software Foundation; either version 2 of the License, or (at
+.\" you option) any later version.
+.\"
+.\" This program is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+.\" General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU General Public License along
+.\" with this program. If not, see <http://www.gnu.org/licenses/>
+.\"
+.nf
+.ad l
+.hy 0
+<html>
+<head>
+<title>
+Miller, P. A. (2010) Factory Factory Factories
+</title>
+</head>
+<body>
+<table width="100%" ><tr>
+<td><small><a href="index.html" >Up</a>,
+    <a href="page02.html" >Prev</a></small></td>
+<td align="right" >
+    <small><a href="page04.html" >Next</a></small></td>
+</tr></table>
+
+<h1 align="center" >The Assignment Problem: Left <i>versus</i> Right</h1>
+<p>
+<table align="center" >
+<tr><td>
+There is a problem with the <a href="../lca07talk/slide-10.html"
+>assignment expression</a>.
+<blockquote>
+<pre>expression
+    : expression ASSIGN expression
+        { $$ = context-&gt;expression_assignment($1, $3); }
+    | IDENTIFIER
+        { $$ = context-&gt;expression_identifier($1); }
+    | <i>etc etc</i>
+    ;</pre>
+</blockquote>
+<p>
+Let's play whack-a-mole.
+<blockquote>
+<pre>void
+translator::expression_assignment(expression *lhs, expression *rhs)
+{
+    expression_ldl *t1 = dynamic_cast&lt;expression_ldl&gt;(lhs)
+    if (t1)
+        return new expression_stl(t1-&gt;get_address(), rhs);
+    expression_ldo *t2 = dynamic_cast&lt;expression_ldo&gt;(lhs)
+    if (t2)
+        return new expression_sro(t2-&gt;get_address(), rhs);
+
+    <i>etc etc etc</i>
+
+    yyerror("left hand side of assignment inappropriate");
+    return new expression_error();
+}</pre>
+</blockquote>
+</td></tr>
+<tr bgcolor="#ffdddd" ><td>
+This is another imperative type-based dispatch.
+</td></tr>
+</table>
+</body>
+</html>
+.\" vim: set ts=8 sw=4 et :

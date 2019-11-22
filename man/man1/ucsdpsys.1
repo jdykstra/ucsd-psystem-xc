@@ -1,0 +1,174 @@
+'\" t
+.\"     UCSD p-System operating system
+.\"     Copyright (C) 2006, 2010-2012 Peter Miller
+.\"
+.\"     This program is free software; you can redistribute it and/or modify
+.\"     it under the terms of the GNU General Public License as published by
+.\"     the Free Software Foundation; either version 3 of the License, or
+.\"     (at your option) any later version.
+.\"
+.\"     This program is distributed in the hope that it will be useful,
+.\"     but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\"     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\"     GNU General Public License for more details.
+.\"
+.\"     You should have received a copy of the GNU General Public License
+.\"     along with this program. If not, see
+.\"     <http://www.gnu.org/licenses/>.
+.\"
+.ds n) ucsdpsys
+.TH \*(n) 1 ucsd\[hy]psystem\[hy]xc "Reference Manual"
+.SH NAME
+ucsdpsys \- UCSD p\[hy]System launcher
+.if require_index \{
+.XX "ucsdpsys(1)" "UCSD p\[hy]System launcher"
+.\}
+.SH SYNOPSIS
+\fB\*(n)\fP [ \f[I]option\fP... ]
+.br
+\fB\*(n) \-V\fP
+.SH DESCRIPTION
+The \f[I]\*(n)\fP program is used to
+start an instance of the UCSD p\[hy]System virtual machine, providing it with
+the necessary system volumes to function.
+This is done by wrapping the \f[I]ucsdpsys_vm\fP(1) command,
+possibly performing disk image operations before and after
+via the \f[I]ucsdpsys_disk\fP(1) command.
+.br
+.ne 1i
+.SH OPTIONS
+The following options are understood:
+.\" ----------  A  ---------------------------------------------------------
+.TP 8n
+\fB\-a\fP
+.TQ 8n
+\fB\-\-apple\fP
+Execute the virtual machine in Apple compatibility mode,
+initialized using the same addresses as the original Apple ][ p\[hy]System.
+.\" ----------  B  ---------------------------------------------------------
+.TP 8n
+\fB\-b\fP \f[I]filename\fP
+.TQ 8n
+\fB\-\-batch=\fP\f[I]filename\fP
+Start the virtual machine in batch mode.  Input is read from \f[I]filename\fP,
+output is written to the standard output (unless \fB\-x\fP is used).
+If \[lq]\-\[rq] is specified, the standard input is used.
+.\" ----------  C  ---------------------------------------------------------
+.\" ----------  D  ---------------------------------------------------------
+.\" ----------  E  ---------------------------------------------------------
+.\" ----------  F  ---------------------------------------------------------
+.TP 8n
+\fB\-f\fP \f[I]filename\fP
+.TQ 8n
+\fB\-\-forget=\fP\f[I]filename\fP
+Access the \f[I]filename\fP as a read\[hy]write disk image, but changes to
+the disk image are never written back to the file and are forgotten when
+the virtual machine stops.  If a directory is specified, a temporary
+disk image is created with \f[I]ucsdpsys_mkfs\fP(1), and the contents of
+the directory are read into it before the virtual machine starts.
+.\" ----------  G  ---------------------------------------------------------
+.TP 8n
+\fB\-g\fP
+.TQ 8n
+\fB\-\-debug\fP
+.br
+Run the virtual machine in debug mode.
+.\" ----------  H  ---------------------------------------------------------
+.\" ----------  I  ---------------------------------------------------------
+.\" ----------  J  ---------------------------------------------------------
+.\" ----------  K  ---------------------------------------------------------
+.\" ----------  L  ---------------------------------------------------------
+.\" ----------  M  ---------------------------------------------------------
+.\" ----------  N  ---------------------------------------------------------
+.TP 8n
+\fB\-N\fP
+.TQ 8n
+\fB\-\-no\-system\fP
+This option may be used to avoid constructing a system disk image.  For
+the system to boot, you must provide a system disk using one of the
+\fB\-r\fP or \fB\-f\fP or \fB\-w\fP options.
+Any \fB\-S\fP options will be ignored.
+.TP 8n
+\fB\-n\fP \f[I]filename\fP
+.TQ 8n
+\fB\-\-name=\fP\f[I]filename\fP
+Uses the given \f[I]filename\fP as the executable to launch.  Defaults to
+\f[CW]SYSTEM.PASCAL\fP if not specified.  This file may be on any of the
+volumes, although it is traditional for it to be on the \f[CW]SYSTEM:\fP
+volume.
+.\" ----------  O  ---------------------------------------------------------
+.\" ----------  P  ---------------------------------------------------------
+.so man/man1/o_pmachine.so
+.\" ----------  Q  ---------------------------------------------------------
+.\" ----------  R  ---------------------------------------------------------
+.TP 8n
+\fB\-r\fP \f[I]filename\fP
+.TQ 8n
+\fB\-\-read=\fP\f[I]filename\fP
+Access the \f[I]filename\fP as a read\[hy]only disk image.  If a directory is
+specified, a temporary disk image is created, and the contents of the
+directory are read into it before the virtual machine starts.
+.\" ----------  S  ---------------------------------------------------------
+.TP 8n
+\fB\-S\fP \f[I]directory\fP
+.TQ 8n
+\fB\-\-system=\fP\f[I]directory\fP
+This option give a directory to be searched for system files.
+This option may be given more than once.
+If this option is not given, the files installed by the
+\f[I]ucsd\[hy]psystem\[hy]os\fP and \f[I]ucsd\[hy]psystem\[hy]vm\fP
+packages will be
+used, if present.
+.\" ----------  T  ---------------------------------------------------------
+.TP 8n
+\fB\-T\fP
+.TQ 8n
+\fB\-\-trace\fP
+Trace execution of opcodes by the virtual machine.
+.TP 8n
+\fB\-t\fP \f[I]filename\fP
+.TQ 8n
+\fB\-\-trace\-file=\fP\f[I]filename\fP
+Write the execution trace to the given file.  If \[lq]\-\[rq] is given as the
+\f[I]filename\fP, the trace will be written on the standard output.
+.\" ----------  U  ---------------------------------------------------------
+.\" ----------  V  ---------------------------------------------------------
+.TP 8n
+\fB\-V\fP
+.TQ 8n
+\fB\-\-version\fP
+Print the version of the \f[I]\*(n)\fP program being executed.
+.\" ----------  W  ---------------------------------------------------------
+.TP 8n
+\fB\-w\fP \f[I]filename\fP
+.TQ 8n
+\fB\-\-write=\fP\f[I]filename\fP
+Access the \f[I]filename\fP as a read\[hy]write disk image.  If a directory is
+specified, a temporary disk image is created, and the contents of the
+directory are read into it before the virtual machine starts, and then
+read back out into the directory when the virtual machine stopes.
+.\" ----------  X  ---------------------------------------------------------
+.TP 8n
+\fB\-x\fP
+.TQ 8n
+\fB\-\-xterm\fP
+Start an \f[I]xterm\fP(1) for \f[CW]CONSOLE:\fP and \f[CW]SYSTERM:\fP.
+Especially useful when using the debugger and its messages are output to
+the standard output and stderr.
+.\" ----------  Y  ---------------------------------------------------------
+.\" ----------  Z  ---------------------------------------------------------
+.PP
+All other options will produce a diagnostic error.
+.so man/man1/z_exit.so
+.SH SEE ALSO
+.TP 8n
+\f[I]ucsdpsys_vm\fP(1)
+UCSD p\[hy]System virtual machine
+.TP 8n
+\f[I]ucsdpsys_disk\fP(1)
+manipulate UCSD p\[hy]System disk images.
+.TP 8n
+\f[I]ucsdpsys_mkfs\fP(1)
+create UCSD p\[hy]System disk images.
+.so man/man1/z_copyright.so
+.\" vim: set ts=8 sw=4 et :

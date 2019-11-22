@@ -1,0 +1,78 @@
+.\"
+.\" UCSD p-System cross compiler
+.\" Copyright (C) 2006, 2007, 2010, 2012 Peter Miller
+.\"
+.\"     This program is free software; you can redistribute it and/or modify
+.\"     it under the terms of the GNU General Public License as published by
+.\"     the Free Software Foundation; either version 3 of the License, or
+.\"     (at your option) any later version.
+.\"
+.\"     This program is distributed in the hope that it will be useful,
+.\"     but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\"     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\"     GNU General Public License for more details.
+.\"
+.\"     You should have received a copy of the GNU General Public License
+.\"     along with this program. If not, see
+.\"     <http://www.gnu.org/licenses/>.
+.\"
+.\" LSM = Linux Software Module, an archive description file
+.\"
+.\" Descriptions of the LSM file format can be found in the
+.\" /pub/Linux/docs directories of sunsite.unc.edu and tsx-11.mit.edu.
+.\"
+.ad l
+.hy 0
+.de SH
+.in 0
+.br
+\\$1
+'in 8n
+..
+.so etc/version.so
+.SH Begin3
+.SH Title:
+ucsd-psystem-xc
+.SH Version:
+\*(v)
+.SH Entered-date:
+.ds MO1 JAN
+.ds MO2 FEB
+.ds MO3 MAR
+.ds MO4 APR
+.ds MO5 MAY
+.ds MO6 JUN
+.ds MO7 JUL
+.ds MO8 AUG
+.ds MO9 SEP
+.ds MO10 OCT
+.ds MO11 NOV
+.ds MO12 DEC
+\n[dy]\*[MO\n[mo]]\n[yr]
+.SH Description:
+The \fIucsd-psystem-xc\fP package is a collection of tools for
+manipulating and mounting UCSD p-Systems disk images.
+.sp
+The disk images can be mounted into the file system by using the FUSE
+\&"File System in User Space" package.
+.sp
+The ucsd-psystem-xc package runs on Linux.
+If fuse and libfuse were to be ported to any other Unix,
+it would run on them, too.
+.SH Keywords:
+UCSD, p-System, FUSE, Pascal
+.SH Author:
+Peter Miller <pmiller@opensource.org.au>
+.SH Primary-site:
+http://ucsd-psystem-xc.sourceforge.net/
+.TS
+lf(CW) l.
+ucsd-psystem-xc-\*(v).README    Description, from the tar file
+ucsd-psystem-xc-\*(v).lsm       Description, LSM format
+ucsd-psystem-xc-\*(v).tar.gz    The complete sources.
+ucsd-psystem-xc-\*(v).pdf       Reference Manual, Acrobat format
+.TE
+.SH Copying-policy:
+GPL 2.0
+.SH End
+.\" vim: set ts=8 sw=4 et :

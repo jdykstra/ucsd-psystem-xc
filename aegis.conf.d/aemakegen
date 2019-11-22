@@ -1,0 +1,83 @@
+#
+# UCSD p-System cross compiler
+# Copyright (C) 2010-2012 Peter Miller
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or (at
+# you option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+# General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program. If not, see <http://www.gnu.org/licenses/>
+#
+
+project_specific =
+[
+    {
+        name = "aemakegen:debian:build-depends";
+        value =
+            "groff, "
+            "libboost-dev, "
+            "libexplain-dev, "
+            "libpng12-dev, "
+            "sharutils"
+            ;
+    },
+    {
+        name = "aemakegen:rpm-spec:build-requires";
+        value =
+            "groff, "
+            "libboost-devel, "
+            "libexplain-devel, "
+            "libpng-devel, "
+            "sharutils"
+            ;
+    },
+    {
+        name = "aemakegen:debian:copyright";
+        value = "false";
+    },
+    {
+        name = "aemakegen:debian:description:ucsd-psystem-xc";
+        value = "UCSD Pascal cross compiler";
+    },
+    {
+        name = "aemakegen:debian:conflicts:ucsd-psystem-xc";
+        value = "ucsd-psystem-fs (<=1.19)";
+    },
+    {
+        name = "aemakegen:debian:depends:ucsd-psystem-xc";
+        /* these are for the ucsdpsys(1) command */
+        value = "ucsd-psystem-fs (>=1.21), ucsd-psystem-vm";
+    },
+    {
+        name = "aemakegen:debian:extended-description:ucsd-psystem-xc";
+        value = "The ucsd-psystem-xc package contains a Cross compiler for the "
+                "UCSD Pascal p-machine, and associated tools."
+                ;
+    },
+    {
+        name = "aemakegen:debian:homepage";
+        value = "http://ucsd-psystem-xc.sourceforge.net";
+    },
+    {
+        name = "aemakegen:debian:maintainer";
+        value = "Peter Miller <pmiller@opensource.org.au>";
+    },
+    {
+        name = "aemakegen:debian:priority";
+        value = "extra";
+    },
+    {
+        name = "aemakegen:debian:section";
+        value = "utils";
+    },
+];
+
+
+/* vim: set ts=8 sw=4 et : */

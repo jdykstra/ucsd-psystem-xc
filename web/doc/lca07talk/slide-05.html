@@ -1,0 +1,102 @@
+.\"
+.\" UCSD p-System cross compiler
+.\" Copyright (C) 2006, 2007, 2011, 2012 Peter Miller
+.\"
+.\" This program is free software; you can redistribute it and/or modify
+.\" it under the terms of the GNU General Public License as published by
+.\" the Free Software Foundation; either version 2 of the License, or (at
+.\" you option) any later version.
+.\"
+.\" This program is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+.\" General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU General Public License along
+.\" with this program. If not, see <http://www.gnu.org/licenses/>
+.\"
+.ad l
+.hy 0
+<html>
+<head>
+<title>
+Compilers and Factories, 5
+</title>
+</head>
+<body>
+    <table width="100%"><tr><td>
+    <a href="slide-04.html"><img src="back.png" alt="Back" border=0></a>
+    </td><td align="right">
+    <a href="slide-06.html"><img src="next.png" alt="Next" border=0></a>
+    </td></tr></table>
+<h1 align=center>
+<img src="method.png" alt="Method">
+</h1>
+If the technique is carried to its logical extreme,
+the production bodies all call...
+<p>
+<table align="center">
+<tr bgcolor="#ccffcc"><td valign="top" width=400>
+... systematically named functions.
+</td><td valign="top">
+... or methods.
+</td></tr>
+<tr style="background-color: #ddffdd" width=400>
+
+<tr>
+<td valign="top"
+%right ASSIGN /* lowest precedence */
+%left PLUS    /* highest precedence */
+
+%%
+</td>
+<td valign="top"
+%right ASSIGN /* lowest precedence */
+%left PLUS    /* highest precedence */
+
+</td>
+</tr>
+
+<td valign="top">
+<pre>
+%%
+
+expression
+  : IDENTIFIER
+     { $$ = parse_expression_identifier($1); }
+  | expression PLUS expression
+     { $$ = parse_expression_addition($1, $3); }
+  | expression ASSIGN expression
+     { $$ = parse_expression_assignment($1, $3); }
+  | <i>etc etc</i>
+  ;
+</pre>
+</td><td valign="top">
+<pre>
+%{
+translator *context;
+%}
+
+%%
+
+expression
+  : IDENTIFIER
+     { $$ = context-&gt;expression_identifier($1); }
+  | expression PLUS expression
+     { $$ = context-&gt;expression_addition($1, $3); }
+  | expression ASSIGN expression
+     { $$ = context-&gt;expression_assignment($1, $3); }
+  | <i>etc etc</i>
+  ;
+</pre>
+</td></tr></table>
+<p align="right">
+<big>
+Aha!  What if the methods were <b>virtual</b>?
+</big>
+</p>
+</body>
+</html>
+
+
+/* vim: set ts=8 sw=4 et : */

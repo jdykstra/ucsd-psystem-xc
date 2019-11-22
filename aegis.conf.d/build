@@ -1,0 +1,54 @@
+/*
+ * UCSD p-System cross compiler
+ * Copyright (C) 2006, 2007, 2010, 2012 Peter Miller
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or (at
+ * you option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program. If not, see <http://www.gnu.org/licenses/>
+ */
+
+build_command =
+        "cook -b ${source etc/howto.cook} -nl "
+        "project=$project "
+        "change=$change "
+        "version=$version "
+        "arch=$uname "
+        "search_path=$search_path"
+        ;
+
+
+/*
+ * whenever files are added to or removed from the change,
+ * execute the following command.
+ *
+ * The project files are wiped, too, because a removed file will alter
+ * the project file list.
+ */
+change_file_command = "rm -f etc/cook/change_files.* etc/cook/project_files.*";
+project_file_command = "rm -f etc/cook/project_files.*";
+
+
+/*
+ * At integrate pass time, the modification times of the files are
+ * updated.  This commands gives cook a channce to get the fingerprints
+ * back in sync, which in turn speeds up development builds.
+ * We don't want to execute an empty rm, but xargs -r is not portable,
+ * so use a while read loop.
+ */
+build_time_adjust_notify_command =
+    "set +e; "
+    "find . -name .cook.fp -print | while read f;do rm -f ${$}f;done; "
+    "cook -nl -st --fp-update"
+    ;
+
+
+/* vim: set ts=8 sw=4 et : */

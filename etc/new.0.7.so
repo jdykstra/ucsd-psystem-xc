@@ -1,0 +1,203 @@
+'\" t
+.\"     UCSD p-System cross compiler
+.\"     Copyright (C) 2006, 2007, 2010-2012 Peter Miller
+.\"
+.\"     This program is free software; you can redistribute it and/or modify
+.\"     it under the terms of the GNU General Public License as published by
+.\"     the Free Software Foundation; either version 3 of the License, or
+.\"     (at your option) any later version.
+.\"
+.\"     This program is distributed in the hope that it will be useful,
+.\"     but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\"     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\"     GNU General Public License for more details.
+.\"
+.\"     You should have received a copy of the GNU General Public License
+.\"     along with this program. If not, see
+.\"     <http://www.gnu.org/licenses/>.
+.\"
+.\" ------------------------------------------------------------------------
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 124
+The \f[I]ucsdpsys_assemble\fP(1) cross assembler now understands the
+\f[CW]\&.func\fP pseudo\[hy]op.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 78
+The error message formatting has been changed to use a 4
+character hanging indent for multi\[hy]line error messages.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 77
+A bug has been fixed in the \f[I]ucsdpsys_osmakgen\fP(1) command, it now
+correctly understands how to remove system segments from libraries with an
+assembler component.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 74
+The \f[I]ucsdpsys_osmakgen\fP(1) command now understands how to link Pascal
+programs with their assembler components.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 75
+A bug has been fixed in the \f[I]ucsdpsys\fP(1) command, it no longer
+fails if its temporary files are unlinked twice.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 71
+There is a new \f[I]ucsdpsys_compile\fP(1) \f[B]\-\-view\-path\fP
+option, symmetric with the \f[I]ucsdpsys_assemble\fP(1) and
+\f[I]ucsdpsys_depends\fP(1) commands' options of the same name.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 130
+The \f[I]ucsdpsys_assemble\fP(1) command now understands the
+\f[CW].incude\fP pseudo\[hy]op.  This is also a new corresponding
+\f[CB]\-I\fP command line option.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 24
+A bug has been fixed in the \f[I]ucsdpsys_librarian\fP(1) command, it
+now patches the segment number in the procedure dictionary when it
+renumbers a segment.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 62
+A bug has been fixed in the \f[I]ucsdpsys_disassemble\fP(1) and
+\f[I]ucsdpsys_libmap\fP(1) commands, they were printing SEPPROC link
+information incorrectly.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 12
+The \f[I]ucsdpsys_osmakgen\fP(1) command now generates an
+\[lq]install\[rq] target, so that the results of the build can be
+installed into the system.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 57, 58, 118, 119, 120, 121
+The \f[I]ucsdpsys_assemble\fP(1) cross assembler now groks
+unary minus (\-e)
+unary plus (+e)
+bit\[hy]wise and (e1 & e2),
+bit\[hy]wise or (e1 | e2),
+bit\[hy]wise not (~e),
+bit\[hy]wise exclusive\[hy]or (e1 ^ e2), and
+modulo (e1 % e2)
+expressions.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 40
+The \f[I]ucsdpsys_compile\fP(1) cross compiler can now cope with VAR
+clauses in the IMPLEMENTATION section of a UNIT.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 21, 56
+The \f[I]ucsdpsys_compile\fP(1) cross compiler is now able to cope with
+units that export variables, noth intrinsic and non\[hy]intrinsic.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 39
+The \f[I]ucsdpsys_compile\fP(1) grammar now understands \[lq]var anything\[rq]
+parameters to external assembler procedures and functions.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 37, 80, 81
+The \f[I]ucsdpsys_osmakgen\fP(1) command now understands assembler
+source file include dependencies.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 36
+The \f[I]ucsdpsys_depends\fP(1) command now understands how to process
+assembler source files, when looking for include dependencies.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 35
+The \f[I]ucsdpsys_assemble\fP(1) command now procuces minimally correct
+relocation data sectiosn for each native code procedure.  The
+\f[I]ucsdpsys_disassemble\fP(1) command now has a minimally correct
+understanding of relocation data.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 15, 31, 38, 79, 83
+There is a new \f[I]ucsdpsys_link\fP(1) command, that may be used to link
+programs and libraries of separate procedures and functions
+together, to produce executable output codefiles.
+See \f[I]ucsdpsys_link\fP(1) for more information.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 25
+The \f[I]ucsdpsys_libmap\fP(1) and \f[I]ucsdpsys_disassemble\fP(1)
+commands now include the EOFMARK link information record, to be sure it
+contains the correct argument.  The \f[I]ucsdpsys_assemble\fP(1) and
+\f[I]ucsdpsys_compile\fP(1) commands now correctly generate EOFMARK link
+information records.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 20
+The \f[I]ucsdpsys_littoral\fP(1) command now correctly translates
+\f[CW]nil\fP to \f[CW]NULL\fP.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 19
+The \f[I]ucsdpsys_littoral\fP(1) command now expands \f[CW]with\fP variables
+completely.  This preserves the semantics into the C++ code.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 16, 17, 18
+There is now a build dependency on the \f[I]libexplain\fP project
+(http://libexplain.sourceforge.net/).
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 14
+A bug has been fixed in the \f[I]ucsdpsys\fP(1) command, it no longer
+overwrite its own temporary files.
+All of the \f[I]ucsdpsys\fP(1) options now have long versions as well.
+The UCSD p\[hy]System volumes that are created on\[hy]the\[hy]fly are now
+created large enough to hold all of the data.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 13
+The \f[I]ucsdpsys_osmakgen\fP(1) command is now able to figure out when it
+needs to make a copy of \f[CW]system/globals.text\fP based on include
+dependency information and the source file manifest.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 185
+The \f[CW]for\fP statement now understands \f[CW]real\fP control variables.
+Note that the native compiler does not allow this.
+.TP 2n
+.if n *
+.if t \(bu
+.\" Change 51
+The \f[I]ucsdpsys_assemble\fP(1) cross assembler now understands the
+\f[CW]\&.def\fP pseudo\[hy]op.
+.\" ------------------------------------------------------------------------
+.\" Add new entries above this line.
+.SS Version 0.7 (2010\[hy]Jun\[hy]21)
+.\" vim: set ts=8 sw=4 et :

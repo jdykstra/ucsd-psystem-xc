@@ -1,0 +1,90 @@
+.\"
+.\" UCSD p-System cross compiler
+.\" Copyright (C) 2006, 2007, 2012 Peter Miller
+.\"
+.\" This program is free software; you can redistribute it and/or modify
+.\" it under the terms of the GNU General Public License as published by
+.\" the Free Software Foundation; either version 2 of the License, or (at
+.\" you option) any later version.
+.\"
+.\" This program is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+.\" General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU General Public License along
+.\" with this program. If not, see <http://www.gnu.org/licenses/>
+.\"
+.ad l
+.hy 0
+<html>
+<head>
+<title>
+Compilers and Factories, 10
+</title>
+</head>
+<body>
+    <table width="100%"><tr><td>
+    <a href="slide-09.html"><img src="back.png" alt="Back" border=0></a>
+    </td><td align="right">
+    <a href="slide-11.html"><img src="next.png" alt="Next" border=0></a>
+    </td></tr></table>
+<h1 align=center>
+<img src="observations.png" alt="Observations">
+</h1>
+A traditional response to this problem is to distinguish <i>lvalue</i>
+and <i>rvalue</i> expressions &mdash; in the grammar itself.
+<p>
+In Pascal, the following program contains an error:
+<blockquote><small><pre>
+program example;
+var x: integer;
+begin
+    x = 7
+end.</pre></small></blockquote>
+but which error message is more helpful?
+
+<table align="center">
+
+<tr>
+<td valign="top" bgcolor="#ffdddd" width=400>
+<small><pre>
+assignment_statement
+    : left_expression ASSIGN right_expression
+        { $$ = context-&gt;statement_assign($1, $3); }
+    ;
+</pre></small>
+</td>
+<td valign="top" bgcolor="#ddffdd" width=400>
+<small><pre>
+statement
+    : expression
+        { $$ = context->statement_expression($1); }
+    ;
+
+expression
+    : expression ASSIGN expression
+        { $$ = context->expression_assign($1, $3); }
+    ;
+</pre></small>
+</td>
+</tr>
+
+<tr><td valign="top" bgcolor="#ffeeee" width=400>
+<small><pre>
+ucsdpsys_compile: x.pas: 4: syntax error
+</pre></small>
+</td>
+<td valign="top" bgcolor="#eeffee" width=400>
+<small><pre>
+ucsdpsys_compile: x.pas: 4: statement expression not
+    void as it should be, did you mean to use an
+    assignment (written ":=") instead of an equality
+    test (written "=")?
+</pre></small>
+</td></tr>
+
+</table>
+</body>
+</html>
+.\" vim: set ts=8 sw=4 et :

@@ -1,0 +1,461 @@
+'\" t
+.\"     UCSD p-System cross compiler
+.\"     Copyright (C) 2010-2012 Peter Miller
+.\"
+.\"     This program is free software; you can redistribute it and/or modify
+.\"     it under the terms of the GNU General Public License as published by
+.\"     the Free Software Foundation; either version 3 of the License, or
+.\"     (at your option) any later version.
+.\"
+.\"     This program is distributed in the hope that it will be useful,
+.\"     but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\"     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\"     GNU General Public License for more details.
+.\"
+.\"     You should have received a copy of the GNU General Public License
+.\"     along with this program. If not, see
+.\"     <http://www.gnu.org/licenses/>.
+.\"
+.ds n) ucsdpsys_assemble
+.TH \*(n) 1 ucsd\[hy]psystem\[hy]xc "Reference Manual"
+.SH NAME
+ucsdpsys_assemble \- UCSD p\[hy]System cross assembler
+.if require_index \{
+.XX "ucsdpsys_assemble(1)" "UCSD p\[hy]System cross assembler"
+.\}
+.SH SYNOPSIS
+.B \*(n)
+[
+.IR option \&...
+]
+.IR filename
+.sp 0.4
+.B \*(n)
+.B \-VERSion
+.SH DESCRIPTION
+The \f[I]\*(n)\fP program is used to assemble low\[hy]level machine
+source code into UCSD p\[hy]System code files.  The result is not
+executable, it must be linked to a program in order to be executed.
+.br
+.ne 1i
+.SH OPTIONS
+The following options are understood:
+.\" ----------  A  ---------------------------------------------------------
+.so man/man1/o_architecture.so
+This option is the equivalent of
+a \f[CW].arch "\fP\f[I]name\fP\f[CW]"\fP
+pseudo opcode at the start of the source file.
+There is an equivalent option for the \f[I]ucsdpsys_compile\fP(1) command.
+.\" ----------  H  ---------------------------------------------------------
+.so man/man1/o_host.so
+This option is the equivalent of
+a \f[CW].host "\fP\f[I]name\fP\f[CW]"\fP
+pseudo opcode at the start of the source file.
+There is an equivalent option for the \f[I]ucsdpsys_compile\fP(1) command.
+.\" ----------  I  ---------------------------------------------------------
+.TP 8n
+\fB\-I\fP \f[I]directory\fP
+.TQ 8n
+\fB\-\-include=\fP\f[I]directory\fP
+This option is used to specify an include file directory to search.
+This option may be given more than once.
+.\" ----------  J  ---------------------------------------------------------
+.TP 8n
+\fB\-J\fP \f[I]directory\fP
+.TQ 8n
+\fB\-\-view\[hy]path=\fP\f[I]directory\fP
+This option is used to specify a directory to append to the view path.
+This option may be given more than once.
+.\" ----------  L  ---------------------------------------------------------
+.TP 8n
+\fB\-L\fP \f[I]filename\fP
+.TQ 8n
+\fB\-\-listing=\fP\f[I]filename\fP
+This option may be used to nominate a file to take the assembler
+listing.  For each line of source text the listing includes the address
+of the opcodes (in hex), the data bytes of the opcodes (in hex), and the
+corresponding source line.
+.\" ----------  O  ---------------------------------------------------------
+.TP 8n
+\fB\-o\fP \f[I]filename\fP
+.TQ 8n
+\fB\-\-output=\fP\f[I]filename\fP
+This option may be used to specify the code file the result s are written to.
+If not specified, the extension is removed form the source file (if any)
+and a \[lq]\f[CW].code\fP\[rq] extension is added.
+.\" ----------  P  ---------------------------------------------------------
+.so man/man1/o_pmachine.so
+.\" ----------  V  ---------------------------------------------------------
+.TP 8n
+\fB\-V\fP
+.TQ 8n
+\fB\-\-version\fP
+.br
+Print the version of the
+.I \*(n)
+program being executed.
+.\" ----------  Z  ---------------------------------------------------------
+.PP
+All other options will produce a diagnostic error.
+.so man/man1/z_exit.so
+.SH EXPRESSIONS
+This section details the arithmetic expressions understood by the
+assembler.  In general, these are the same expression forms used by the
+UCSD native assembler; any exceptions will be noted.
+.TP 4n
+Addition
+You can add two integer values using the usual plus
+(\f[I]e1\fP \[lq]\f[CW]+\fP\[rq] \f[I]e2\fP) operator.
+.TP
+Subtraction
+You can subtract two integer values using the usual minus
+(\f[I]e1\fP \[lq]\f[CW]\-\fP\[rq] \f[I]e2\fP) operator.
+.TP
+Multiplication
+You can multiply two integer values using the usual star
+(\f[I]e1\fP \[lq]\f[CW]*\fP\[rq] \f[I]e2\fP) operator.
+.TP
+Division
+You can divide two integer values using the usual slash
+(\f[I]e1\fP \[lq]\f[CW]/\fP\[rq] \f[I]e2\fP) operator.
+It is an error if a division by zero is attempted.
+.TP
+Modulo
+You can find the remainder of the division of two integer values using
+the usual percent (\f[I]e1\fP \[lq]\f[CW]%\fP\[rq] \f[I]e2\fP) operator.
+It is an error if a modulo by zero is attempted.
+.TP
+Unary Minus
+You can negate an expression using the minus
+\[lq](\f[CW]\-\fP\f[I]e\fP)\[rq] operator.
+.TP
+Unary Plus
+You can unary plus an expression using the plus
+\[lq](\f[CW]+\fP\f[I]e\fP)\[rq] operator.
+.TP
+Grouping
+Because parentheses are used to indicate other things in most addressing
+formats, parentheses can't be used for grouping.
+Instead \f[I]angle brackets\fP are used:
+the expressions look like \[lq]\f[CW]<\fP \f[I]expr\fP \f[CW]>\fP\[rq]
+and this may take some getting used to.
+.TP
+Bit\[hy]Wise Not
+You can bit\[hy]wise AND an integer value using the tilde
+\[lq](\f[CW]~\fP\f[I]e\fP)\[rq] operator.
+.TP
+Bit\[hy]Wise And
+You can bit\[hy]wise AND two integer values using the ampersand
+\[lq](\f[I]e1\fP \f[CW]&\fP \f[I]e2\fP)\[rq] operator.
+.TP
+Bit\[hy]Wise Or
+You can bit\[hy]wise OR two integer values using the vertical bar
+\[lq](\f[I]e1\fP \f[CW]|\fP \f[I]e2\fP)\[rq] operator.
+.TP
+Bit\[hy]Wise Exclusive\[hy]Or
+You can bit\[hy]wise exclusive\[hy]or two integer values using the carat
+\[lq](\f[I]e1\fP \f[CW]^\fP \f[I]e2\fP)\[rq] operator.
+.TP
+Equal
+You can make equality comparisons, using the
+\[lq](\f[I]e1\fP \f[CW]=\fP \f[I]e2\fP)\[rq] operator.
+.TP
+Not Equal
+You can make inequality comparisons, using the
+\[lq](\f[I]e1\fP \f[CW]<>\fP \f[I]e2\fP)\[rq] operator.
+.TP
+Less Than
+You can make less than comparisons, using the
+\[lq](\f[I]e1\fP \f[CW].lt\fP \f[I]e2\fP)\[rq] operator.
+Not present in the UCSD native assembler.
+.TP
+Less Than Or Equal
+You can make less than or equal comparisons, using the
+\[lq](\f[I]e1\fP \f[CW]<=\fP \f[I]e2\fP)\[rq] or
+\[lq](\f[I]e1\fP \f[CW].le\fP \f[I]e2\fP)\[rq] operator.
+Not present in the UCSD native assembler.
+.TP
+Greater Than
+You can make greater than comparisons, using the
+\[lq](\f[I]e1\fP \f[CW].gt\fP \f[I]e2\fP)\[rq] operator.
+Not present in the UCSD native assembler.
+.TP
+Greater Than Or Equal
+You can make greater than or equal comparisons, using the
+\[lq](\f[I]e1\fP \f[CW]>=\fP \f[I]e2\fP)\[rq] or
+\[lq](\f[I]e1\fP \f[CW].ge\fP \f[I]e2\fP)\[rq] operator.
+Not present in the UCSD native assembler.
+.TP
+Operator Precedence
+The precedence of the various operators is the same as for Pascal.
+.SH DIRECTIVES
+This section details the pseudo\[hy]ops understood by the assembler.
+In general, these are the same pseudo\[hy]ops used by the
+UCSD native assembler; any exceptions will be noted.
+.\" ----------  .a  --------------------------------------------------------
+.SS \&.arch
+The \f[CW].arch\fP pseudo\[hy]op can be used to change the
+microprocessor architecture being assembled.
+(Not present in the UCSD native assembler.)
+.PP
+.RS
+\f[CW]\&.arch "\fP\f[I]name\fP\f[CW]"\fP
+.RE
+.PP
+The \f[I]name\fP of the machine must be a quoted string constant.
+The names are case \f[B]in\fPsensitive.
+.TP 4n
+p\[hy]code\[hy]le
+Assemble p\[hy]code assembler, little endian.
+This is the default, if no \f[CW]\&.arch\fP is specified.
+The default radix will be set to decimal.
+.TP 4n
+p\[hy]code\[hy]be
+Assemble p\[hy]code assembler, big endian.
+The default radix will be set to decimal.
+.\" .TP 4n
+.\" pdp\[hy]11
+.\" Assemble PDP\[hy]11 (LSI\[hy]11, Terak) assembler.
+.\" The default radix will be set to octal.
+.\" .TP 4n
+.\" z80
+.\" Assemble Zilog Z80 assembler.
+.\" The default radix will be set to hexadecimal.
+.TP 4n
+6502
+Assemble Mos Technologies 6502 assembler (Apple ][, KIM\[hy]1).
+The default radix will be set to hexadecimal.
+.SS \&.asciz
+This pseudo\[hy]op is similar to the \f[CW].ascii\fP pseudo\[hy]op, except that
+is always emits a NUL (0x00) character after the string.
+.\" ----------  .b  --------------------------------------------------------
+.\" ----------  .c  --------------------------------------------------------
+.\" ----------  .d  --------------------------------------------------------
+.\" ----------  .e  --------------------------------------------------------
+.SS \&.else
+See \f[CW]\&.if\fP for documentation.
+.SS \&.end
+Used to denote the physical end of an assembly.
+All input beyond this point is ignored.
+It is an error if this directive is not present.
+.SS \&.endc
+See \f[CW]\&.if\fP for documentation.
+.SS \&.endif
+This is a synonym of the \f[CW]\&.endc\fP pseudo\[hy]op.
+.SS \&.endm
+See \f[CW]\&.macro\fP for documentation.
+.SS \&.error
+This pseudo\[hy]op is used to output a message to the standard error
+stream.  A common use of this directive is to provide a diagnostic
+announcement of a rejected or erroneous macro call or to alert the
+user to the existence of an illegal set of conditions specified in a
+conditional assembly.
+.PP
+The values of all the expressions are concatenated together.
+If you want spaces between them, use a constant string expression.
+.RS
+.ft CW
+\&.print "Oops."
+.ft R
+.RE
+This pseudo\[hy]op was inspired by the PDP\[hy]11 pseudo\[hy]op of the
+same name, but it is not quite identical in operation.
+.\" ----------  .f  --------------------------------------------------------
+.SS \&.func
+This pseudo\[hy]op identifies a function that returns a value.  Two
+words of space to be used for the function value will be placed on the
+stack after any parameters.
+A \f[CW]\&.func\fP is ended by the occurrence of a new
+\f[CW]\&.func\fP, \f[CW]\&.proc\fP, or \f[CW]\&.end\fP.
+.PP
+.RS
+\f[CW]\&.func\fP \f[I]identifier\fP [ \f[CW],\fP \f[I]expression\fP ]
+.RE
+.PP
+Where \f[I]expression\fP indicates the number of words of parameters expected
+by this function.  The default is 0.
+.PP
+Symbols defined before the first procedure or function are preserved,
+however symbols defined within the previous procedure or function are dropped.
+This gives each function a \[lq]clean slate\[rq] for its local symbols.
+.\" ----------  .g  --------------------------------------------------------
+.\" ----------  .h  --------------------------------------------------------
+.SS \&.host
+The \f[CW].host\fP pseudo\[hy]op can be used to change the
+microprocessor host being assembled for.
+(Not present in the UCSD native assembler.)
+.PP
+.RS
+\f[CW]\&.host "\fP\f[I]name\fP\f[CW]"\fP
+.RE
+.PP
+The \f[I]name\fP of the host must be a quoted string constant.
+The names are case \f[B]in\fPsensitive.
+The name is a host brand name (e.g. "apple" or "terak")
+rather than a CPU name.
+.\" ----------  .i  --------------------------------------------------------
+.SS \&.if
+The \f[CW]\&.if\fP pseudo\[hy]op is used to conditionally assemble
+portions of the source code.
+.RS
+.ft CW
+.nf
+\&.if \f[I]condition\fP
+   :
+   :
+\&.endc
+.fi
+.ft R
+.RE
+It is also possible to specify an \f[I]else\fP part.
+.RS
+.ft CW
+.nf
+\&.if \f[I]condition\fP
+   :
+   :
+\&.else
+   :
+   :
+\&.endc
+.fi
+.ft R
+.RE
+Conditionals can be nested.
+.PP
+The \f[I]condition\fP must evaluate to either an integer (false is zero,
+true is any non\[hy]zero value), or a boolean value.
+.SS \&.include
+This pseudo\[hy]op is used to include another source file
+at this position in the source file.
+.\" ----------  .j  --------------------------------------------------------
+.\" ----------  .k  --------------------------------------------------------
+.\" ----------  .l  --------------------------------------------------------
+.\" ----------  .m  --------------------------------------------------------
+.SS \&.macro
+The \f[CW]\&.macro\fP pseudo\[hy]op is used to define macro\[hy]instructions.
+These can be used to group opcodes together, along with appropriate parameters.
+.RS
+.ft CW
+.nf
+\&.macro pop
+pla
+sta %1
+pla
+sta %1+1
+\&.endm
+.fi
+.ft R
+.RE
+It is possible to use a macro anywhere you would use a normal opcode.
+Parameters are referenced using \f[CW]%1\fP, \f[CW]%2\fP, \f[I]etc\fP.
+.\" ----------  .n  --------------------------------------------------------
+.\" ----------  .o  --------------------------------------------------------
+.\" ----------  .p  --------------------------------------------------------
+.SS \&.print
+This pseudo\[hy]op is used to output a message to the standard error
+stream.  A common use of this directive is to provide a diagnostic
+announcement of a rejected or erroneous macro call or to alert the
+user to the existence of an illegal set of conditions specified in a
+conditional assembly.
+.PP
+The values of all the expressions are concatenated together.
+If you want spaces between them, use a constant string expression.
+.RS
+.ft CW
+\&.print "Oops."
+.ft R
+.RE
+This is not treated as a fatal error.
+.PP
+This pseudo\[hy]op was inspired by the PDP\[hy]11 pseudo\[hy]op of the
+same name, but it is not quite identical in operation.
+.SS \&.proc
+This pseudo\[hy]op identifies a procedure that returns no value.
+A \f[CW]\&.proc\fP is ended by the occurrence of a new
+\f[CW]\&.proc\fP, \f[CW]\&.func\fP, or \f[CW]\&.end\fP.
+.PP
+.RS
+\f[CW]\&.proc\fP \f[I]identifier\fP [ \f[CW],\fP \f[I]expression\fP ]
+.RE
+.PP
+Where
+\f[I]expression\fP indicates the number of words of parameters expected
+by this routine.  The default is 0.
+.PP
+Symbols defined before the first procedure or function are preserved,
+however symbols defined within the previous procedure or function are dropped.
+This gives each procedure a \[lq]clean slate\[rq] for its local symbols.
+.\" ----------  .q  --------------------------------------------------------
+.\" ----------  .r  --------------------------------------------------------
+.SS \&.radix
+The \f[CW].radix\fP pseudo\[hy]op can be used to change the default radix
+used by the assembler.
+(Not present in the UCSD native assembler.)
+.PP
+.RS
+\f[CW]\&.radix\fP \f[I]number\fP
+.RE
+.PP
+The \f[I]number\fP must be between 2 and 36.  You may need to use one of
+the explicit number forms (next paragraph) to cope with an unknown or
+undefined default radix.
+.PP
+You can always get a decimal number by using a dot (\f[CW].\fP) suffix.
+You can always get a hexadecimal number by using a \f[CW]H\fP suffix (if
+the default radix is less than 19),
+or a C\[hy]style \f[CW]0x\fP prefix (if the default radix is less than 34).
+.PP
+As with the cross compiler, you can also specify a number with
+a radix and hash (\f[CW]#\fP) prefix.
+For example, an octal number could be written \f[CW]8#377\fP;
+other radixes are also possible, such as \f[CW]13#42\fP.
+The radix base before the hash (\f[CW]#\fP) is always decimal, no
+matter what the default radix has been set to.
+.PP
+Note that the (implicit) \f[CW].arch\fP pseudo\[hy]op also sets the
+default radix.
+.\" ----------  .s  --------------------------------------------------------
+.SS \&.sbttl
+The \f[CW].sbttl\fP pseudo\[hy]op can be used to change the
+second of two lines of page title of the assembler listing.
+.PP
+.RS
+\f[CW]\&.sbttl\fP \f[I]text\fP
+.RE
+.PP
+The text does not need to be quoted, and it may contain spaces.  The
+effect of this opcode will be seen on the next page heading printed.  It
+is not possible to set both the title and the sub\[hy]title of the first
+page.
+.\" ----------  .t  --------------------------------------------------------
+.SS \&.title
+The \f[CW].title\fP pseudo\[hy]op can be used to change the
+first of two lines of page title of the assembler listing.
+.PP
+.RS
+\f[CW]\&.title\fP \f[I]text\fP
+.RE
+.PP
+The text does not need to be quoted, and it may contain spaces.
+The effect of this opcode will be seen on the next page heading printed.
+To set the heading of the \f[I]first\fP page, this directive must be the
+first line in the file.
+.\" ----------  .u  --------------------------------------------------------
+.\" ----------  .v  --------------------------------------------------------
+.\" ----------  .w  --------------------------------------------------------
+.\" ----------  .x  --------------------------------------------------------
+.\" ----------  .y  --------------------------------------------------------
+.\" ----------  .z  --------------------------------------------------------
+.SH SEE ALSO
+.TP 8n
+\f[I]ucsdpsys_compile\fP(1)
+A cross compiler from Pascal to UCSD p\[hy]System codefiles.
+.TP 8n
+\f[I]ucsdpsys_disassemble\fP(1)
+disassemble a UCSD p\[hy]System code file
+.TP 8n
+\f[I]ucsdpsys_link\fP(1)
+UCSD p\[hy]System codefile linker
+.so man/man1/z_copyright.so
+.\" vim: set ts=8 sw=4 et :

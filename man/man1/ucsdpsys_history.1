@@ -1,0 +1,2486 @@
+'\" t
+.\" UCSD p-System cross compiler
+.\" Copyright (C) 2010-2012 Peter Miller
+.\"
+.\" This program is free software; you can redistribute it and/or modify
+.\" it under the terms of the GNU General Public License as published by
+.\" the Free Software Foundation; either version 3 of the License, or
+.\" (at your option) any later version.
+.\"
+.\" This program is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+.\" General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU General Public License
+.\" along with this program.  If not, see <http://www.gnu.org/licenses/>.
+.\"
+.ds n) ucsdpsys_history
+.TH \*(n) 1 ucsd\[hy]psystem\[hy]xc "Reference Manual"
+.SH NAME
+ucsdpsys_history \- UCSD Pascal notes and archaeology
+.if require_index \{
+.XX "ucsdpsys_history(1)" "UCSD Pascal notes and archaeology"
+.\}
+.SH DESCRIPTION
+This document is an attempt to collect together
+historical information about the UCSD Pascal system.
+Including who wrote it, notes about is various idiosyncrasies,
+and how to boot a p\[hy]System \[lq]from scratch\[rq].
+.PP
+It may be that this information more properly belongs in Wikipedia.
+[http://en.wikipedia.org/wiki/Ucsd_pascal]
+With an eye towards this, all sources are being annotated with their URL.
+.\" ------------------------------------------------------------------------
+.SH ARCHAEOLOGY
+This section covers the historical period from 1977\[hy]ish, when UCSD
+Pascal project was initiated, to 1983\[hy]ish, when progress of languages
+and systems had basically left UCSD Pascal behind.
+.SS Predecessors
+Urs Ammann, a student of Niklaus Wirth, originally presented a p\[hy]code
+in his PhD thesis \- see Urs Ammann, \f[I]On Code Generation in a Pascal
+Compiler\fP, Software Practice and Experience, Vol. 7, No. 3, 1977,
+pp. 391\[hy]423, from which the UCSD implementation was derived, the
+Zurich Pascal\[hy]P implementation. The UCSD implementation changed the
+Zurich implementation to be \[lq]byte oriented\[rq].
+[15]
+[16]
+.PP
+Using a tool developed in response to the SCO kerfuffle
+(http://en.wikipedia.org/wiki/SCO\-Linux_controversies), Andrew Tridgel's
+\f[I]hashmatch\fP tool (http://samba.org/~tridge/hashmatch/),
+or even the venerable \f[I]diff\fP(1) command, it can be
+seen that there are significant similarities between the
+P2 compiler (http://www.standardpascal.com/p2/pcomp.pas)
+and the UCSD Pascal I.3 compiler posted to CompuServe
+(http://tech.groups.yahoo.com/group/UCSDPascal/files/Compiler/).
+The \f[I]numbers\fP and the names of the opcodes for both the P2 compiler
+and the UCSD 1.3 compiler are all but identical.
+.PP
+The P2 compiler was made available in 1974, and Ken
+Bowles obtained a copy that same year, and saw that it had the potential
+to be ported to the microprocessors of the day [1].
+The project that was to be UCSD Pascal was up and running by Oct\-1974 [2].
+.\" Kenneth Bowles
+.\" Mark Overgaard (see below for email address)
+.\" Roger Sumner
+.SS PUG Newsletter 4
+[9] 1975\[hy]Aug\[hy]22.  We are indeed working with
+PASCAL on the B6700.  Whether the work is of immediate interest to you
+is another question.  Making PASCAL into a stable B6700 product for
+users is a secondary objective of our project.  Our primary aim is to
+create an interactive student debugging environment on the PDP\[hy]11 with
+virtually all of the software written in PASCAL.
+.PP
+[9] The overall objectives of the project are described in the enclosed
+project prospectus.  Students will interact with PASCAL on the small
+machines in a manner very reminiscent of APL on IBM 360/370.  PASCAL is
+interpreted using a modified version of the Zurich P\[hy]Machine recently
+released.  The main purpose of the modifications is to reduce the the
+size of the compiled code so that the PASCAL compiler can fit within
+core of a small the limited machine.  Yes, we have done the same kinds
+of statistical studies represented in the reports you kindly sent,
+though our data is not in as elegant a form.  We are confident that
+the compiler can be run on a PDP\[hy]11 with at least 20K words of memory.
+We are hoping to reduce that amount further to perhaps 16K, when time
+permits.  Currently the interpreter is operating, but has yet to
+be tried with the whole compiler on the PDP\[hy]11.
+.PP
+[9] We are using the modified PASCAL compiler on the B6700 as a tool for
+developing the new PASCAL system, and generating pseudo\[hy]code for the
+PDP\[hy]11.  Having started with an interpreter for the Zurich P\[hy]Machine,
+we have progressed through various stages of bootstrapping to get a
+system compatible with the PDP\[hy]11 objective, and the interactive system
+objective.  Concurrent with the work using the interpreter, we also
+have an advanced student programmer writing an assembler which converts
+the compiler P\[hy]code output into directly executable B6700 code.  The
+B6700 code has been executed with small programs, and should be running
+the whole expanded a week or so.  This compile\[hy]assemble system manages
+its memory in one large array in a fashion similar to that used on
+conventional machines.  We are using the B6700 SWAPPER for much of our
+batch work, and hence have been able to use DIRECT (non\[hy]overlayable)
+array space for this purpose to enhance the speed of the processing.
+.PP
+[9] The short\[hy]term objective for the B6700 compile\[hy]assemble system is to
+provide a back\[hy]up means for students to use for PASCAL homework problem
+starting in late September.  Our PDP\[hy]11 equipment is not all here yet,
+and we clearly will not be ready to use the small machines with students
+during the first few weeks of the Fall Quarter.  Over the time period of
+the academic year about to start, we will almost certainly have someone
+complete the job of making a PASCAL compiler that can generate B6700
+code directly.  Yet to be resolved is the question of whether we can map
+the PASCAL data structures into the array\[hy]row structure of the B6700
+without doing violence to the basic approach of the P\[hy]compiler.
+.PP
+[9] The interpretive system is slow on the B6700, as might be expected.
+The major consumer of time is the low level character processing in
+the INSYMBOL and NEXTCH procedures.  We have changed these procedures
+completely, so as to depend upon installation intrinsic functions
+(Standard Procedures) that make use of the B6700 string processing
+hardware.  The GETSYM intrinsic returns information on each successive
+token in an area of stack that serves as a scanner information block.
+This provides a clean interface between compiler and interpreter, but
+it runs about half as fast as an earlier less\[hy]clean version (part
+way through the bootstrapping) in which virtually all of the work of
+INSYMBOL was done in an ALGOL intrinsic.  The current B6700 interpretive
+version takes about 10 minutes of processor time to compile the source
+file from Zurich.  We expect the compile\[hy]assemble version, and also the
+PDP\[hy]11 version, to run roughly five times faster than that.
+.PP
+[9] During the next two months we will be up to our ears in alligators
+getting this system completed well enough to use for teaching.  At a
+later stage I would be happy to share more details with you.
+.SS PUG Newsletter 8
+[10] 1977\[hy]Apr\[hy]17.  UCSD has recently started using a single user
+software system for microcomputers, with all major programs written in
+PASCAL.  The compiler is based on the P\[hy]2 portable compiler distributes
+by the ETH group at Zurich, but it generates compressed pseudo\[hy]code
+for a much revised P\[hy]machine interpreter.  As currently implemented on
+the LSI\[hy]11, compile speed is about 700 lines per minute (1000 on the
+PDP\[hy]11/10).  The system includes an interactive monitor, editor, utility
+file handler, and debugging package in addition to the compiler and
+interpreter.  With 56K bytes of main memory, and dual floppy disk drives,
+it has proven more convenient and faster to do all software development
+on the microcomputer than to cross compile from a big machine.  Whereas
+we have been using version of this system that depend on I/O support
+from the RT11 operating system distributed by Digital Equipment Corp.,
+our new system is independent of any external software support.  The
+resident monitor, in interpreter, and run\[hy]time support package occupy an
+aggregate of about 10K bytes of memory.
+.PP
+[10] Operation of large programs is facilitated through the concept of
+\[lq]Segment Procedures\[rq], which are rolled into memory only while
+actually invoked.  The compiler (20K bytes), editor, and File handler
+are all separate segment procedures.  One segment procedure can call
+others, and segment procedure may be declared nested within other segment
+procedures, to allow flexibility in memory management.  The user's data
+space expands (or contracts if necessary) to take advantage of as much
+memory as possible after the appropriate code segment have been loaded.
+.PP
+[10] Our plan is to have the new system completed to the point where
+it may be released to others by mid summer, 1977, with documentation
+package included.  During the summer, we also plan to complete a
+graphics support package (including an editor for graphics oriented CAI
+materials), an assembler for PDP\[hy]11 native code, and a compiler option
+allowing selected PASCAL procedures to generate native code rather
+than P\[hy]machine pseudo code.  The system is designed to make relatively
+painless the problem of adding native code routines programmed in
+assembly language, allowing a user to augment the set of built\[hy]in
+functions and procedures where efficiency is important.  This note has
+been composed and printed using a proprietary extended version of the
+text editor intended for use with a CRT display, which should be ready
+for release by late summer.  The system should be usable on any PDP\[hy]11
+system capable of bootstrap loading from RX11\[hy]compatible floppy disk
+drives, or from the drives supplied with the Terak Corporation LSI\[hy]11
+based machines (see next section).  Further details may be obtained,
+on request to the address given in the heading, in separate notes
+titled \[lq]Status of UCSD PASCAL Project\[rq], and \[lq]Preliminary
+Description of UCSD PASCAL Software System\[rq].
+.PP
+[10] In addition to the well advertised PDP\[hy]11/03 systems available from
+Digital Equipment, several smaller companies are offering stand\[hy]alone
+computers based on the LSI\[hy]11 that would be directly suitable for our
+software.  We have been particularly interested in using a stand\[hy]alone
+machine with low cost graphic display for interactive educational
+applications.  In connection with the EDUCOM Discount Program (see
+EDUCOM Bulletin, Spring, 1977), it now appears virtually certain that
+the Terak Corporation 8510A will be available to member institutions
+for about $5300 per machine (LSI\[hy]11, 56K byte RAM, single floppy disk,
+CRT for superimposed but independent text and graphics, keyboard, RS232
+asynchronous interface for network or printer connection).
+.\" An example of the graphic display of this machine is attached to
+.\" this note.
+.PP
+[10] Anyone who attended the West Coast Computer Faire in San Francisco
+should have come away impressed that small stand\[hy]alone microcomputers
+are big business and here to stay.  It is possible to re\[hy]implement our
+PASCAL based software system on system based on any of the most popular
+microprocessors within about 3 months of work by one programmer.  At
+UCSD we have started to re\[hy]implement for the Zilog Z80 OEM series
+of modules, which could serve as the basis for PASCAL interpretive
+operation roughly as fast as the LSI\[hy]11.  At the Faire, we talked with
+principal officers of most of the well known microcomputer manufacturers
+who sell to the hobbyist market, and encountered almost uniform
+enthusiasm for the idea of making PASCAL available on an industry\[hy]wide
+basis.  On the basis of those conversations, there is a reasonable chance
+that our PASCAL system will be available later this year for use with
+the 8080A, 6502, and M6800 microprocessors in addition to the LSI\[hy]11 and
+Z80.
+.PP
+[10]
+There is widespread frustration, among those who make and sell
+microcomputer systems, that only BASIC is generally available, and that
+no two BASIC implementations are alike.  Many of those we talked with
+at the Faire asked whether PASCAL could be standardized, to avoid the
+problem they encounter w1th non\[hy]standard BASIC (in addition to
+providing a more powerful programming vehicle).  Even a casual reading
+of the PASCAL User Group newsletter is enough to convince one that:
+a) people are finding it necessary to enhance PASCAL for their own
+particular applications; b) the heterogeneity of the enhancements
+already reported is so great that no committee exercise is likely to
+produce a standard.
+.PP
+[10] As an alternative, we believe that a chance exists to establish1sh a
+defacto standard for PASCAL, at least for small systems, by starting
+a bandwagon effect in the microcomputer industry.  A good definition
+of the underlying language for such a standard is contained in the
+Jensen and Wirth \[lq]PASCAL User manual and Report\[rq].  To implement
+a complete interactive software system, with adequate efficiency to
+run on a microcomputer, we have found it necessary to add built\[hy]in
+functions and procedures for handling text and graphics, and an
+EXIT(\f[I]procedure\[hy]name\fP) built\[hy]in for clean termination of highly
+recursive programs.  We have implemented SETs of up to 255 members in a
+way that uses memory efficiently, as well as packed arrays of BOOLEAN,
+for READ from a keyboard, the implied GET has to happen before the
+implied transfer from the window variable associated with the file.  For
+handling floppy disks and other small storage media, we use the DEC
+standard of 512 byte blocks, and allow logical records conforming to any
+structured type allowed in PASCAL.  In most other respects we have been
+able to conform closely to the language defined in the Jensen and Wirth
+book.
+.PP
+[10]
+If one common PASCAL based software system were to be come available
+almost simultaneously for most of the mass distributes microcomputers
+that system would establish the basis of a defacto standard for small
+stand\[hy]alone computers.  Changes to such a system would certainly be
+needed with experience, but those changes might well be made readily
+available to most user through \[lq]down line loading\[rq] of object code
+through the dialed telephone network.  Control of the PASCAL language
+standard might well be vested, at least temporarily, in a committee
+appointed by the PASCAL User's Group.  Fast turnaround communications
+among members of such a committee could be supported by \[lq]electronic
+mail\[rq] techniques over the dialed telephone network.  The verbal
+responses we received from the manufacturers at the Computer Faire
+suggest that an unusual opportunity, that may not be repeated, exists
+in mid 1977 to establish a defacto standard in the manner described
+here.  We invite the PASCAL User's Group to join with us at UCSD in
+bringing this about this summer.  In most respects, the language and
+system definition design questions can be separated from implementation
+details.  We have sought support to allow some of the advanced computer
+science students at UCSD to perform the implementation work on as many
+of the microcomputers as possible.  Representatives of other
+institutions would be welcome to work with us in La Jola, either on'
+system definition or implementation.  However we will not be able,
+ourselves, to devote a major percentage of out working time on
+definition of a standard.
+.PP
+[10] Introductory Textbook.
+For the last two years we have used PASCAL as the basis of the large
+attendance introductory course in problem solving and programming at
+UCSD.  The course is based on a textbook by this writer, that so far
+has been printed in the campus print shop.  Student responses have been
+unusually favorable, and the course reaches more than two\[hy]thirds of the
+undergraduate population even though it is treated as elective for most
+majors.  This response results partly from the non\[hy]numerical approach
+of the book, partly from student interest in our interactive system on
+the PDP\[hy]11s, and partly from our use of Keller's Personalized System of
+Instruction (PSI) as the teaching method.  Though suitable for PSI, the
+book can also be used as the basis for a conventional course.  At the
+invitation of Professor David Gries, acting as computer science areas
+editor for Springer Verlag publishers, the book will be published in
+paperback form this summer.  The production schedule will be tights, and
+we anticipate that the first copies will be available barely in time
+for the start of fall quarter classes in late September.  Springer is
+interested in knowing who might be interested in using the book and
+when.  Unfortunately, alterations to make the non\[hy]numerical approach
+more readily accessible on many machines will make it difficult to
+circulate advance copies of the final text until late June at the
+earliest.  We will be happy to forward inquiries to Springer.
+.PP
+[10] Though very popular with the students, the non\[hy]numerical approach of
+the book has been difficult to sell to most other publishers.  The
+approach used in fact has depended upon programming examples using
+English text, and requires STRING variables and supporting built\[hy]in
+functions that we have added to PASCAL.  In spite of this, the students
+learn the same programming skills that are taught in courses using
+traditional algebraic problem examples.
+.PP
+[10] Since the inception of our project, have wanted to orient the courses
+to teaching with graphic oriented problem examples, using an approach
+motivated by the \[lq]Turtle Graphics\[rq] used by Seymour Papert of MIT.  The
+microcomputers now becoming available make it possible to teach with a
+graphics orientation virtually no higher price than needed for
+non\[hy]graphic materials.  Accordingly, the textbook will be revised to
+augment and often replace the text oriented examples with graphics
+examples.  For potential users lacking a microcomputer with graphics
+display, several alternate possibilities exist.  Out built\[hy]in functions
+and procedures for graphics should be relatively easy to add to
+existing PASCAL compilers for other machines, and we will supply
+documentation to assist in that process.  A description of the
+built\[hy]in's needed is contained in the note \[lq]Status of UCSD Pascal
+Project\[rq] already cited.  The implementation will assume a graphic
+display based on the \[lq]bit\[hy]map\[rq] principle, for which many devices are
+available in the microcomputer industry.  Alternate display drivers
+will also be provided for the Tektronix 4006, 4010, ... series of
+direct\[hy]view storage tube terminals.  Successful, though crude, plotting
+of the graphic output will also be possible on ordinary line printers.
+High quality graphic output is possible on matrix printers such as
+those made by Printronix
+.\"(the graphic example attached to this note)
+Gould, Varian, and Versatec.
+.PP
+[10] B6700 PASCAL Compiler.
+A PASCAL compiler which generates native code for the B7600 is now in
+operation at UCSD and available for distribution from the UCSD Computer
+Center.  The compiler is written in PASCAL, and is based on the same
+variant of the P\[hy]2 portable compiler on which we have based the
+microcomputer implementation.  Compile speed is about 5000 lines per
+minute of logged processor time.  This compiler has been used for
+teaching large classes at UCSD for th e last two months.  As far as we
+know, most of the serious bugs in the original P\[hy]2 compiler have been
+corrected in both the B6700 and microcomputer implementations.  The
+B6700 compiler provides access to most of the extensive file handling
+features of the B6700.  At present, no implementation documentation has
+been completed for the B6700 compiler.  The Computer Center will almost
+certainly generate such  document given an indication of interest in
+using this compiler by other institutions.
+.\" Readers interested in obtaining a copy of the B6700 compiler should
+.\" contact Henry Fischer, UCSD Computer Center, La Jolla, CA 92093
+.\" (714)452\[hy]4050.
+.PP
+[10]
+Apology to Correspondents.
+I offer an apology to the many people interested in our PASCAL work who
+have tried unsuccessfully to reach me by telephone or letter in the
+last few months.  Currently I must depend upon several pooled
+secretaries who are not easily accessible.  Having been occupied with a
+heavy teaching schedule, and with a committee assignment consuming one
+or two full full working days per week, the correspondence has piled up.  The
+series of titled notes and position papers cite earlier have been
+generated in self defense as a way to answer the many enquiries.  The
+committee assignment has entered a down period.  Future written
+requests for these papers will be answered promptly, but telephone
+inquiries many remain difficult until the re\[hy]write of the book is
+completed.
+.PP
+[10] p. 63:
+Zilog Z\[hy]80.
+Ken Bowles has announced an implementation for the Z\[hy]80 to be distributed
+sometime
+this summer.  For more details see the Digital Equipment PDP\[hy]11
+section of this Newsletter.
+.PP
+[10] p. 63: According to Jim C. Warren, editor or Dr. Dobbs Journal of
+Computer Calisthenics and Orthodontia (Oct. 1976 issue, p. 6), Neil
+Colvin of Technical Design Labs, Trenton, New Jersey, has adapted
+a p\[hy]code compiler for the Z\[hy]80.  The p\[hy]code interpreter reportedly
+occupies about 1K bytes.  Another Zilog rumor is that Dean Brown is the
+person at Zilog to see about Pascal.
+.SS PUG Newsletter 9, 10
+[11] p. 112:  Zilog Z\[hy]80.  Ken Bowles and co\[hy]workers, UCSD, have adapted
+the San Diego DEC LSI\[hy]11 implementation to run on the Z110g Z\[hy]80 running
+(at 2.5 MHz) about 70% as fast as the LSI\[hy]11.  Release is expected by
+the end of 1977.  See the DEC LSI\[hy]11 (San Diego) note, above.
+.SS PUG Newsletter 11 (1978\[hy]Feb)
+[12] Status of UCSD PASCAL Project (27 November, 1977)
+.PP
+[12] This is a brief report on the current status of the UCSD PASCAL project
+intended to answer the questions of the hundreds of people who have
+been writing to us or calling by telephone.  It is our intention
+eventually to reach a steady state in which we can afford to have full
+time help capable of responding to such inquiries.  For the present, we
+have to apologize once again to those who may have been kept too long
+waiting for replies.
+.PP
+[12] 1.  Nature of the Project
+.PP
+[12] The project is one of the principal activities of the Institute for
+Information Systems (IIS).  Like other \[lq]Organized Research Units\[rq], IIS
+is operated primarily to provide resources and activities within which
+students and faculty can conduct research and development projects.
+Within the range of such activities, projects may support instruction
+and other public services, though the more usual activities of an ORU
+involve only basic research.
+.PP
+[12] Under IIS we have developed a major software system for stand\[hy]alone
+microcomputers based on the PASCAL language.  The initial reason for
+developing the system was to support instruction activities at UCSD.
+However, the system is designed for general purpose use, particularly
+for the development of interactive software, and for software
+development in general.  The system has matured sufficiently that we
+are distributing copies to outside users at a $200 fee which pays for
+some of the student part\[hy]time assistants who provide support to users
+and maintain the software.  Under prevailing University policies, we
+are not attempting to recover capital costs from the fees paid by users
+of our software package.  However, a number of interested industrial
+firms have provided assistance to further the project through
+unrestricted grants to the Regents of the University of California
+marked for use by our project.  These grants are our principal source
+of operating funds at the present time.
+.PP
+[12] Since the PASCAL based software system was developed with the intent to
+support long term instructional projects, we have placed very high
+emphasis on machine independence.  We expect the repertoire of
+instructional software developed to use the underlying system to grow
+very large.  The development costs for the instructional software will
+eventually dwarf the costs of the hardware on which it operates.  Since
+the industry is introducing new microcomputer designs at a rapid rate,
+we wanted to be able to move the entire software repertoire to new
+machines with a minimum of effort.  As will be detailed in later
+sections of this note, our system is now running on 5 dis\[hy]similar
+processors, with more planned in the relatively near future.  We are
+using the Digital Equipment LSI\[hy]11 for teaching.  Versions for the 8080
+and Z80 microprocessors are operational and will be ready to distribute
+on or about 1 January, 1978.
+.PP
+[12] We intend to continue promoting the use of our PASCAL\[hy]based system on
+as many popular microprocessors as practical for two reasons.  First,
+this should provide IIS with a source of continuing income to pay for
+student projects.  Second, PASCAL with extensions is a superior
+language for system programming, and we believe that it is in the
+public interest to assist in the current effort of many people and
+institutions to promote wider use of PASCAL in place of some of the
+earlier high level languages.  Though PASCAL may have some shortcomings
+for specific applications, when compared to specific proprietary
+languages, we regard it as by far the best general purpose language now
+in the public domain.
+.PP
+[12] Our current Research and Development interests include:
+.PP
+[12] a.  Methods of making large software systems like ours more readily
+transportable to new processor architectures.
+.PP
+[12] b.  The use of microcomputers as intelligent communications devices to
+assist humans to work together even when located thousands of miles
+apart.  This interest will eventually involve us in a variety of
+complex software issues.  In the near term it will provide us with an
+efficient method of supporting users of our software system who are
+remote from UCSD.
+.PP
+[12] c.  Joint use of microcomputers and Keller's Personalized System of
+Instruction (PSI) as a means of offering high quality college level
+mass education at lower costs per enrolled student than associated
+with conventional methods.  A published introductory textbook on
+problem solving using PASCAL, and a library of automated quizzes and
+record keeping software to go with the textbook, are available to
+others as a first step in this direction.
+.PP
+[12] d.  Exploration of possibilities and software problems associated with
+new hardware devices or architectures\[hy] adaptable to the purposes
+already described.  Examples include video disks, low cost X\[hy]Y input
+devices, and low cost strategies for interconnecting many
+semi\[hy]independent microcomputers.
+.PP
+[12] Partly as a matter of self preservation, we have become interested in.
+the problem of standards for the PASCAL language.  The United States
+Defense Department and many large industrial corporations have recently
+decided to use PASCAL as a base language which they would extend, and
+possibly alter, to create system implementation languages.  Although
+almost every organization has chosen to extend or alter in slightly
+different ways, we have found that the intent portrayed in most
+instances is very similar.  In our own implementation, we too found it
+necessary to extend PASCAL, and in very minor ways to alter the base
+language as described in Niklaus Wirth's widely read \[lq]Report\[rq] on the
+language (see .Jensen, K. and N. Wirth, \[lq]PASCAL User Manual and Report\[rq],
+Springer Verlag, 1975).  We, and many others in the PASCAL User Group,
+are very much concerned that all this extension and alteration activity
+will result in PASCAL going the way of BASIC for which hundreds of
+dialects are in common use.  We believe that a chance still exists to
+gain consensus on a substantial family of PASCAL extensions for system
+programming, provided that this can be brought about within the next 6
+to 12 months.  Unless someone does so before us, we intend to convene a
+summer workshop for representatives of some of the major using
+organizations in the hope that such a consensus can be reached.
+.PP
+[12] Another ancillary activity of the project has been continuing search
+for low cost microcomputer hardware of high quality for use in
+educational institutions \- particularly ours.  We have been advising
+and collaborating with EDUCOM regarding establishment of quantity
+purchase discounts for stand\[hy]alone microcomputers.  The first
+microcomputer to be included in the EDUCOM discount program is the
+Terak Corporation 8510k, Which is based on the Digital Equipment
+LSI\[hy]11.  For the current market, the Terak unit's price of $5500 to
+EDUCOM member institutions is highly competitive.  Nevertheless, the
+rate of new announcements from the industry continues very high, and we
+believe that it is all but impossible to predict what hardware will
+provide the best cost/performance tradeoff for as long as even one year
+in advance.  Of necessity, our search has concentrated on stand\[hy]alone
+microcomputers with graphic display capabilities, and with enough main
+memory and secondary storage to handle the extensive software and
+course materials with which we are working.  We welcome inputs on this
+subject from other institutions, or from any vendor, and endeavor to
+keep EDUCOM informed of opportunities that seem advantageous.  In
+addition to educational and communications applications, we are
+interested in word processing and business applications of the same
+machines.
+.PP
+[12] The following sections of this status report contain brief detailed
+summaries covering most of the topics just enumerated.  If we haven't
+answered your questions yet, please try again with a phone call or
+letter.  For those who already have our software system in use, we will
+soon be providing an automatic Tele\[hy]Mail facility on a dial\[hy]in basis.
+This should improve dramatically our ability to keep you informed and
+to respond when software difficulties arise.
+.PP
+[12] 2.  The PASCAL based Software System
+.PP
+[12] Thus far, users who have received our first released system have copies
+of version 1.3, which was completed in mid August this year.  We have
+ourselves been using version I.3c since early October.  By the end of
+the December academic break, we hope to have a version I.4 available
+for distribution.  The most significant generally useful addition since
+the 1.3 release has been the screen\[hy]oriented editor.  A major package
+for preparation of CAI programs, following the general philosophy of
+the University of California Irvine Physics Computer Development
+Project (PCDP), has been placed in operation on the Terak 8510k
+microcomputer.  Except for some graphics materials within this package,
+it can be used on a wide variety of CRT screen display devices.
+Software more specifically oriented to the Terak machine is also
+available, and includes a character set editor (for the soft character
+generator), and a bookkeeping package for keeping track of student
+progress in a large Keller Plan (PSI) class.
+.PP
+[12] The software system is currently executed in a pseudo machine
+interpreter, which emulates a hypothetical real machine designed to
+handle PASCAL constructs efficiently.  Our pseudo machine is similar in
+concept to the P\[hy]machine distributed by Wirth's group at Zurich, but we
+have made extensive changes to compress the PASCAL object code into a
+much smaller space than possible with the Zurich interpreter.  The
+interpreter, and run\[hy]time support routines, currently occupy about BK
+bytes of main memory.  The interpreter is in the native machine
+language of the host machine, and thus far has been coded by hand using
+the host's assembly language.  All other code in the system is written
+in extended PASCAL.
+.PP
+[12] While the interpreted object code runs roughly five times slower than
+native code for the host machine, several factors allow our large
+system programs to run substantially faster than this would indicate.
+The strategy of code compression makes it possible to run relatively
+large programs without time consuming overlays.  For example, the
+complete compiler occupies 20K bytes in a single overlay.  Since the
+system is designed for frequent compile/go cycles associated with
+instruction, we have added several built\[hy]in procedures and functions to
+handle low level Operations needed frequently by the compiler.  As a
+result, the compiler translates PASCAL source code at about 650 lines
+per minute on an LSI\[hy]11 with its clock set to 2.2 MHz.  On a Lt MHz Z80,
+the compile speed will be slightly faster than this.
+.PP
+[12] Interpreter based versions of our system are flow running on 5 distinct
+processors, and two others are close to completion.  Those operating
+include DEC POP\[hy]11's ranging from the LSI\[hy]11 to the 11/45, using either
+floppy disks or RKO5 disks for secondary storage.  Versions for the
+8080 and Z80 are operating in our laboratory, but more of that later.
+Sperry Univac Minicomputer Operations at Irvine is using the system on
+the V\[hy]75 and related machines.  Another group at UCSD has the system
+running on the Nanodata QM\[hy]1.  With support from General Automation, a
+version is close to completed on the GAZLO family of machines.
+National Semiconductor has an implementation nearly completed on the
+PACE microcomputer.
+.PP
+[12] The principal modules of the system as it will be distributed in the
+1.14 release include the following:
+.PP
+PASCAL compiler
+File manager (capabilities similar to DEC's PIP)
+Screen oriented editor (cursor positioning, immediate updates)
+Line oriented editor (similar to DEC's RT\[hy]11 Editor)
+Debugger (single line execution, reference to variable contents)
+SETUP program (adapt system. to most ASCII terminals)
+BASIC compiler (ANSI standard plus strings)
+Operating System and user command interpreter
+PASCAL pseudo machine interpreter
+Linker program (for linking independently compiled program segments)
+Desk Calculator utility program
+.PP
+[12] Users of the Terak 8510A may, on request, also receive copies of the
+CAI package, and automated quizzes for the introductory textbook, as
+well as the bookkeeping package.
+.PP
+[12] Documents describing all of the above are available, and part of the
+release, but not all documents can be considered complete at this time.
+We distribute source and object code files on separate floppy disks
+formatted to be compatible with the IBM 37140 standard, with 512 byte
+blocks laid out in alternate 128 byte sectors according to DEC's
+standard.  We have occasionally sent copies recorded directly on disk
+packs for the RKO5 drives.  All other media are painful or impossible
+for us to handle, and no promises are made to use them.  Those who
+order the full $200 release package will be sent both the documents,
+and printed listings of the source programs.  Copies of the descriptive
+documents, amounting to approximately 150 pages, may be ordered at $10
+each (checks payable to the \[lq]Regents of the University of California\[rq])
+to cover printing and handling costs.
+.PP
+[12] 3.  Minimum Configuration
+.PP
+[12] In order to use the compiler, you need a total of at least 148K bytes of
+main memory, including the 8K bytes assigned to the interpreter.  We
+use 56K bytes.  Ideally, the interpreter should be completed re\[hy]entrant
+and thus it should be possible to operate the interpreter from Read
+Only Memory.  To date, the ideal has not quite been achieved, as none
+of our sponsors has yet insisted on that feature.
+.PP
+[12] At present, the system we use with students contains several built\[hy]in
+functions not needed for system development.  The aggregate size of
+these functions is large enough to prevent compiling the compiler
+itself, or the operating system, even on a 56K byte system.
+Accordingly, we currently have two versions of the system, one for
+students, and one for system development.  Within the next few months,
+we plan to add a means of configuring general purpose libraries for the
+system, and by that means expect to be able to return to a single
+version for all purposes.  That single version should be practical to
+use in less than 18K bytes for some purposes.
+.PP
+[12] If you intend to compile on one microcomputer, and to executed object
+routines on others, the others can get by with as little as 1&K bytes
+of main memory if the operating system is not used.  The resident
+portion of the operating system occupies about 8K bytes itself.  This
+will undoubtedly be reduced as part of the libraries project.
+.PP
+[12] The system is designed to be used with standard IBM compatible floppy
+disks, Clearly it can be used with other varieties of floppy disks, or
+with other secondary storage media, with appropriate I/O drivers.  The
+I/O drivers have proven to be one of our principal bottlenecks, and we
+make no promises in advance about supporting other devices.  For DEC
+PDP\[hy]11 machines, the floppy disk drivers are assumed to be compatible
+with the RX\[hy]11, or with the Terak 8510A drives.  Hard disks are assumed
+to be compatible with the RKO5.
+.PP
+[12] The system is normally supplied with the assumption that the user has a
+simple line\[hy]oriented ASCII terminal.  The SETUP program can be used to
+configure control codes for more appropriate use of most CRT terminals.
+Copies of' the system supplied to users of the Terak 8510A make fairly
+extensive use of the special graphics and character generator
+facilities of that. machine.
+.PP
+[12] 4. 8080 and Z80 versions
+.PP
+[12] The Z80 version is now running on the Tektronix 8002 Microprocessor
+Development Aid system, for which Tektronix has supplied substantial
+support to the project.  The 8080 version uses virtually the same
+source code as is used on the Z80, with conditional assembly altering
+certain passages in the source to substitute for a few of the extended
+Z80 instructions that proved useful.
+.PP
+[12] Release of the 8080/Z80 version of the system for other machines has
+been held up primarily because of the awkwardness of handling I/O.  We
+currently have a Zilog Development System, a Processor Technology SOL
+system, and a Computer Power and Light COMPAL\[hy]8O system.  The floppy
+disk provisions for each of these machines is non\[hy]standard.  As a
+result, we have been forced to down\[hy]load programs via serial interfaces
+to get from the LSI\[hy]11 host machines used for development over to the
+new 8080 or Z80 based host, This has proven to be a very time
+consuming process, and a serious bottleneck in our work.  Moreover, we
+are somewhat amazed to find that the Assembly of large programs on
+these machines runs almost a factor of ten slower than compilation of
+PASCAL programs that carry out similar tasks. Clearly, something has to
+give if we are to reach the objective of distributing PASCAL systems
+for more than a few 8080 and Z80 based machines.
+.PP
+[12] The solution to this problem that we now plan to use is based on the
+extensive market penetration of an operating system called CP/M, which
+is a product of Digital Research Inc.  We have talked with many OEM and
+hobbyist users of the 8080 and Z80 who wanted to know when we would
+have the PASCAL system operating under CP/M.  We then learned that CP/M
+is distributed in a package which assumes that most users will write
+their own I/O drivers.  In effect, CP/M establishes a quasi standard
+for the interface between an 8080/Z80 operating system and its I/O
+drivers.  With thousands of copies working in the field, CP/M seems to
+be far ahead of' the field in this area.  Accordingly, we have decided
+to release the UCSD PASCAL System for 8080 and Z80 users in a form that
+will work with I/O drivers and bootstrap loaders developed for use with
+CP/M.  This does not mean that our package will run under CP/F4.
+However, if CP/M runs on your machine it should be relatively easy to
+install the PASCAL system on that machine.  We have been in contact
+with Digital Research on this concept, and they have offered to
+cooperate.  If you do not have CP/M for your machine, the
+implementation package may be obtained from Digital Research Inc., Box
+579, Pacific Grove, CA 93950 for $70.  Since CP/M has been implemented
+on a very wide variety of 8080 and 280 based machines, there is a high
+probability that CF/N I/O drivers are already available from Digital
+Research or someone else for your machine.
+.PP
+[12] Alteration of our present interpreter to match the CP/M I/O calling
+conventions has proven to be very simple, at least on paper.  We expect
+that some implementors of CP/M will have installed standard console
+input routines which automatically echo to the standard console printer
+or display device.  This will necessitate a change, since our system
+uses both echoing and non\[hy]echoing console input.  At this writing, the
+exact method to be used is under discussion.  Barring some unforeseen
+calamity, copies of our system designed to run with CP/M I/O drivers
+should be ready for distribution by early January, 1978.  The
+distribution medium will be IBM compatible floppy disks formatted in a
+manner yet to be finally specified.  We will undertake to transform the
+system for other media and other formats, in general, only if a copy of
+the necessary hardware is available in our laboratory, and only if
+funds are available to pay for the extra conversion work.
+.PP
+[12] For many of the 8080 based machines we have seen, the most practical
+way to install our system will be to use 18K bytes of RAM augmented
+with BK bytes of ROM for the interpreter.  Any additional RAM or RON
+required by the host processor system will also be needed.
+.PP
+[12] 5.  PASCAL Extensions and Alterations
+.PP
+[12] We have attempted to implement faithfully as much as possible of PASCAL
+as defined in Jensen & Wirth's User Manual and Report.  The principal
+extensions to PASCAL embodied in our system are related to STRING
+variables, Turtle Graphics, handling of disk files, Segment (overlay)
+Procedures, and several functions for support of the system itself.
+Alterations include a prohibition against passing procedure or function
+identifiers as parameters, restriction against GOTO out of a procedure,
+the addition of EXIT(<procedure\[hy]name>) to effect a normal exit from the
+procedure named in the parameter, and a change in READ applying to the
+interactive INPUT and KEYBOARD files.  Further details than given in
+this section are given in our system release documents.
+.PP
+[12] Type STRING is a pre\[hy]declared record containing a character count
+followed by a packed array of characters.  Built\[hy]in procedures and
+functions include LENGTH, POS(ition), INSERT, DELETE, COPY (i.e.
+extract), CONCATenate, SCAN, FILLCHAR, MOVERIGHT, and MOVELEFT.  The
+last four of these also operate on conventional packed arrays of
+characters.
+.PP
+[12] Turtle Graphics describes a technique originated by Seymour Papert of
+MIT in which one can either MOVE a cursor (called the \[lq]turtle\[rq]) an
+arbitrary number of screen units in the current pointing direction, or
+TURN an arbitrary number of degrees at the current position.  A
+PENCOLOR procedure allows the line drawn by a MOVE to be either WHITE,
+BLACK, or NONE.
+.PP
+[12] The disk file extensions allow working with fixed length logical
+records corresponding to any legal <type>, which might typically be a
+RECORD data structure.  GET and PUT operate normally through a window
+variable of the same <type>.  OPENNEW creates a new file, OPENOLD opens
+a pre\[hy]existing file, and CLOSE allows saving or purging a file.  SEEK
+(which will be distributed with the 1.11 system for the first time)
+allows random access to logical records within a file.
+SEGMENT Procedures are separately compiled and then linked into the
+host program using the LINKER.  A Segment procedure is only loaded into
+main memory when it is entered for the first time, and its memory space
+is deallocated upon exit from the first invocation.
+.PP
+[12] READ(INPUT,X) is defined by Wirth as X: INPUT f; GET(INPUT); which we
+find to be extremely awkward for interactive use.  Our solution is to
+place the implied GET before the implied assignment in the case of
+interactive files of type TEXT.  READ operates as defined in Wirth's
+Report for other TEXT files.
+.PP
+[12] PACKED records on our system which fit within 16 bit fields are
+automatically packed and unpacked without explicit action by the
+programmer.
+.PP
+[12] 6.  Introductory PASCAL Course and Textbook
+.PP
+Many of those inquiring about our system have heard about it through
+having seen the textbook \[lq]Microcomputer Problem Solving Using PASCAL\[rq]
+by the author of this note, published this fall by Springer Verlag.  If
+you haven't seen a copy, they may be obtained from Springer at 175
+Fifth Ave., New York City, NY 10010.
+.PP
+[12] The book is the basis for teaching the large attendance introductory
+computer science course at UCSD.  This course comes close to matching
+the specifications for course CSI in the recently published curriculum
+recommendations from ACM's SIGCSE.  The approach is non\[hy]numerical as
+far as practical, as a tactic to reach the many students who come to us
+with inadequate preparation in high school mathematics.  The problem
+solving and programming approach taught is the same as we would teach
+even if all the problem sets were mathematics oriented.  Because many
+problem examples and illustrations use our string and graphics
+extensions to PASCAL, the textbook currently assumes that the student
+will have access to a computer which runs under the UCSD PASCAL system.
+We will be glad to discuss the possibility of conversion to other
+software systems, but have very limited resources to apply to such
+conversions.  There are several stand\[hy]alone microcomputers now being
+sold in large quantities on which our system would run, given a small
+conversion effort, and we would welcome support funds to pay for such
+conversions.
+.PP
+[12] Software in the form of automated quizzes is available with our system
+release for those who may wish to teach using the textbook.  Each
+chapter in the book has a list of study goals for the students to
+achieve.  Wherever appropriate, the quizzes test for mastery of the
+topics enumerated in the goals lists.  The quiz programs have been
+implemented using a set of CAI primitive routines patterned after the
+well known DIALOG CAI system developed at U.C.Irvine by Alfred Bork and
+his colleagues.
+.PP
+[12] The introductory course is taught using Keller's Personalized System of
+Instruction (PSI).  PSI has been found to be a more successful method
+of instruction than any other method commonly used in universities and
+colleges.  This success is achieved, almost completely without
+conventional lectures, by using experienced students as Learning
+Assistants called \[lq]proctors\[rq].  The characteristics of this method make
+us believe that it is possible to offer this course, or others
+constructed along the same lines, on a packaged basis for use at other
+institutions.  A separate paper describing this possibility in detail
+called \[lq]Microcomputer Based Mass Education\[rq] is available from the
+writer of this status report.
+.PP
+[12] 7.  Tele\[hy]Mail User Support Facility
+.PP
+[12] We have reached the point where it will be possible for us to begin
+operating a dial\[hy]in computer \[lq]mailbox\[rq] by early in the
+winter quarter.
+We have been using the Terak 8510A machines occasionally as intelligent
+terminals for exchanging messages via the large B6700 computer operated
+by the campus computer center.  Our own Tele\[hy]Mail facility will use its
+own single telephone number reachable directly from the national dialed
+telephone network, or internally via the California state government
+telephone network.  Paid subscribers to our software release will be
+notified when this mailbox facility is ready to be used.
+.PP
+[12] The mailbox will be operated primarily to serve users of our software
+system.  It will provide notices of recent bug corrections,
+down\[hy]loading of program files (either source or object) where
+appropriate, notices on new additions to the software and new machines
+on which implementations have been completed, and other useful
+information from us to the users.  It will also serve as a means for us
+to collect messages from specific users, and to answer them
+expeditiously, without the hassle of both parties having to be at their
+telephones at the same time.
+.PP
+[12] Through the use of block transfer software, the mailbox will make
+relatively efficient use of the dialed telephone network.  We would
+like to begin immediately by offering a dial\[hy]in port at 1200 bits per
+second.  However, the present state of confusion in the industry at that
+speed (which is the fastest one can use with acoustic couplers) leads
+us to move cautiously.  We can and will install a port at 300 bits per
+second using the standard Hell 103A equivalent conventions.  The system
+will answer an incoming call from an ordinary terminal by providing a
+brief summary of recent developments.  It will otherwise expect a
+\[lq]handshake\[rq] from a special file transfer program that we will provide
+to users of our software package.  This program will be the means of
+interchange based on efficient transfer of messages in the form of
+complete files.  If you wish to send an ordinary text message to us,
+you will prepare the message using either of the editors built into the
+system.  Only after the message is complete will you need to make the
+telephone connection.
+.PP
+[12] 8.  Forthcoming Improvements
+.PP
+[12] As mentioned earlier, our next significant improvement in the software
+will be a more flexible system allowing libraries of programs.  One of
+the main reasons for doing this will be to allow the software to be
+configured to make efficient use of main memory in cases where the user
+does not need all of the built\[hy]in facilities.  For example, we have no
+need for turtle graphics when compiling large system programs.
+.PP
+[12] One of the long awaited features of the new library system will be an
+arrangement allowing mixture of PASCAL procedures with Assembly
+language routines and/or procedures compiled directly to the native
+code of the host machine.  The necessary assemblers and code generation
+will come somewhat after the library system is operational.  If all
+goes well, the library system should be ready to distribute during the
+winter quarter of 1978.  The assemblers and native code versions of the
+compiler will come somewhat later as time for the necessary work
+permits.
+.PP
+[12] Many people have asked whether we have in mind extensions to support
+Concurrent PASCAL, or similar facilities to allow independent processes
+running concurrently.  This is something we would like to do
+eventually, but our current resources do not allow making definite
+plans in this area.
+.SS Pre\[hy]I.2
+[1] What was to become UCSD Pascal began in October 1974,
+by Kenneth Bowles and Mark Overgaard.
+.PP
+[2]
+While Roger Sumner was a junior at UCSD's Revelle College, 1974,
+Dr Bowles asked him to participate in the Project's system software
+design and development.  Porting of Urs Amman Pascal compiler to
+the UCSD Pascal environment, and the design and implementation the
+PDP\[hy]11/LSI\[hy]11 P\[hy]Code interpreter.
+.PP
+[1] Niklaus Wirth's \f[I]Pascal User Manual and report\fP
+was quickly adopted at more than 300 Computer Science departments .
+Urs\[hy]Ammann's P\[hy]machine allowed (almost) instant Pascal on
+diverse machines.
+Pascal was a big influence on adding Science to Computer Science.
+.PP
+[1] The p\[hy]Machine has similarity to B6500 stack machine hardware.
+Used assembly language to implement P\[hy]machine on the PDP\[hy]11.
+Compiled Pascal on B6500 to write primitive UCSD Operating System,
+and to port Ammann's compiler.
+Ammann's Pascal Compiler re\[hy]compiled for UCSD p\[hy]Machine.
+Students developed the Editor, the Filer, etc, on the PDP\[hy]11 using Pascal
+.PP
+\f[I]Which students?  When?  Name names.  Date dates.\fP
+.PP
+[1] Bowles persuaded Terak to build cheaper LSI\[hy]11 small computer.
+The Terak UCSD design widely adopted at other universities.
+(\f[I]when?\fP)
+.PP
+[1] The first port of the UCSD p\[hy]System was to the Z80,
+and it was a revelation.
+Peter Lawrence and Joel McCormack worked on the first trial demo in early 1976.
+First step... showed Sumner's Op System seemingly worked.
+Plugged in floppy disk with Kaufmann's Editor,
+All Pascal software worked on Z80 as on PDP\[hy]11, with no change.
+Portable software.
+.PP
+[1]
+Software was sold with a $15 license fee, to support project infrastructure.
+.PP
+[1]
+There was a need to extend the Pascal language definition to accommodate
+some features of small machines.  This was not met with universal approval.
+.SS I.2 (\f[I]date?\fP)
+[7] released in\[hy]house at UCSD.
+Not yet self\[hy]hosting?
+.SS I.3 (Aug\[hy]1977)
+[7] released at UCSD, also released to a few other UC campuses.
+All parts of the system still contained in SYSTEM.PASCAL.
+.PP
+The first \[lq]working\[rq] version of the interpreter, for reasonably
+loose definitions of the term \[lq]working\[rq], was I.3a.  This was the
+p\[hy]machine that was used on the PDP\[hy]11/10s in the lab.
+[Keith Shillington, Pers.  Comm., 2010\[hy]May\[hy]31]
+.SS I.4 (Jan\[hy]1978)
+[7] general release.
+System divided into separate filer, editor, compiler.
+.SS I.5 (Sep\[hy]1978)
+[7] UNITs developed, compiler now able to compile them.
+Editor now able to copy from other files.
+Filer how has wild\[hy]carding.
+Many other features.
+.PP
+I.5 has sub\[hy]versions a through f (several debugging efforts).
+.SS II.0 (Jan\[hy]1979)
+[7] Second p\[hy]machine version.
+Division of single Remote I/O channel into separate input and output channels.
+Not much difference in organization from I.5
+.SS Swansong (1979\[hy]Jul\[hy]09)
+[14] Events have once again overtaken us resulting from continued rapid
+growth in interest throughout the industry in UCSD Pascal***.  Once
+again we have to apologize for the long delay since our last
+newsletter.  This time, the growth has forced major changes in the
+nature of the Project.  As a result, this newsletter will probably be
+the last one distributed from UCSD to our full mailing list.
+.PP
+[14] Commercial Licensing of UCSD Pascal\*[Tm]
+.PP
+[14] Readers familiar with the recent progress of our Project will recall
+that our top priority objective is to promote the concept of machine
+independent software.  To move a large and complex applications
+program from one machine to another, we have found it vastly more
+practical to move the entire software system, i.e. UCSD Pascal \*[Tm]
+than to re\[hy]compile the applications program using just the
+compiler for the same high level language on each machine.  The
+reason for this is that practical use of a programming language, no
+matter how well standardized, demands uses of operating system
+facilities.  These facilities often must be reached using language
+constructions that fall outside the language standard
+specifications.  Our experiences in this area have been so successful
+that we have felt obligated to pursue a course whereby the same
+UCSD Pascal System can be made widely available on machines of many
+different designs.
+.PP
+[14] NOTE: \[lq]UCSD Pascal\[rq] is a trademark of the Regents of the
+University of California.  Use thereof in conjunction with any
+goods or services is authorized by specific license only, and
+any unauthorized use thereof is contrary to the laws of the
+State of California.
+.PP
+[14] As a secondary objective, we are, of course, helping to promote the
+wider use of Pascal.  Again, the objective of program portability
+demands language standardization.  During the last year tremendous
+progress has been made toward international standardization of
+Pascal.  The work is being led by a committee of the British
+Standards Institute, who have issued a draft for a new standard
+definition of Pascal.  This draft describes virtually the same Pascal
+as described in the original Report issued by Niklaus Wirth.  The new
+draft clears up a large number of ambiguities and inconsistencies,
+in Wirth's definition, making the language definition easier to
+understand.  In the United States, a joint committee of ANSI and IEEE
+is actively participating in this effort.  In view of the widespread
+use of UCSD Pascal\*[Tm] we have felt obliged to support a version of
+Pascal which agrees with the standard language as closely as
+practical.  In common with most other implementations of Pascal, we
+have made a few carefully chosen extensions to the standard
+language.  Our \[lq]base\[rq] language does differ slightly from the new
+draft standard, and efforts are under way to correct these
+differences.  We are disappointed that it seems very unlikely, in
+view of the real world politics of standardization, that a widely
+used standard will soon emerge on extensions to Pascal which are
+needed for some common applications.
+.PP
+[14] Beginning about a year ago, these objectives led us to arrange for
+commercial licensing of the UCSD Pascal System under circumstances
+that would discourage advertising as \[lq]UCSD Pascal\[rq] any version of
+the software not functionally identical to versions issued by the
+Project.  This required a close working relationship with many
+manufacturers, to assure correct installation of the System on their
+equipment.  A substantial aggregate level of income to the Project
+was required to pay the student employees engaged in the
+installation of the System on various different equipment models.  By
+the end of the Fall quarter we were beginning to learn how to
+conduct this activity reasonably efficiently.
+.PP
+[14] Because of legal constraints on University of California activities, the
+University administration directed that the Project either cease
+operations or find an outside licensee to handle the routine
+maintenance, user support, sub\[hy]licensing, and installation of the
+System on additional machines (as well as on all those already
+licensed).  It soon became apparent that other legal limitations
+would make it impractical to use a not\[hy]for\[hy]profit outside licensee.
+For other reasons, well established practices of the University of
+California (as well as many other universities) indicated the use of
+just a single outside profit making firm as the University's \[lq]Sole
+Licensee\[rq] for support services covering UCSD Pascal\*[Tm].  Had several
+firms been licensed to handle sub\[hy]licensing, under a competitive
+arrangement, other laws would have made it impossible for the
+University to compel the several firms to release and maintain the
+same version of the UCSD Pascal System.  With the sole licensee, the
+program portability objective is optimized because the the licensee
+will distribute a common version of the system for all
+implementations.
+.PP
+[14] In the choice of a sole licensee, many other considerations were
+taken into account.  We felt it necessary to choose a well
+established software house whose business history indicated a
+respect and understanding for the systematic programming principles
+on which Pascal is founded.  The firm had to be large enough, and
+financially strong enough, that the University could reasonably
+assure the user community that commercial quality support services
+would be available indefinitely to back commercial distributors of
+UCSD Pascal\*[Tm].  Without this assurance, many of the commercial
+distributors were already showing signs of creating their own
+software support staffs \- with the inevitable result that the many
+distributed versions would soon differ from the University's
+version.  (While we know there are many shortcomings in the design
+and implementation of UCSD Pascal\*[Tm], inter\[hy]machine portability of
+large application programs demands that all versions be the same in
+spite of those shortcomings.)  The firm chosen also had to be small
+enough to minimize the layers of bureaucracy in University
+communications needed to oversee the work of the sole licensee.  To
+foster continued close working relationships with the surviving
+research and education components of the Project within the
+University, preference was given to firms willing to locate the
+principal support office for UCSD Pascal\*[Tm] in the close vicinity of
+the UCSD campus.
+.PP
+[14] Within these constraints, one of our major concerns was to find a
+firm willing to pursue the support and sub\[hy]licensing of UCSD in a
+way that would lead to widespread availability of portions of the
+System to students in colleges and schools at the lowest possible
+prices.  It must be emphasized that this objective cannot be achieved
+by releasing all details of the current UCSD Pascal System into the
+public domain.  If there were no copyright protection and commercial
+publication of college textbooks, and texts were required instead to
+be released to the public domain, there would be no system of mass
+education at the college level.  Similarly, widespread availability
+of UCSD Pascal to college students demands a distribution approach
+that in some cases will resemble textbook publishing.  Moreover, the
+UCSD Pascal System will not survive as an important tool for
+education unless it is also used extensively for commercial computer
+applications in many different ways.  A substantial staff is
+needed for support and maintenance work necessary to assure that
+the quality of the UCSD Pascal System will improve, or at least
+not decline, as it evolves.  The sole licensee firm must therefore be
+able to pay that staff and make a reasonable profit.
+.PP
+[14] As a result, the best we could do (for students and individual
+users) was to seek a sole licensee willing to work with companies
+interested in \[lq]publishing\[rq] smallish configurations of the UCSD
+Pascal\*[Tm] System in large quantities at modest prices.  Because of legal
+constraints, the University is unable to specify the pricing
+policies of the Sole Licensee.  We sought a sole licensee willing to
+price its services within the range of the many small companies who
+wish to distribute UCSD Pascal\*[Tm].  Beyond this, the sole licensee's
+pricing will depend upon feedback from the marketplace.  We feel that
+the interests of the small companies coincide with the University's
+objective of promoting program portability via machine independent
+software.  Experience with the larger companies, who have so far
+indicated an interest in distributing UCSD Pascal\*[Tm] has been that
+they usually seek licensing arrangements giving them complete
+freedom to modify as they wish.  Therefore, it appears that the
+interests of the small distributor firms, and of individual users
+in general, will be favored if the sole licensee can base a strong
+and growing business on licensing arrangements which reinforce the
+machine independence concept.  The sole licensee can only do this by
+earning a reasonable margin of profits from work with all
+sub\[hy]licensees, both small and large.
+.PP
+[14] Given the large community now interested in UCSD Pascal\*[Tm], a brief
+comment on your opinions seems indicated.  We understand that not all
+users of UCSD Pascal\*[Tm], whether individuals or organizations, are
+enthusiastic about the changes described in this section.  We hope
+that readers will understand that we too are frustrated about some
+aspects of the new licensing arrangements.  The greatest frustration,
+by far, results from having to satisfy the dozens of laws and
+regulations that apply at the federal and State of California
+levels.  The new licensing and support arrangements are the result of
+more than six months of negotiation, and examination of almost every
+aspect of the Project and its distribution of UCSD Pascal\*[Tm].  The new
+arrangements have been negotiated with extensive participation of
+the University's central administration and legal departments.  The
+status of public access to the software products of the Project, and
+the stated objectives for the new licensing arrangements, are the
+best. we have been able to achieve in making UCSD Pascal\*[Tm] a community
+wide resource, within all the imposed constraints.  We appeal to
+readers to accept the new arrangements, and to assist us in taking
+advantage of the machine independent aspects of the UCSD Pascal\*[Tm]
+System, and its role in helping to make the Pascal language more
+widely used.
+.PP
+[14] \f[I]SofTech Microsystems Inc.\fP
+.PP
+[14] The sole licensee chosen by the University is SofTech Microsystems
+Inc. (abbreviated as \[lq]SMI\[rq] in parts of this newsletter).  SMI is a
+newly formed subsidiary of SofTech Inc, of Waltham, Massachusetts.
+The principal business of SMI will be to provide support,
+maintenance, sub\[hy]licensing, and other services related to the UCSD
+Pascal\*[Tm] System.  They may be reached at:
+.PP
+.TS
+center,tab(;);
+lw(3i) lw(3i).
+T{
+Until 1 September, 1979
+.sp 0.5
+SofTech Microsystems, Inc.
+.br
+P.O. Box 28010
+.br
+San Diego, California 92128
+.sp 0.5
+Tel: (714)741\[hy]1353 (temporary)
+T};T{
+After 1 September, 1979:
+.sp 0.5
+SofTech Microsystems, Inc.
+.br
+9994 Black Mountain Rd., Bldg 3
+.br
+San Diego, California 92126
+.sp 0.5
+Telephone pending
+T}
+.TE
+.PP
+[14] Not the least of the reasons for selection of SofTech as the sole
+licensee was their extensive expertise in managing complex software
+projects.  As the Project began to support versions of the UCSD
+Pascal\*[Tm] System adapted for many different processors and machines, it
+became apparent that the control of all those versions to operate
+identically was getting out of hand.  SofTech has a major \[lq]Software
+Engineering Facility\[rq] for microcomputers, called the \[lq]MSEF\[rq], which
+will be used starting immediately to help bring some order out of
+the chaos that has developed from the (necessarily) casual
+management environment of a university project mainly staffed by
+students.  In addition, SofTech's management agrees with our
+commitment to make the Pascal base language supported by the UCSD
+Pascal\*[Tm] compiler conform as closely as possible to the new (draft)
+international standard for Pascal.  The MSEF and SofTech experience
+will help considerably to complete this task expeditiously.
+.PP
+[14] As this newsletter was being prepared, most of the initial staff of
+SMI was just beginning to work for the firm.  Roughly half of the
+initial staff consists of people who, until recently, have worked
+for the Project as student employees of the University.  Among the
+principals of the Project, Mark Overgaard has joined SMI as a full
+time employee.  This writer, as director of the Project, remains as a
+full time employee of the University with no financial interest in
+SMI, and with no employment status with them.  All parties concerned
+would have preferred that both Mark and this writer could have
+taken split appointments, partly at SMI and partly at the
+University, in order to maintain the closest possible working ties
+between the Project and SMI.  This has proven unworkable because of
+the California Conflict of Interest Code for employees of public
+institutions.  Nevertheless, every possible effort is being made to
+ensure that the close working relationship between the UCSD Project
+and SMI will continue.
+.PP
+[14] \f[I]Transition to Support of UCSD Pascal\*[Tm] by SofTech Microsystems\fP
+.PP
+[14] After a brief transition period, SMI will henceforth be responsible
+for all (sub)licensing for distribution of the UCSD Pascal\*[Tm] System,
+or any of its components, to end users.  The Project (i.e. UCSD) will
+distribute copies of portions of the System under the present
+catalog arrangement until the close of business on 14 August, 1979.
+Orders not requiring special handling will be processed by UCSD in
+the order they arrive.  Any orders not yet processed by the available
+staff on the 114th of August will be turned over to SofTech
+Microsystems for whatever follow\[hy]up they consider most appropriate.
+Users concerned with this switch should understand that the nucleus
+of Project employees who have run the support group will become
+employees of SMI on 15 August.  Thereafter, the Project will not be
+able to accept incoming orders, and there will be no support staff
+who might process such orders.  Some orders for the I.5 version of
+the System were accepted by the University before the current
+catalog based distribution mechanism went into effect in January
+this year.  Obviously, the hold\[hy]over offer of $100 credit against
+future catalog orders (presented to those who ordered I.5 before the
+catalog system went into effect) will have to expire on 14 August.
+We apologize about the short notice, but circumstances have made it
+impossible to do any better.
+.PP
+[14] All existing individual licenses for use of the UCSD Pascal\*[Tm] System
+contain a clause stating that the license holder will have unlimited
+rights to the licensed materials after two years, unless the
+University terminates the license before that time.  As a result of
+the negotiations described in the previous section, the University
+is now obligated to terminate all of the existing individual
+licenses.  We hasten to assure licensees that they will be offered a
+replacement for the licenses, with rights similar to those provided
+in the original licenses, but lacking the reversion to unlimited use
+after two years.
+.PP
+[14] All sub\[hy]licensing of distributors of portions of the UCSD Pascal\*[Tm]
+System was transferred to SMI as of early June, 1979.  It is expected
+that amicable arrangements will soon be made with virtually all
+firms who currently are licensed by the University for distribution
+of UCSD Pascal\*[Tm], such that replacement licenses will be negotiated
+with SMI.
+.PP
+[14] In preparation for the new licensing arrangement, the term \[lq]UCSD
+Pascal\[rq] has been made a legal trademark of the University of
+California.  The sole license agreement requires SMI to certify that
+sub\[hy]licensees, who use the term \[lq]UCSD Pascal\[rq] in advertising or
+describing the software they distribute, do so only when the
+distributed software meets specified functional tests.  The tests
+are designed to assure that all software identified as originating
+from the UCSD Pascal Project will function in the same way, thus
+enhancing the portability of application programs.  For purposes of
+the transition to sub\[hy]licensing solely by SMI, distributors currently
+licensed by the University will be regarded as having passed the
+certification tests, but only for the version(s) of the System
+already licensed.
+.PP
+[14] At this writing, SMI is busy preparing an announcement of services
+to be offered, and pricing for those services as well as
+sub\[hy]licenses.  Since many of SMI's employees have been hired at the
+going high salary rates for system programmers, readers should not
+be surprised to find that SMI's prices will generally be higher than
+those previously offered by UCSD.  In effect, these higher prices are
+an unavoidable necessity if good quality support services are to be
+available for the System on a continuing basis.
+.PP
+[14] \f[I]The Great Version Number Fiasco\fP
+.PP
+[14] If you order UCSD Pascal\*[Tm] from a commercial distributor you may find
+that it is Version I.4, I.5, II.0, II.1, or III.0.  Some \f[I]early\fP
+versions are \f[I]based on\fP but not identical to Versions I.3 or I.4.
+We have heard of vendors selling Version III.0 as better than II.1,
+and vice versa, whereas there is some truth in both claims!  Herewith
+a brief recounting of how this mess arose, and how it will probably
+be cleaned up.
+.PP
+[14] Version I.5 was first released from UCSD in the fall of 1978.  It
+differed from I.4 mainly by adding the facility to compile and use
+independent collections of routines called \[lq]Units\[rq].  This facility
+makes it possible to provide a large library of service programs
+written in Pascal (or Pascal mixed with Assembly Language), and to
+use them without re\[hy]compilation.
+.PP
+[14] During the summer and fall of 1978, the P\[hy]machine interpreter for
+UCSD Pascal\*[Tm] was implemented to run on several additional processors,
+notably the 6502, 6800, 9900, and GA\[hy]16.  It was hoped that the
+interpreter for these processors could incorporate design changes to
+make the P\[hy]machine generally compatible with a wider class of
+processor architectures.  During the same period, the Project agreed
+to work with Western Digital on the development of the
+microprocessor W/D is now selling as the \[lq]Pascal MicroEngine\[rq].  This
+microprocessor is programmed entirely in Pascal, with no machine
+level or assembly language being supported.  This made it necessary
+to augment UCSD Pascal\*[Tm] with provisions for concurrent processes, so
+that interrupt routines could be written.  At the same time that the
+P\[hy]machine interpreter was being revised for this purpose, changes
+were also made to make the P\[hy]machine more compatible with the
+extended address ranges of the new generation of 16\[hy]bit
+microprocessors.  Because the implementation work for the 6502, 6800,
+9900, and GA\[hy]16 overlapped with the revision work on the P\[hy]machine
+interpreter, \f[I]some\fP of the revised P\[hy]machine features found their
+way into the interpreters for those processors.  Initially, it
+had been hoped that the first distributed versions for these
+processors could take advantage of the full set of P\[hy]machine
+improvements.  By the end of 1978, it became clear that this was not
+feasible, since the system software to support all of' the new
+P\[hy]machine features would not be completed for several more months.  To
+reduce the chaos, we decided to establish as the single (interim)
+P\[hy]machine, for all processors other than the MicroEngine, the
+version already implemented on the 6502, 6800, 9900, and GA\[hy]16.
+.PP
+[14] The interim interpreter was designated as II.0.  It was first
+released during February, 1979.  Software for II.0 was virtually the
+same as Version I.5 except for corrections of reported bugs in I.5.
+.PP
+[14] Version II.1 has evolved from II.0 as a way to make the System
+easier to use on machines with mini\[hy]floppy disk drives.  Though I.5
+and II.0 provide much greater flexibility than Version I.4, because
+of the new Units facility, the linker required to work with Units
+imposes a heavy overhead burden (processing time, space in memory,
+space on the disk).  Version II.1 adds \[lq]Intrinsic\[rq] Units to the
+facilities of II.0.  An Intrinsic Unit may be used without resort to
+the linker.  This eliminates the need to retain a copy of the linker
+on one's principal working disk, and eliminates the substantial
+time delay associated with the linking process after every compile.
+(It is still necessary to use the linker to incorporate assembly
+language routines into a Pascal program Unit in the form of EXTERNAL
+procedures.)  At this writing, II.1 has been released for the Apple
+II computer, and is being distributed by Apple Computer Inc. (not by
+the Project!).  Work is well under way to convert all other
+implementations supported by the Project, apart from the W/D
+MicroEngine, to II.1 within the next several months.  This conversion
+has been delayed somewhat by the shift of licensing and support to
+SofTech Microsystems.
+.PP
+[14] Version III.0 is the initial version developed with enhancements for
+concurrent processing.  It is the first version to be available on
+the Western Digital MicroEngine, which is now being delivered to
+customers.  The Pascal language facilities of III.0 are largely those
+of the I.4 version of the System, and thus III.0 still lacks the
+Units facility of I.5, II.0 and II.1.  Work is under way to augment
+the III.0 version to include all of the facilities of I.5, II.0 and
+II.1.
+.PP
+[14] SofTech Microsystems will now be responsible for releasing a single
+new version of the System which will provide the beneficial features
+of all previous versions.  This new version, tentatively called
+Version IV, will probably not be available until 1980.  It is not yet
+clear whether an interim Version III.1 will be issued for the W/D
+MicroEngine, to bring the System on that machine closer to the
+others before Version IV is completed.
+.PP
+[14] We emphasize that nothing in this summary constitutes a promise of
+delivery of any new version of the System.  SofTech Microsystems
+intends to issue a description of their plans by 1 September, 1979.
+.PP
+[14] \f[I]User Group\fP
+.PP
+[14] There have been frequent suggestions or requests that a UCSD Pascal\*[Tm]
+user's group be established.  We have been very sympathetic to this
+concept, but have felt it inappropriate for us to organize such a
+group ourselves.  Moreover, it has not been possible to allocate
+University resources to support such a user's group.
+.PP
+[14] Now SofTech Microsystems has indicated a willingness to encourage
+the creation of a user's group, and to supply some resources and
+assistance to that end.  Readers interested in assisting with the
+formation of a user's group should write to SMI (not UCSD!).
+.PP
+[14] \f[I]Update on Processors and Implementations\fP
+.PP
+[14] As of this writing, implementations of current machine independent
+versions of the UCSD Pascal System have been licensed for
+distribution on the following processors:
+.PP
+.TS
+tab(;);
+l l.
+;6502
+;6800, 6809
+*;8080, 8085, Z80
+;9900
+*;General Automation GA\[hy]15
+*;PDP\[hy]11, LSI\[hy]11
+;Western Digital MicroEngine
+.TE
+.PP
+[14] Note that the Project distributes copies to individuals only for the
+processors noted with \[lq]*\[rq].  SofTech Microsystems will announce its
+own plans on individual distribution for any of the processors in
+this list.  (Remember that their distribution starts on 15 August,
+1979).
+.PP
+[14] Licensed versions, though not fully compatible with those supported
+by the Project, are available for the following:
+.RS
+Alpha\[hy]Micro 100
+.br
+Data General NOVA
+.br
+Nanodata QM\[hy]1
+.RE
+.PP
+[14] An experimental version has been implemented on the Hewlett Packard
+9835 desktop computer, and another on the Lockheed Sue.  Several
+bit\[hy]slice microprogrammed implementations have also been reported.
+.PP
+[14] The Project has a version nearing completion for the 8086 processor.
+This activity is currently delayed for the lack of hardware on which
+to complete testing.
+.PP
+[14] \f[I]Intensive Training for UCSD pascal\*[Tm]\fP
+.PP
+[14] Many people who communicate with us have asked when/whether a course
+would be made available on Pascal, and on the UCSD Pascal\*[Tm] System,
+for people who already can develop programs in other languages.  In
+cooperation with Integrated Computer Systems, Inc. (the \[lq]Learning
+Tree\[rq] people), an intensive 14\[hy]day short course is now being
+developed for first offering in October this year.  About half of
+the available time will be used for guided \[lq]hands\[hy]on\[rq] use of the
+UCSD Pascal\*[Tm] System on small microcomputers \- probably Apple II's.
+The ICS mass mailed announcement on this course should be arriving
+within the next few weeks.  If you don't already receive regular
+mailings from ICS, write to:
+.RS
+Integrated Computer Systems, Inc.
+.br
+Box 5339,
+.br
+Santa Monica,
+.br
+California 90405
+.RE
+.PP
+[14] \f[I]Future Project Plans\fP
+.PP
+[14] While all of the Project's regular services in support of the UCSD
+Pascal\*[Tm] System are being transferred to SofTech Microsystems, we
+expect to continue a substantial level of research and development,
+and education activities at UCSD.  During the next year or two, we
+anticipate that only a small part of the financial support for these
+activities will come from royalties paid to the University under the
+sole license agreement with SofTech Microsystems.  Virtually no
+support will come from regular University of California operating
+budgets.  If the activity is to continue, the remaining support will
+have to come from other sources.  The principal sources available to
+us are federal research grants or contracts, and grants from
+industrial firms under an \[lq]associates program\[rq].  The potential
+sources for federal grants or contracts are very limited at this
+time, and only one small contract is expected during the next
+academic year.
+.PP
+[14] Industrial associates programs are often the primary source of
+support for engineering oriented research projects at many
+universities.  Under such a program, each of many member companies
+contribute each year an amount of money comparable to the cost of
+supporting the work of one graduate student.  Several firms have
+already expressed an interest in joining such a program for the UCSD
+Pascal\*[Tm] Project.  We have been effectively unable to move ahead on
+organizing the UCSD Pascal\*[Tm] Associates program until the licensing
+details described in this newsletter had been worked out.  A
+prospectus will be sent shortly to firms known to have an interest
+in the Project.  Inquiries would be most welcome from others.  We are
+particularly grateful to Philips Research Laboratories, who have
+contributed without waiting for the organizing papers.
+.PP
+[14] Among the distinct activities, currently ongoing in the Project at
+UCSD, and for which financial support is being sought, are the
+following:
+.PP
+[14] a) Native code generation from Pascal.  An experimental system is
+nearing completion for translating the P\[hy]code output of the UCSD
+Pascal\*[Tm] compiler into the native machine language of the host
+processor.  The approach being taken will lead, hopefully, to the
+implementation of code generators for different host processors
+with minimal effort.  The earliest test cases will be the PDP\[hy]11,
+the 8080 and the 6502.  The plan is to allow a programmer to
+designate which routines (procedures and functions) in a Pascal
+program will be translated to execute directly in native code,
+rather than in the P\[hy]code of the P\[hy]machine interpreter.  Programs
+with mixed P\[hy]code and native code are already being used
+extensively, with the native code being generated at present only
+by the Assembler associated with the host processor.  Whereas the
+assembler approach makes a program no longer portable from
+machine to machine, the generation of native code from Pascal
+should maintain the portability while giving the execution
+efficiency of native code.
+.PP
+[14] b) Distributed processing.  During the next few months, collections
+of microcomputers running UCSD Pascal\*[Tm] will be interconnected in
+several different \[lq]party line\[rq] bus configurations.  One method,
+that has been studied extensively, uses high speed serial
+transmission.  It allocates transmission rights to the stations
+connected to the network according to full character slots timed
+within a cycle of about one second duration.  Another method uses
+commercially available components for interconnection over an 8\[hy]bit
+parallel data bus similar to the IEEE 488 General Purpose
+Instrumentation Bus.  One objective is to find an interconnection
+method (both software and hardware) whereby mixed microcomputers,
+dumb terminals, and large machines can communicate with each
+other within a large building complex at minimal cost.  Another is
+to learn how best to distribute the processing resources of a
+collection of microcomputers, some of which will serve special
+functions (e.g. database access, number crunching, printer
+control, ...), while others will be used primarily for access to
+the network.  In the course of this work, several concepts of a
+distributed operating system will be tested.
+.PP
+[14] c) UCSD Pascal\*[Tm] Operating System improvements.  The limitations of the
+present operating system are well known, and many ideas have been
+advanced on how it could be improved.  Work currently going on
+should result in a far more general approach to handling the disk
+directory, in spite of the physical limitations of the typical
+microcomputer on which the System runs.  Beyond this, there are
+several possibilities for designing multi\[hy]user versions of the
+UCSD Pascal\*[Tm] System.
+.PP
+[14] d) Software Tools.  The pre\[hy]compiled Units facility of current
+versions of the UCSD Pascal\*[Tm] System permits the implementation of
+large libraries of frequently needed routines.  These routines
+can be used by a programmer as if they were extensions to the
+list of standard procedures and functions defined as part of the
+Pascal language.  Only those library files actually needed by the
+programmer must be present at compile time and execution time.
+Work now starting is seeking an organized basis for designing the
+many separate Units that a typical applications programmer may
+want.  Units are being implemented for applications ranging from
+the authoring of CAI packages to database management and
+interactive data capture.
+.PP
+[14] e) Education Packages.  The authoring package for creating Computer
+Aided Instruction materials is being thoroughly revised making
+used of the Units facility.  We expect this package to continue
+evolving as experience grows in use of the existing introductory
+materials on Pascal programming, and as other CAT authors reports
+on their experiences.  With the expected installation this fall of
+a distributed processing network connecting the microcomputers we
+use for regular teaching, experiments will begin in assisting
+students via remote communication from a teaching aide at a
+separate microcomputer.
+.PP
+[14] In general, we expect that software resulting from any of this work,
+that turns out to be of good enough quality to distribute to
+others, will be made available via the licensing arrangement with
+SofTech Microsystems.  As with the software already turned over to
+them, we expect SMI to add substantial value to the new products of
+the Project by turning those products into commercially maintainable
+form, and by providing continuing maintenance, support, and
+distribution services.  All inquiries regarding distribution
+schedules should be directed to them (at the address given earlier
+in this newsletter), as the Project will retain very minimal staff
+resources to answer correspondence in the volume it has been
+received in recent months.  Naturally, the Project does intend to
+provide pre\[hy]release programs, documentation, and other materials on
+an informal basis to sponsoring organizations, particularly those
+who are members of the UCSD Pascal\*[Tm] Associates program mentioned
+earlier.
+.SS SofTech Microsystems
+[13] \f[I]Electronics\fP, 1979\[hy]Aug\[hy]16, p. 33:
+A notice that SofTech has acquired control of UCSD Pascal.
+.SS II.1 (\f[I]date?\fP)
+[7]
+INTRINSIC units appear: linked directly from library at run\[hy]time,
+rather than being copied into the code file.
+System now has 32 segments rather than 16
+(this change was not carried over to any later versions).
+UNITS can be declared as resident or non\[hy]resident.
+.PP
+II.1x7b More swapping capabilities added: screen handlers and others
+can be made to stay on disc, loaded only when needed.
+.SS SofTech Transition (\f[I]when?\fP)
+[1]
+UC Tax Status Sealed Our Fate in early 1979, we were too successful.
+Though making no profit, income exceeded $1m per year.  UC files no
+income tax return... but only if all income is from Teaching, Research,
+or Public\[hy]Service.  UC feared UCSD Pascal
+\[lq]unrelated\[hy]business\[rq] income
+would trigger IRS demand for tax return for all of UC.
+.PP
+[1]
+License was to be given to an outside for\[hy]profit vendor,
+and stop licensing from UCSD itself.
+SofTech MicroSystems was the licensee,
+initially staffed by graduates of UCSD Pascal project.
+.SS III
+[1]
+The UCSD Pascal Micro\[hy]Engine was by Western Digital Corp, who built
+hardware for UCSD Pascal.  Team led by Mark Overgaard did the P\[hy]machine
+microcode.  Cited initially as proof of special CPU design advantages.
+Barry Smith at Oregon Software soon proved that clever compiler design
+made Pascal code faster for the same chip with LSI\[hy]11 microcode.
+.PP
+[7]
+Volition Systems is a company formed by Randy Bush, of the original
+Pascal project at UCSD.  From it came the first truly reliable versions
+of III (for the MicroEngine, of course).  It also produced the first
+version of the Advanced System Editor.
+.PP
+[7]
+Among the changes introduced in version III is the first appearance
+of parallel processes, and the routines and types needed to control them.
+.PP
+[7] III.E1 Third p\[hy]machine version, by Western Digital Inc.
+Developed for the Western Digital MicroEngine, (thus far) the only
+hardware p\[hy]machine.
+Some architectural and philosophical changes from previous versions.
+Bugs in implementation of some p\[hy]codes.
+.PP
+[7] III.F Some debugging, minor improvements in I/O.  Single character
+typeahead only.
+Sub\[hy]versions are F0 and F1.
+.PP
+[7] III.G0 More debugging.  NO typeahead whatever.
+.PP
+[7] III.H0 More debugging.  Typeahead restored, but not reliable.
+Versions from Western Digital, from Volition Systems,
+and for PDQ.
+.PP
+[7] III.H1 By Volition Systems for the PDQ\[hy]3.  Much more reliable than other
+versions of III.
+.PP
+[7] III.H1 IME,
+.PP
+[7] III.H3 More debugging.  System reliability improved, at cost of increased
+system size and reduced available memory.
+.SS IV
+[7]
+Most recent p\[hy]machine change.
+Extensive changes in both p\[hy]machine instruction set and
+Pascal system architecture.
+SofTech MicroSystems licenses various companies (such as IBM and
+Xerox) to bring up IV.0 implementations on their machines.
+.PP
+[7]
+IV.1 Under license from SofTech MicroSystems, several companies
+(such as Sage Technology in Nevada, and Network Consulting
+Incorporated in British Columbia) bring up IV.1 for various
+machines:
+.TP 2n
+\[bu]
+NCI releases a version for the IBM PC more
+powerful, faster, and more reliable than that released by IBM.
+.TP 2n
+\[bu]
+Ticom Inc. releases a version for the DEC Rainbow 100.
+.PP
+Advanced Systems Editor now available under IV.
+Scheduling of parallel processes debugged.
+.SS Legacy
+.\" ------------------------------------------------------------------------
+.SS Authors
+.TP 4n
+Gillian M. Ackland
+.RS
+[3] \f[I]what?  when?\fP
+.PP
+[4] Acted as Editor for the compilation of The Proceedings of the July
+1979 UCSD Workshop on Pascal Extensions.
+.PP
+[5] Listed as an editor, UCSD Pascal II.0 User Manual.
+.PP
+.RE
+.TP 4n
+Mark Allen
+.RS
+[3] \f[I]what?  when?\fP
+.PP
+[8] Lists him as working with Richard Gleaves on the 6502 interpreter.
+This contradicts Richard Gleave's statement that it was Mark Overgaard.
+Were all 3 working on it?
+.RE
+.TP 4n
+S. Dale Ander
+[5] Listed as a documentation author, UCSD Pascal II.0 User Manual.
+.\" .TP 4n
+.\" Bill Atkinson
+.\" [3] At the end of the summer 1978 Bill Atkinson (from Apple) started
+.\" showing up in the lab, and he worked closely with Mark Overgaard to
+.\" get the thing going on the Apple II.  Later Bill Atkinson offered
+.\" Mark Overgaard and Richard Gleaves jobs up in Cupertino, but we both
+.\" turned him down because we both wanted to stay in San Diego.
+.TP 4n
+Lucia Bennett (now Yandell)
+.RS
+[5] Listed as a documentation author, UCSD Pascal II.0 User Manual.
+.PP
+[5] Listed as a software author, UCSD Pascal II.0 User Manual.
+.RE
+.TP 4n
+Marc Bernard
+[5] Listed as a software author, UCSD Pascal II.0 User Manual.
+.TP 4n
+Kenneth Bowles
+.RS
+.\" email: bowlesk@electriciti.com
+Director.
+It isn't clear whether or not he wrote any UCSD p\[hy]System code.
+.PP
+[1] What was to become UCSD Pascal began in October 1974,
+by Kenneth Bowles and Mark Overgaard.
+.RE
+.TP 4n
+Randy Bush
+[7]
+Volition Systems is a company formed by Randy Bush, of the original
+Pascal project at UCSD.
+.TP 4n
+Raymons S. Causey
+[5] Listed as a documentation author, UCSD Pascal II.0 User Manual.
+.TP 4n
+Charles Chapin
+[5] Listed as a documentation author, UCSD Pascal II.0 User Manual.
+.TP 4n
+J. Greg Davidson
+.RS
+Mentioned in the BASIC sources, 11\[hy]Apr\[hy]1979
+.PP
+Mentioned in the Setup sources, II.0 [D1] 11\[hy]Apr\[hy]1979
+.PP
+Mentioned in the Yaloe sources, Jun\[hy]1977.
+.PP
+[5] Listed as a documentation author, UCSD Pascal II.0 User Manual.
+.PP
+[5] Listed as a software author, UCSD Pascal II.0 User Manual.
+.RE
+.TP 4n
+Barry Demchak
+.RS
+[3] mentioned
+.PP
+[5] Listed as a software author, UCSD Pascal II.0 User Manual.
+.RE
+.TP 4n
+Gary J. Dismukes
+.RS
+Mentioned in the LIBMAP sources, Mar\[hy]1979
+.PP
+Mentioned in the Librarian sources, Mar\[hy]1979
+.PP
+[5] Listed as a documentation author, UCSD Pascal II.0 User Manual.
+.PP
+[5] Listed as a software author, UCSD Pascal II.0 User Manual.
+.RE
+.TP 4n
+Julie E. Erwin
+.RS
+[3] mentioned
+.PP
+[5] Listed as a documentation author, UCSD Pascal II.0 User Manual.
+.PP
+[5] Listed as a software author, UCSD Pascal II.0 User Manual.
+.RE
+.TP 4n
+Shawn M. Fanning
+.RS
+Mentioned in the Compiler sources, 1976..1979
+.PP
+[5] Listed as a documentation author, UCSD Pascal II.0 User Manual.
+.RE
+.TP 4n
+William P. Franks
+.RS
+Mentioned in the Assembler sources, (?) Sep\[hy]1978
+.PP
+Mentioned in the Disassembler sources, II.0 Sep\[hy]1978
+.PP
+[5] Listed as a software author, UCSD Pascal II.0 User Manual.
+.RE
+.TP 4n
+Karen Fraser
+[3] \f[I]what?  when?\fP
+.TP 4n
+Richard Gleaves
+.RS
+[3]
+spent the summer of 1978 working (with Mark Overgaard) on\[hy]campus at
+UCSD writing the 6502 interpreter that later became the basis for Apple
+Pascal. (We were paid UCSD's standard student \[lq]junior coder\[rq] wage of
+$5.50 per hour.) Trivia detail: the interpreter was developed (and thus the
+first 6502\[hy]based Pascal system booted) on a Rockwell box.
+.PP
+[3] At the end of the summer 1978 Bill Atkinson started showing up in the
+lab, and he worked closely with Mark Overgaard to get the thing going on
+the Apple II.  Later Bill Atkinson offered Mark Overgaard and Richard
+Gleaves jobs up in Cupertino, but they both turned him down because they
+both wanted to stay in San Diego.
+.PP
+[3] Later worked with Barry Demchak at ACD to co\[hy]develop the AOS (Advanced
+Operating System) variant of UCSD Pascal.
+.RE
+.TP 4n
+C. Richard Grunsky
+[3] \f[I]what?  when?\fP
+.TP 4n
+Albert A. Hoffman
+.RS
+Mentioned in the Compiler sources, 1976..1979
+.PP
+[5] Listed as a software author, UCSD Pascal II.0 User Manual.
+.RE
+.TP 4n
+Robert J. Hofkin
+.RS
+.\" email: <bhofkin@erols.com>
+.\" email: Bob Hofkin <bhofkin@baltwirl.com>
+Mentioned in the LIBMAP sources, Sep\[hy]1978
+.PP
+Mentioned in the Long Integer sources, Jun\[hy]1977
+.PP
+[5] Listed as a software author, UCSD Pascal II.0 User Manual.
+.RE
+.TP 4n
+Richard S. Kaufmann
+.RS
+.\" email: Richard Kaufmann <richardkaufmann@yahoo.com>
+Worked on the Editor, 11\[hy]Oct\[hy]1978, 10\[hy]Dec\[hy]1978
+.PP
+Mentioned in the Yaloe sources, Jun\[hy]1977, 7\[hy]Oct\[hy]1977,
+9\[hy]Feb\[hy]1978.
+.PP
+[5] Listed as a software author, UCSD Pascal II.0 User Manual.
+.RE
+.TP 4n
+Mary K. Landauer
+[5] Listed as a documentation author, UCSD Pascal II.0 User Manual.
+.TP 4n
+Nancy Lanning
+[3] \f[I]what?  when?\fP
+.TP 4n
+Peter A. Lawrence
+.RS
+[3] mentioned
+.PP
+[5] Listed as a software author, UCSD Pascal II.0 User Manual.
+.RE
+.TP 4n
+J. Raoul Ludwig
+[5] Listed as a documentation author, UCSD Pascal II.0 User Manual.
+.TP 4n
+Joel J. McCormack
+.RS
+[3] mentioned
+.PP
+[5] Listed as a documentation author, UCSD Pascal II.0 User Manual.
+.PP
+[5] Listed as a software author, UCSD Pascal II.0 User Manual.
+.RE
+.TP 4n
+Robert A. Nance
+[5] Listed as a software author, UCSD Pascal II.0 User Manual.
+.TP 4n
+Mark D. Overgaard
+.RS
+.\" email: Mark D. Overgaard <mark@pigeonpoint.com>
+[1] What was to become UCSD Pascal began in October 1974,
+by Kenneth Bowles and Mark Overgaard.
+.PP
+[6] Unlike most of the contributors, who were undergraduate students,
+Mark Overgaard was a graduate student.
+.PP
+[3] spent the summer of 1978 working (with Richard Gleaves) on\[hy]campus at
+UCSD writing the 6502 interpreter that later became the basis for Apple
+Pascal.
+.PP
+[3] At the end of the summer 1978 Bill Atkinson (from Apple) started
+showing up in the lab, and he worked closely with Mark Overgaard to
+get the thing going on the Apple II.  Later Bill Atkinson offered
+Mark Overgaard and Richard Gleaves jobs up in Cupertino, but they both
+turned him down because they both wanted to stay in San Diego.
+.PP
+[5] Listed as a documentation author, UCSD Pascal II.0 User Manual.
+.PP
+[5] Listed as a software author, UCSD Pascal II.0 User Manual.
+.RE
+.TP 4n
+David A. Reisrier
+[5] Listed as a software author, UCSD Pascal II.0 User Manual.
+.TP 4n
+Bruce Sherman
+[3] \f[I]what?  when?\fP
+.TP 4n
+Keith Allan Shillington
+.RS
+.\" email: keith@sd.aonix.com
+.\" email: Keith Shillington <disnevil@gmail.com>
+Mentioned in the Yaloe sources, 11\[hy]Aug\[hy]1977, 13\[hy]Sep\[hy]1977.
+.PP
+[2]
+Collected, Edited and distributed the copies of documentation and
+software for UCSD Pascal in it's early days on campus.  Moved with the
+system to SofTech MicroSystems, and stayed with it for just over a year.
+.PP
+[3] spent the summer of 1978 working (with Richard Gleaves) on\[hy]campus at
+UCSD writing the 6502 interpreter that later became the basis for Apple
+Pascal.
+.PP
+[5] Listed as a documentation author, UCSD Pascal II.0 User Manual.
+.PP
+[5] Listed as a software author, UCSD Pascal II.0 User Manual.
+.PP
+[5] Listed as an editor, UCSD Pascal II.0 User Manual.
+.RE
+.TP 4n
+David A. Smith
+[5] Listed as a documentation author, UCSD Pascal II.0 User Manual.
+.TP 4n
+David M. Steinore
+[5] Listed as a software author, UCSD Pascal II.0 User Manual.
+.TP 4n
+George Symons
+[3] \f[I]what?  when?\fP
+.TP 4n
+Roger T. Sumner
+.RS
+Mentioned in the System sources, Jan(?)\[hy]1977.
+.PP
+Mentioned in the Compiler sources, 1976..1979
+.PP
+Mentioned in the Filer sources, I.3 Jan(?)\[hy]1977.
+.PP
+Mentioned in the Librarian sources, I.5 Sep\[hy]1978
+.PP
+Mentioned in the Linker sources, I.5f Jan\[hy]1978, II.0 1\[hy]Mar\[hy]1979
+.PP
+Mentioned in the Long Integer sources, Aug\[hy]1978.
+.PP
+Mentioned in the Yaloe sources, 13\[hy]Sep\[hy]1977, 24\[hy]Sep\[hy]1977.
+.PP
+[2]
+Roger had been involved with the UCSD Pascal Project from it's 1974
+inception.  While Roger was a junior at UCSD's Revelle College,
+Dr. Bowles asked him to participate in the Project's system software
+design and development.  Specifically, Roger's contributions to UCSD
+Pascal include the porting of Urs Amman Pascal compiler to the UCSD
+Pascal environment, and the design and implementation the PDP\[hy]11/LSI\[hy]11
+P\[hy]Code interpreter and device drivers, the UCSD Pascal Operating System,
+Pascal language intrinsic functions, Filer utility and Linker utility.
+.PP
+[5] Listed as a documentation author, UCSD Pascal II.0 User Manual.
+.PP
+[5] Listed as a software author, UCSD Pascal II.0 User Manual.
+.RE
+.TP 4n
+Steven S. Thom(p)son
+.RS
+Mentioned in the Filer sources, I.5 Jun(?)\[hy]1978, II.0 Jan(?)\[hy]1979
+.PP
+[5] Listed as a software author, UCSD Pascal II.0 User Manual.
+.RE
+.TP 4n
+John VanZandt
+.\" email <john@ceoconsultancy.com>
+Compiler (?)
+.TP 4n
+Dennis J. Volper
+.RS
+Mentioned in the Assembler sources, 27\[hy]Sep\[hy]1978
+.PP
+[5] Listed as a documentation author, UCSD Pascal II.0 User Manual.
+.RE
+.TP 4n
+Bavid B. Wollner
+[5] Listed as a software author, UCSD Pascal II.0 User Manual.
+.\" ------------------------------------------------------------------------
+.SS References
+.TP 5n
+[1]
+http://www.jacobsschool.ucsd.edu/Pascal/ppt/KenBowles.ppt
+.TP
+[2]
+http://www.jacobsschool.ucsd.edu/Pascal/bios.html
+.TP
+[3]
+http://www.threedee.com/jcm/psystem/
+.TP
+[4]
+http://www.moorecad.com/standardpascal/pug_newsletter_17.pdf
+.TP
+[5]
+.nf
+http://miller.emu.id.au/pmiller/ucsd\-psystem\-um/reconstruct/00\-frontice.html
+.fi
+.TP
+[6]
+http://ucsdmag.ucsd.edu/magazine/vol1no3/features/pascal.htm
+.TP
+[7]
+http://williambader.com/museum/at/psysversions.html
+.TP
+[8]
+http://www.kernelthread.com/publications/appleoshistory/1.html
+.TP
+[9]
+http://standardpascal.org/pug_newsletter_04.pdf
+.TP
+[10]
+http://standardpascal.org/pug_newsletter_08.pdf
+.TP
+[11]
+http://standardpascal.org/pug_newsletter_09_10.pdf
+.TP
+[12]
+http://standardpascal.org/pug_newsletter_11.pdf
+.TP
+[13]
+http://standardpascal.org/pug_newsletter_15.pdf
+.TP
+[14]
+.nf
+http://computer\-refuge.org/bitsavers/pdf/westernDigital/
+WD90_Pascal_Microengine/UCSD_PascalNewsl%234_Jul79.pdf
+.fi
+.TP
+[15]
+http://www.museumstuff.com/learn/topics/UCSD_p\[hy]System
+.TP
+[16]
+http://en.wikipedia.org/wiki/Ucsd_pascal
+.\" ------------------------------------------------------------------------
+.SH BOOTSTRAPPING
+This section covers how to build a UCSD Pascal system, when all you have
+is the source code, and none of the authors are around to ask.
+.PP
+The process breaks into several stages.
+.TP 2n
+\[bu]
+The first stage is to cross compiler the minimum set of this to grep a
+system going.
+.TP 2n
+\[bu]
+The second stage is to run the cross compiled system,
+and use it to \[lq]natively\[rq] compiler itself.
+.TP 2n
+\[bu]
+The third stage is a double check: use the result of stage 2 to compile
+everything again.  The result should be identical to the result of the
+second stage.
+.SS Stage Zero
+In 2006 the UCSD issued a non\[hy]commercial royalty\[hy]free License
+for source code written before 1\[hy]Jun\[hy]1979 by UCSD employees.
+You need to download the system sources.
+.RS
+.nf
+http://www.bitsavers.org/bits/UCSD_Pascal/ucsd_II.0/
+.fi
+.RE
+.PP
+You need a p\[hy]code interpreter (also know as a p\[hy]machine or a virtual
+machine) in order to run the code.  Fortunately there are a number of
+these on the Internet, mostly written in portable C.
+.RS
+http://ucsd\-psystem\-vm.sourceforge.net/
+.RE
+.SS Stage One
+Compiling the source code is a challenge, if you want to completely
+avoid any suggestion of a proprietary taint.  Usually, this means
+not wanting to use the proprietary Apple Pascal disk images that are
+available on the Internet.
+.PP
+You need to cross compile the system.  This is needed in
+order to be able to run the cross compiled compiler (see next step)
+\[lq]natively\[rq].
+This becomes the SYSTEM.PASCAL file.
+.PP
+You need to cross compile the native compiler.
+However this is not sufficient, because the native compiler uses several
+intrinsic units.
+Once compiled, this becomes the SYSTEM.COMPILER file.
+.PP
+You need to cross compile the PASCALIO unit, to enable the compiler to
+deal with real numbers.
+This unit is added to the SYSTEM.LIBRARY file.
+.PP
+You need to cross compile the LONGINTEGERS unit, to enable the compiler
+to deal with long integers.  This isn't complete, yet,
+because you must also cross assemble the DECOPS code,
+and link it into the long integers unit.
+This unit is added to the SYSTEM.LIBRARY file.
+.PP
+You need to cross compile the linker.  This is needed so that assembler
+output and compiler output can be linked, in order to build completely
+linked units.  This becomes the SYSTEM.LINKER file.
+.PP
+You need to cross compile the librarian.
+This becomes the LIBRARIAN.CODE file.
+This is needed to build the
+SYSTEM.LIBRARY file, containing all of the intrinsic units, when you
+perform the native build.
+.PP
+You need to cross compile the assembler.  This becomes the
+SYSTEM.ASSMBLER file.  This is needed to build the long integer
+intrinsic unit, when you perform the native build.
+.PP
+Use \f[I]ucsdpsys_mkfs\fP(1) to create a new disk image.
+Use \f[I]ucsdpsys_disk\fP(1) to copy all the system files into
+the disk images.  You now have a minimal running system.
+.SS Stage Two
+Run the system produced in Stage One, using this system
+repeat of Stage One, but performing native compiles, \f[I]etc\fP,
+to produce the new disk image.
+You now have a self\[hy]hosting system, probably.
+.SS Stage Three
+This is a repeat of Stage Two, using the system produced in Stage Two.
+The end result should be a disk image containing files identical to that
+of stage two.  If there are differences, there is a bug somewhere.  If
+there are no significant differences, you now have a self\[hy]hosting UCSD
+p\[hy]System, for the first time singe the mid\[hy]1980s.
+.\" ------------------------------------------------------------------------
+.SH LESSONS
+This section covers some of the things learnt while developing the cross
+compiler.
+.SS Motivation
+The ucsd\[hy]psystem\[hy]xc project was started for two reasons.  The first
+was a desire to try out some ideas about factory methods and how they
+apply to language compilers.  The second was a certain nostalgia about
+the Apple Pascal system (base on II.1) from the early 1980s.  The two
+just happened at the same time, and on 2006\[hy]May\[hy]22 the
+ucsd\[hy]psystem\[hy]xc
+project was the result.
+.PP
+Another significant 2006 event, unknown to the author at the time, was
+the publication by UCSD of a royalty\[hy]free License for non\[hy]commercial use
+of UCSD Pascal.  Not an open source license, but good enough to work with.
+.PP
+Of course, a nagging memory of perceived limitations of the UCSD system, and
+its compiler, was motivation to use the skills learnt in the intervening
+decades to do it \[lq]better\[rq] this time around.
+.PP
+The early stages of the compiler resulted in an LCA'07 conference paper
+(available on the project web site).  However the project languished
+after that, for lack of time.  Also, the techniques had been proven, but
+a substantial slab of time (months, full time) would be necessary to
+fill in all the missing pieces.
+.PP
+In 2010 the opportunity came that enabled work on the code to resume.
+More and more UCSD Pascal system sources were becoming available on the
+Internet, making the idea of a self\[hy]hosted II.1 system, built from the
+sources, from scratch, became a realistic goal.  In 2010 most of the
+UCSD systems running on emulators used either Apple Pascal disk images
+(obviously proprietary), or other proprietary forms, and none of which
+had source code available.
+.SS 2010\[hy]March
+A system with no proprietary pieces was possible, even with the
+non\[hy]commercial rider.  Perhaps time, and the existence of an otherwise
+open source implementation, will give UCSD Legal Department the needed
+nudge to issue an open source license, at some time in the future.
+.PP
+Looking at the II.0 sources, it would appear that the first block of
+code files is slightly different than that of Apple Pascal, the compiler
+I am using to verify the output of the cross compiler.
+This is because intrinsic units, and the ability to have more than 16
+segments, were both II.1 features.
+.SS 0.2, 2010\[hy]Apr\[hy]01
+Version 0.2 of the cross complier was released.
+.PP
+Shortly after this (2010\[hy]Apr\[hy]06) the ucsd\[hy]system\[hy]vm
+project was initiated,
+as a friendly fork of Mario Klebsch's excellent p\[hy]interp project.
+This would permit adding features to the interpreter,
+and bug fixes if any were needed.
+.PP
+This was the beginning of my search for a p\[hy]machine test suite, on
+the assumption that as the UCSD team ported their system to ever more
+microcomputers, they would have needed a way to validate the different
+ports.
+.SS The built\[hy]in EXIT function
+.\" 2010\[hy]Apr\[hy]07
+Pascal has the ugly feature
+.RS
+exit(functionName)
+.RE
+which is approximately the equivalent of a \f[CW]return\fP statement.
+But is can also act as a non\[hy]local return statement.  Non\[hy]local
+\f[I]return\fP?  Who thought that was a good idea?  An exception\[hy]lite
+concept, maybe?  Great, but for the fact that exceptions are ugly as
+well.
+.PP
+Easy enough to implement, function names are already
+first\[hy]class expressions, so we can use the regular expression grammar
+without trouble, and adding another built\[hy]in \[lq]function\[rq].
+.PP
+But it gets worse.  You may recall that programs are declared with a
+name, as in
+.PP
+.RS
+.nf
+.ft CW
+program sewer;
+begin
+end.
+.ft R
+.fi
+.RE
+.PP
+so you can also say
+.PP
+.RS
+.ft CW
+exit(sewer)
+.ft R
+.RE
+.PP
+and leave the program, um, \[lq]cleanly\[rq].
+Well, the symbol \f[I]is\fP in the symbol table,
+so we just add another type to the list of acceptable
+types you can use for parameter one of the exit \[lq]function\[rq].
+.PP
+But wait, there's more.  You can also say
+.PP
+.RS
+.ft CW
+exit(program)
+.ft P
+.RE
+.PP
+this lets you non\[hy]local\[hy]return from the program from within units,
+when you don't actually know the name of the program.
+.\" What were they smoking?
+.PP
+This requires adding another expression production to the grammar.
+It is implemented using a usually\[hy]inaccessible \[lq]program\[rq] symbol,
+that has the appropriate segment and procedure number.
+.SS The \f[CW]chr\fP Function
+.\" 2010\[hy]May\[hy]10
+The \f[CW]chr\fP function on UCSD native compiler did unexpected things
+(or, unexpected by today's standards)
+mostly because it leaves the value on the top of the stack unchanged.
+This is probably not ISO 7185 conforming.
+For now, the cross compiler works the same way.
+.PP
+In the future, masking the value with 0xFF would be better, provided we
+optimize the mask away for STB expressions and relevant STP expressions.
+.SS Set Opcodes Asymmetric
+.\" 2010\[hy]04\[hy]14
+The native compiler understands set=set, set<>set, set<=set (known as an
+improper subset), set>=set (improper superset), but does not implement
+set<set (known as a proper subset) and set>set (proper superset).
+.PP
+This stems from the p\[hy]machine definition, that only defines these four.
+But why?  Adding run\[hy]time support for these would be less than 40 bytes
+in the interpreter, less than 20 on some architectures.  Why leave them
+out?  It is asymmetric, for very little savings.
+.PP
+This missing set comparisons were added to the ucsd\[hy]psystem\[hy]vm
+p\[hy]machine 2010\[hy]May\[hy]11, and first released
+2010\[hy]May\[hy]17.  The tests use the cross compiler, of course, to
+generate the new opcodes.
+.SS String Handling
+.\" 2010\[hy]Apr\[hy]18
+The builtin \f[CW]concat\fP function is sued to join strings together.
+It is implemented as several calls to the system \f[CW]sconcat\fP procedure.
+.PP
+.RS
+.nf
+.ft CW
+procedure sconcat(var src, dest: string; destleng: integer);
+begin
+  if length(src) + length(dest) <= destleng then
+  begin
+    moveleft(src[1], dest[length(dest) + 1], length(src));
+    dest[0] := chr(length(src) + length(dest))
+  end
+end
+.ft R
+.fi
+.RE
+.PP
+What happens when the results don't fit?  Perhaps a runtime error would
+be more appropriate?
+.PP
+This is compounded by the fact that there could be
+more than one string being joined together.
+It is implemented by the compiler as multiple calls to segment 0
+\f[CW]SCONCAT\fP procedure, one for each argument.  The ugly part is
+that \f[CW]concat(a, b, c)\fP will return \f[CW]concat(a, c)\fP if
+\f[CW]concat(a, b)\fP would overflow but \f[CW]concat(a, c)\fP would
+not.  This is because the compiler generates these calls:
+.RS
+.nf
+.ft CW
+temp := ""
+sconcat(temp, a, sizeof(temp));
+sconcat(temp, b, sizeof(temp));
+sconcat(temp, c, sizeof(temp));
+.ft R
+.fi
+.RE
+at which point the above \f[CW]SCONCAT\fP code silently doing nothing
+on overflow looks very, very wrong.
+.SS Standards
+The UCSD pascal implementation predates the efforts to standardize the
+Pascal language, and had many influences on the final result.
+Many UCSD coders were part of that process.
+.PP
+The problem with pre\[hy]dating the standard is that, inevitably, UCSD
+Pascal was not, and is not, standard conforming.  There is the
+possibility, initially with the cross compiler, to retro\[hy]fit compliance;
+or, as much compliance as possible without breaking existing programs.
+.SS 0.2, 2010\[hy]Apr\[hy]19
+Version 0.2 of the cross compiler is released.
+.PP
+It is now able to compile the UCSD II.0 compiler source code.
+Doesn't produce a usable native compiler at this stage.
+.SS 0.3, 2010\[hy]Apr\[hy]27
+Version 0.3 of the cross compiler is released.
+.PP
+It is now able to compile all of the II.0 system code (not the whole
+thing, just the \[lq]system\[rq] runtime support).
+Doesn't produce a usable runtime at this stage.
+.PP
+.\" 2010\[hy]May\[hy]01
+The test p\[hy]machine test suite was found in the II.0 sources.
+I had downloaded the II.0 sources months earlier, and
+had overlooked the \[lq]diagnostics\[rq] volume.
+.SS 0.4, 2010\[hy]May\[hy]06
+Version 0.4 of the cross compiler is released.
+As of this release, all of the II.0 non\[hy]unit sources are able to be
+compiled.
+The cross compiler now has support for all built\[hy]in functions,
+except \f[CW]str\fP that needs long integer support.
+.PP
+When used to produce a disk image, the emulator is able to run the
+system, and display the system prompt, and Filer also appears to work.
+No attempt to use the native compiler.
+.SS The \f[CW]odd\fP Function
+.\" 2010\[hy]May\[hy]08
+The \f[CW]odd\fP function, like the \f[CW]chr\fP function, does not
+change the value on the top of the stack.
+This was used in some very ugly hacks to gain access to and, or and not
+bit\[hy]wise arithmetic:
+.PP
+.RS
+.nf
+.ft CW
+a,b,c: integer;
+
+a := ord(odd(b) and odd(c));
+a := ord(odd(b) or odd(c));
+a := ord(not odd(b));
+.ft R
+.fi
+.RE
+.PP
+The cross compiler does not support this usage, but instead overloads the
+AND, OR and NOT operators to provide hack\[hy]free access to the bit\[hy]wise
+opcodes of the p\[hy]machine.
+.PP
+The UCSD authors were comfortable extending Pascal in novel directions,
+so why didn't they just overload the AND, OR and NOT expressions to
+handle integers as well?  That would result in much cleaner code than
+the ord/odd hack.
+.SS 0.5, 2010\[hy]May\[hy]17
+Version 0.5 of the cross compiler is released.
+.PP
+The milestone for this release was to pass II.0 the p\[hy]machine
+diagnostics.  There were quite a few test failures to work through.
+This found a number of errors in the cross compiler (fixed in this
+release), and also a number of errors in the p\[hy]machine (also fixed).
+.PP
+Version 0.9 of ucsd\[hy]psystem\[hy]vm was released the same day.
+.SS Units
+.\" 2010\[hy]May\[hy]20
+Getting ordinary units to work was relatively simple.
+The \[lq]internal\[rq] units (for want of a better term) are more
+difficult because they are not documented anywhere.
+.RS
+.nf
+.ft CW
+(*$U\-,R\-*)
+program pascalsystem;
+
+    \f[I]globals...\fP
+
+    unit pascalio;
+    interface
+        \f[I]unit interface...\fP
+    implementation
+        \f[I]unit member procedures...\fP
+
+    (* no BEGIN here *)
+    end;
+
+begin
+end.
+.ft R
+.fi
+.RE
+.PP
+This turned out to be relatively simple, by re\[hy]using most of the
+stand\[hy]alone unit grammar again, deeper within the regular program
+grammar.  Oh, and the \f[CW](*$R\-*)\fP isn't optional.
+.SS Long Integers
+.\" 2010\[hy]May\[hy]25
+Long integer support is mostly finished.
+It turns out that long integers can't do all the things that integers can do.
+In particular, the following operations are not supported:
+\f[CW]mod\fP, \f[CW]odd\fP, \f[CW]abs\fP, and \f[CW]sqr\fP.
+.PP
+While it would be possible to generate code to calculate the
+\f[CW]mod\fP value (using a division, a multiply and a subtraction;
+\f[I]i.e.\fP slowly) it is frustrating that the long integer
+\f[CW]div\fP already calculates the remainder, only to discard it.
+Implementing long integer \f[CW]mod\fP would only be only a few extra
+bytes of code in DECOPS.
+.PP
+Another puzzle: why one DECOPS procedure, instead of 11?  (Or 17, if
+you include the relational operators).  The DECOPS selector only uses
+one byte per long integer operation (two bytes for comparisons), but
+in any non\[hy]trivial program using long integers, it is all going to add
+up to a non trivial overhead... even after one takes into account the
+additional procedure attribute and procedure dictionary penalties.  And
+no dispatch tables or indirect jumps within DECOPS would mean faster
+performance, too.  It's not as if that segment's procedure dictionary is
+full or anything.  Strange.
+.PP
+The call interface of the DECOPS procedure means that it can't be
+implemented in Pascal, and then later optimized by using assembly code.
+The assembly DECOPS could have then been cross checked with the Pascal
+to verify correctness.  This seems strange, given that long integer
+arithmetic is non\[hy]trivial to get right.
+.PP
+The UCSD test suites I have found to date do not include long integers.
+.SS Long Integer Implementation
+Long integers are implemented as a sign word, plus ((n+3)/4) words of 4
+BCD digits each.  Basically unsigned arithmetic decorated with a sign.
+.PP
+The digits appear to have been stored in an order that made it
+impossible to use the 6502's native BCD support... of course the 6502
+had bugs when you tried to mix BCD with interrupts, so maybe no big
+loss.  On the other hand, the Z80 had non\[hy]modal native BCD opcodes, but
+the BCD digits are in the wrong order for the Z80 as well.  No idea if
+the PDP\[hy]11 had native BCD opcodes or not.
+.PP
+I shudder when I recall how we were so hung up on printing numbers (the
+least common arithmetic activity) that we consciously rejected obviously
+more efficient implementations like using radix 256 or radix 64k
+representations.
+.SS 0.6, 2010\[hy]May\[hy]30
+Version 0.6 of the cross compiler is released.
+.PP
+The target for this release was to be able to compile units.
+Both ordinary units and \[lq]internal\[rq] units
+(for want of a better term) are able to be compiled.
+This is essentially II.1 functionality, rather than II.0,
+in that the \f[CW]separate\fP keyword is not particularly meaningful.
+.PP
+The SYSTEM.LIBRARY file can't actually be completed because
+assembler support is required.
+.SS Ord and Odd revisited
+.\" 2010\[hy]06\[hy]01
+It turns out the assembler sources use the \f[CW]ord(odd(x) and odd(y))\fP
+hack when calculating hashes for its symbol table.  Surely it would have
+been easier to overload AND, OR and NOT to accept integer parameters as
+well?  Looking at the 2.0 native compiler sources, it only adds three
+lines of code.
+.SS 0.7, 2010\[hy]Jun\[hy]21
+This release is the first to be able to build non\[hy]trivial amounts of
+the ucsd\[hy]psystem\[hy]os project's source base.  To facilitate this, many
+command now accept a \[lq]\-\-arch\[rq] option, to set the architecture;
+this makes getting the endian\[hy]ness correct much easier, and the same
+option is used for all ucsd\[hy]psystem\[hy]xc commands that need to know the
+byte sex.
+.PP
+The \f[I]ucsdpsys_mkfs\fP(1) command from the ucsd\[hy]psystem\[hy]fs project
+also accepts the same option, for the same reason.
+The ucsd\[hy]psystem\[hy]fs 1.14 release was the same day.
+.PP
+The assembler parts of the system library can not yet be assembled, but
+the sources when cross compiler produce a working system.
+The ucsd\[hy]psystem\[hy]os 1.1 release was the same day.
+.SS Linker Adventures
+The II.0 codefile format is unchanged from the I.5 codefile format.
+This means that the II.0 sources from BitSavers contain the I.5f linker
+sources.
+.PP
+However, I have been using the Apple Pascal compiler, assembler, and
+linker to check my results against, and it is based on II.1, and the
+II.1 codefile format has more information in it than the II.0 (I.5)
+codefile format.
+Initially I thought this would mean that the ucsd\[hy]psystem\[hy]os project
+would not be able to build stage 2.
+However, this probably won't be a problem, because while I
+recall a system with intrinsic units, the II.0 sources do not contain any.
+.PP
+This doesn't preclude adding intrinsic units to stage 1, and so I can
+proceed to implement drop\[hy]in replacements for the Apple intrinsics,
+if that is how things turn out.
+.SS Name Expression Factories
+.\" 2010-07-25
+The code uses factories in a number of places, but not for building name
+expressions, for variables and the like.  However, the code has been
+refactored so that symbols create their own name expressions.  This
+simplifies the code, removes a bunch of down\[hy]casts, and better suits the
+philosophy of the rest of the code.
+.PP
+This permits several derivations of the symbol variable class, including
+global, local, unit (needing relocation), and external segments.
+.PP
+But how do the specialized symbols get created?
+By symbol factories of the scope, of course.
+Each scope knows what kinds of symbols it can create.
+.so man/man1/z_copyright.so
+.\" vim: set ts=8 sw=4 et :

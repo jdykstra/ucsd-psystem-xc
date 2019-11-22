@@ -1,0 +1,139 @@
+/*
+ * UCSD p-System cross compiler
+ * Copyright (C) 2006, 2007, 2010, 2012 Peter Miller
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or (at
+ * you option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program. If not, see <http://www.gnu.org/licenses/>
+ */
+
+[arch]-gcov-c++_flags =
+        [stringset
+            [c++_flags] -fprofile-arcs -ftest-coverage
+        -
+            -O -O1 -O2 -O3
+        ];
+
+[arch]-gcov-libs = [libs] -lgcov;
+
+gcov-sources =
+    [match_mask %0%.y [change_source_files]]
+    [match_mask %0%.cc [change_source_files]]
+    ;
+
+gcov-targets = [addsuffix ".gcov" [gcov-sources]];
+
+gcov-targets: [gcov-targets];
+
+%0%.cc.gcov:
+    [arch]-gcov/%0%.o
+    /* [arch]-gcov/%0%.gcda */
+    /* [arch]-gcov/%0%.gcno */ :
+    gcov-tests
+{
+    if [not [verbose]] then
+        function print GCOV [target];
+    gcov -l -o [arch]-gcov/%0%.o %0%.cc > gcov#log;
+    mv %.cc.gcov [target];
+    grep "'###'" [target];
+    rm -f *#*
+        set silent;
+}
+
+%0%.y.gcov:
+    [arch]-gcov/%0%.gen.o
+    /* [arch]-gcov/%0%.gen.gcda */
+    /* [arch]-gcov/%0%.gen.gcno */ :
+    gcov-tests
+{
+    if [not [verbose]] then
+        function print GCOV [target];
+    gcov -l -o [arch]-gcov/%0%.gen.o %0%.y > gcov#log;
+    mv %.y.gcov [target];
+    grep "'###'" [target];
+    rm -f *#*
+        set silent;
+}
+
+gcov-binaries =
+    [fromto [arch]/%0% [arch]-gcov/%0%
+        [match_mask [arch]/bin/% [all]]
+    ];
+
+gcov-binaries: [gcov-binaries];
+
+gcov-tests =
+    [fromto %0%.sh %0%.gcov-run
+        [match_mask test/%1/%2.sh [source_files]]
+    ];
+
+gcov-tests: [gcov-tests];
+
+test/%1/%2.gcov-run: test/%1/%2.sh: gcov-binaries
+{
+    if [not [verbose]] then
+        function print GCOV [target];
+    sh [resolve test/%1/%2.sh] [arch]-gcov;
+    touch [target];
+}
+
+[arch]-gcov/%1/%0%.o: %1/%0%.cc
+{
+    if [not [verbose]] then
+        function print "C++" [target];
+    [c++]
+        [cc_include_flags]
+        [[arch]-gcov-c++_flags] -c [resolve %1/%0%.cc] -o [target]
+    set meter;
+}
+
+
+[arch]-gcov/%1/%0%.o: [arch]-gcov/%1/%0%.cc
+{
+    if [not [verbose]] then
+        function print "C++" [target];
+    [c++]
+        [cc_include_flags]
+        [[arch]-gcov-c++_flags]
+        -c [resolve [arch]-gcov/%1/%0%.cc]
+        -o [target]
+    set meter;
+}
+
+
+[arch]-gcov/bin/%:
+                [fromto [arch]/%%0%% [arch]-gcov/%%0%%
+                    [%_obj]
+                    [%_libs]
+                ]
+{
+    if [not [verbose]] then
+        function print LNK [target];
+    [c++]
+        [ld_flags]
+        -o [target]
+        [resolve [fromto [arch]/%%0%% [arch]-gcov/%%0%% [%_obj] [%_libs] ] ]
+        [[arch]-gcov-libs];
+}
+
+[arch]-gcov/%0lib%.a: [fromto [arch]/%%0%% [arch]-gcov/%%0%% [%0%_obj] ]
+{
+    if [not [verbose]] then
+        function print LNK [target];
+    ar cq [target]
+        [resolve [fromto [arch]/%%0%% [arch]-gcov/%%0%% [%0%_obj] ] ];
+    if [find_command ranlib] then
+        ranlib [target];
+}
+
+
+/* vim: set ts=8 sw=4 et : */

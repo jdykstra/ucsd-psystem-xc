@@ -1,0 +1,78 @@
+'\" t
+.\"     UCSD p-System cross compiler
+.\"     Copyright (C) 2006, 2007, 2010-2012 Peter Miller
+.\"
+.\"     This program is free software; you can redistribute it and/or modify
+.\"     it under the terms of the GNU General Public License as published by
+.\"     the Free Software Foundation; either version 3 of the License, or
+.\"     (at your option) any later version.
+.\"
+.\"     This program is distributed in the hope that it will be useful,
+.\"     but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\"     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\"     GNU General Public License for more details.
+.\"
+.\"     You should have received a copy of the GNU General Public License
+.\"     along with this program. If not, see
+.\"     <http://www.gnu.org/licenses/>.
+.\"
+.ds n) ucsdpsys_disassemble
+.TH \*(n) 1 ucsd\[hy]psystem\[hy]xc "Reference Manual"
+.SH NAME
+ucsdpsys_disassemble \- disassemble a UCSD p\[hy]System code file
+.if require_index \{
+.XX "ucsdpsys_disassemble(1)" "disassemble a UCSD p\[hy]System code file"
+.\}
+.SH SYNOPSIS
+\fB\*(n)\fP [ \fIoption\fP...  ] \fIfilename\fP
+.br
+\fB\*(n) \-V\fP
+.SH DESCRIPTION
+The
+.I \*(n)
+program is used to
+.br
+.ne 1i
+.SH OPTIONS
+The following options are understood:
+.TP 8n
+\fB\-a\fP
+.TQ 8n
+\fB\-\-no\-address\fP
+Do not include addresses in the output.
+This makes automated testing easier when just a byte or two is added,
+it stops the diff being unhelpfully large.
+.TP 8n
+\fB\-c\fP
+.TQ 8n
+\fB\-\-comment\fP
+Add a descriptive comment for each opcode.
+.TP 8n
+\fB\-e\fP
+.TQ 8n
+\fB\-\-extend\fP
+This option is used to include the structure of the codefile itself in
+the listing.
+.TP 8n
+\fB\-o\fP \f[I]filename\fP
+.TQ 8n
+\fB\-\-output=\fP\f[I]filename\fP
+Write the output to the named file, rather than the standard output.
+.so man/man1/o_pmachine.so
+.TP 8n
+\fB\-V\fP
+.TQ 8n
+\fB\-\-version\fP
+Print the version of the \fI\*(n)\fP program being executed.
+.PP
+All other options will produce a diagnostic error.
+.so man/man1/z_exit.so
+.SH SEE ALSO
+.TP 8n
+\f[I]ucsdpsys_assemble\fP(1)
+UCSD p\[hy]System cross assembler, for multiple CPU types
+.TP 8n
+\f[I]ucsdpsys_compile\fP(1)
+A cross compiler from Pascal to UCSD p\[hy]System codefiles.
+.so man/man1/z_copyright.so
+.\" vim: set ts=8 sw=4 et :

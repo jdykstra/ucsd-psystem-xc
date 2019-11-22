@@ -1,0 +1,54 @@
+.\"
+.\" UCSD p-System cross compiler
+.\" Copyright (C) 2006, 2007, 2012 Peter Miller
+.\"
+.\" This program is free software; you can redistribute it and/or modify
+.\" it under the terms of the GNU General Public License as published by
+.\" the Free Software Foundation; either version 2 of the License, or (at
+.\" you option) any later version.
+.\"
+.\" This program is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+.\" General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU General Public License along
+.\" with this program. If not, see <http://www.gnu.org/licenses/>
+.\"
+.ad l
+.hy 0
+<html>
+<head>
+<title>
+Compilers and Factories, 6
+</title>
+</head>
+<body>
+    <table width="100%"><tr><td>
+    <a href="slide-05.html"><img src="back.png" alt="Back" border=0></a>
+    </td><td align="right">
+    <a href="slide-07.html"><img src="next.png" alt="Next" border=0></a>
+    </td></tr></table>
+<h1 align=center>
+<img src="factory_methods.png" alt="Factory Methods">
+</h1>
+
+<table align="center">
+<tr>
+<td valign="top">
+<img src="isa.png" align="left">
+</td>
+<td width="400">
+The parser has a pointer to an abstract translator.
+It doesn't actually know what the translator does, and doesn't need to know.
+<p>
+The translator is specialized for whatever it is that you need to tool to do.
+<p>
+The specialized translators are vehicles for factory methods for
+manufacturing appropriately specialized expression objects, statement
+objects, <i>etc</i>.
+</td></tr>
+</table>
+</body>
+</html>
+.\" vim: set ts=8 sw=4 et :
