@@ -17,7 +17,9 @@
 //
 
 #include <lib/config.h>
+#include <string.h>
 #include <png.h>
+#include <zlib.h>
 #include <libexplain/fclose.h>
 #include <libexplain/fopen.h>
 #include <libexplain/output.h>
