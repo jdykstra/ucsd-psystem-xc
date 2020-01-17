@@ -133,7 +133,7 @@ type_enumerated::is_a(const type::pointer &tp)
         r1 = rr->get_subtype();
     }
 
-    return boost::dynamic_pointer_cast<type_enumerated>(r1);
+    return static_cast<bool> (boost::dynamic_pointer_cast<type_enumerated>(r1));
 }
 
 
