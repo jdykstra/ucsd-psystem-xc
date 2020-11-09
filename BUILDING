@@ -1,3 +1,17 @@
+Compile Pascal into p-system p-codes on UNIX.
+
+No workarounds are needed on the ./configure command.
+
+From the PDF:  ucsdpsys_osmakgen understands how to generate files needed by Debian packages.
+
+Some tests use the uudecode utility.  In Debian, at least, this is provided by the sharutils package.
+
+XC builds cleanly and passes all test on Ubuntu 20.04 (Focal Fossa) and Debian 10.3.
+
+
+Peter Miller's original BUILDING text
+-------------------------------------
+
 Build(ucsd-psystem-xc)                                  Build(ucsd-psystem-xc)
 
 
