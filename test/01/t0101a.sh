@@ -31,8 +31,7 @@ fubar
 test $? -eq 0 || no_result
 
 cat > test.ok << 'fubar'
-ucsdpsys_compile: test.text: 3: syntax error, unexpected NAME, expecting
-    END or ;
+ucsdpsys_compile: test.text: 3: syntax error
 ucsdpsys_compile: found one fatal error
 fubar
 test $? -eq 0 || no_result
