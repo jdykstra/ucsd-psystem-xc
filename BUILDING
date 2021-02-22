@@ -6,8 +6,7 @@ From the PDF:  ucsdpsys_osmakgen understands how to generate files needed by Deb
 
 Some tests use the uudecode utility.  In Debian, at least, this is provided by the sharutils package.
 
-XC builds cleanly and passes all test on Ubuntu 20.04 (Focal Fossa) and Debian 10.3.
-
+The git tags indicate which distributions have been verified.           
 
 Peter Miller's original BUILDING text
 -------------------------------------
