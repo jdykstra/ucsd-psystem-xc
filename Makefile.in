@@ -102,7 +102,7 @@ YACC = @YACC@
 #
 # The yacc flags to use.
 #
-YFLAGS =
+YFLAGS = -Wno-yacc
 
 #
 # extra libraries required for your system
@@ -1726,11 +1726,11 @@ lib/p_machine.o: lib/ac/ctype.h lib/ac/stdarg.h lib/ac/stddef.h \
 
 lib/pascal/grammar.yacc.cc lib/pascal/grammar.yacc.h: lib/pascal/grammar.y
 	$(YACC) -d $(YFLAGS) lib/pascal/grammar.y
-	sed -e 's/[yY][yY]/pascal_grammar_/g' -e '/<stdio.h>/d' -e \
-		'/<stdlib.h>/d' -e '/<stddef.h>/d' y.tab.c > \
+	sed -e 's/yy/pascal_grammar_/g' -e 's/YY/PASCAL_GRAMMAR_/g' \
+		-e '/<stdio.h>/d' -e '/<stdlib.h>/d' -e '/<stddef.h>/d' y.tab.c > \
 		lib/pascal/grammar.yacc.cc
-	sed -e 's/[yY][yY]/pascal_grammar_/g' -e \
-		's/Y_TAB_H/lib_pascal_grammar_YACC_H/g' y.tab.h > \
+	sed -e 's/yy/pascal_grammar_/g' -e 's/YY/PASCAL_GRAMMAR_/g' -e \
+		's/Y_TAB_H/lib_PASCAL_GRAMMAR_YACC_H/g' y.tab.h > \
 		lib/pascal/grammar.yacc.h
 	test -f y.output && mv y.output lib/pascal/grammar.output || true
 	rm -f y.tab.c y.tab.h y.output || true
@@ -6781,10 +6781,11 @@ test_cardinal/main.o: lib/ac/stdarg.h lib/ac/stddef.h lib/ac/stdio.h \
 test_long_integer/grammar.yacc.cc test_long_integer/grammar.yacc.h: \
 		test_long_integer/grammar.y
 	$(YACC) -d $(YFLAGS) test_long_integer/grammar.y
-	sed -e 's/[yY][yY]/grammar_/g' -e '/<stdio.h>/d' -e '/<stdlib.h>/d' -e \
+	sed -e 's/yy/grammar_/g' -e 's/YY/GRAMMAR_/g' \
+		-e '/<stdio.h>/d' -e '/<stdlib.h>/d' -e \
 		'/<stddef.h>/d' y.tab.c > test_long_integer/grammar.yacc.cc
-	sed -e 's/[yY][yY]/grammar_/g' -e \
-		's/Y_TAB_H/test_long_integer_grammar_YACC_H/g' y.tab.h > \
+	sed -e 's/yy/grammar_/g' -e 's/YY/GRAMMAR_/g' \
+		-e 's/Y_TAB_H/TEST_LONG_INTEGER_GRAMMAR_YACC_H/g' y.tab.h > \
 		test_long_integer/grammar.yacc.h
 	test -f y.output && mv y.output test_long_integer/grammar.output || true
 	rm -f y.tab.c y.tab.h y.output || true
@@ -7549,10 +7550,11 @@ ucsdpsys_assemble/expression/xor/asm.o: lib/ac/stdarg.h lib/ac/stddef.h \
 ucsdpsys_assemble/grammar.yacc.cc ucsdpsys_assemble/grammar.yacc.h: \
 		ucsdpsys_assemble/grammar.y
 	$(YACC) -d $(YFLAGS) ucsdpsys_assemble/grammar.y
-	sed -e 's/[yY][yY]/grammar_/g' -e '/<stdio.h>/d' -e '/<stdlib.h>/d' -e \
+	sed -e 's/yy/grammar_/g' -e 's/YY/GRAMMAR_/g' -e '/<stdio.h>/d' \
+		-e '/<stdlib.h>/d' -e \
 		'/<stddef.h>/d' y.tab.c > ucsdpsys_assemble/grammar.yacc.cc
-	sed -e 's/[yY][yY]/grammar_/g' -e \
-		's/Y_TAB_H/ucsdpsys_assemble_grammar_YACC_H/g' y.tab.h > \
+	sed -e 's/yy/grammar_/g' -e 's/YY/GRAMMAR_/g' -e \
+		's/Y_TAB_H/UCSDPSYS_ASSEMBLE_YACC_H/g' y.tab.h > \
 		ucsdpsys_assemble/grammar.yacc.h
 	test -f y.output && mv y.output ucsdpsys_assemble/grammar.output || true
 	rm -f y.tab.c y.tab.h y.output || true

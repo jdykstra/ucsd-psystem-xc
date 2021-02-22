@@ -749,7 +749,7 @@ pascal_grammar_lex(void)
     //
     // This is where yacc expects us to put attributes of the tokens.
     //
-    extern pascal_grammar_STYPE pascal_grammar_lval;
+    extern PASCAL_GRAMMAR_STYPE pascal_grammar_lval;
 
     //
     // By using the one string accumulator for all the parsing, it will
