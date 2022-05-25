@@ -105,7 +105,7 @@ main(int argc, char **argv)
         switch (c)
         {
         case 'A':
-            warnings.push_back(rcstring::printf("$feature arch %s", optarg));
+            warnings.push_back(rcstring::printf("$feature architecture %s", optarg));
             break;
 
         case 'd':

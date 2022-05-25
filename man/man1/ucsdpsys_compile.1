@@ -36,10 +36,8 @@ compile Pascal source code to UCSD p\[hy]System code files.
 The following options are understood:
 .\" ----------  A  ---------------------------------------------------------
 .so man/man1/o_architecture.so
-This option may be used to specify the machine architecture
-from the command line.
 This option behaves as if there was a
-\f[CW](*$feature host \fP\f[I]name\fP\f[CW]*)\fP
+\f[CW](*$feature architecture \fP\f[I]name\fP\f[CW]*)\fP
 comment at the start of the source file.
 There is an equivalent option for the \f[I]ucsdpsys_assemble\fP(1) command.
 .\" ----------  B  ---------------------------------------------------------
@@ -66,8 +64,6 @@ Set the selected feature to false.
 .\" ----------  G  ---------------------------------------------------------
 .\" ----------  H  ---------------------------------------------------------
 .so man/man1/o_host.so
-This option may be used to specify the host machine
-from the command line.
 This option behaves as if there was a
 \f[CW](*$feature host \fP\f[I]name\fP\f[CW]*)\fP
 comment at the start of the source file.
