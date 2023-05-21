@@ -40,7 +40,7 @@ end.
 fubar
 test $? -eq 0 || no_result
 
-$bindir/ucsdpsys_pretty test.text > test.out
+ucsdpsys_pretty test.text > test.out
 test $? -eq 0 || fail
 
 diff test.ok test.out

@@ -41,7 +41,7 @@ ucsdpsys_compile: found two fatal errors
 fubar
 test $? -eq 0 || fail
 
-$bindir/ucsdpsys_compile test.pas -o test.code 2> test.err
+ucsdpsys_compile test.pas -o test.code 2> test.err
 test $? -eq 1 || fail
 
 diff test.ok test.err

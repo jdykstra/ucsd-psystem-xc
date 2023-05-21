@@ -1,0 +1,49 @@
+/* lib/config.h.in.  Generated from etc/configure.ac by autoheader.  */
+
+/*
+ * UCSD p-System cross compiler
+ * Copyright (C) 2006, 2007, 2010, 2012 Peter Miller
+ *
+ *      This program is free software; you can redistribute it and/or modify
+ *      it under the terms of the GNU General Public License as published by
+ *      the Free Software Foundation; either version 3 of the License, or
+ *      (at your option) any later version.
+ *
+ *      This program is distributed in the hope that it will be useful,
+ *      but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *      GNU General Public License for more details.
+ *
+ *      You should have received a copy of the GNU General Public License
+ *      along with this program. If not, see
+ *      <http://www.gnu.org/licenses/>.
+ */
+
+#ifndef LIB_CONFIG_H
+#define LIB_CONFIG_H
+
+
+/* Define to 1 if you have the `backtrace' function. */
+#mesondefine HAVE_BACKTRACE
+
+/* Define to 1 if you have the `fnmatch' function. */
+#mesondefine HAVE_FNMATCH
+
+/* Define to 1 if you have the <fnmatch.h> header file. */
+#mesondefine HAVE_FNMATCH_H
+
+/* Define to 1 if you have the <getopt.h> header file. */
+#mesondefine HAVE_GETOPT_H
+
+/* Define to 1 if you have the <stdint.h> header file. */
+#mesondefine HAVE_STDINT_H
+
+/*
+ * There is more to do, but we need to insulate it from config.status,
+ * because it screws up the #undef lines.  They are all implications of
+ * the above information, so there is no need for you to edit the file,
+ * if you are configuring Aegis manually.
+ */
+#include <lib/config.messy.h>
+
+#endif /* LIB_CONFIG_H */

@@ -47,7 +47,7 @@ ucsdpsys_compile: found one fatal error
 fubar
 test $? -eq 0 || no_result
 
-$bindir/ucsdpsys_compile example.text > test.out 2>&1
+ucsdpsys_compile example.text > test.out 2>&1
 test $? -eq 1 || fail
 
 diff test.ok test.out

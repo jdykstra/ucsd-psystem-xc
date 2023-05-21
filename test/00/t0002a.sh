@@ -70,10 +70,10 @@ cat > test.ok << 'fubar'
 fubar
 test $? -eq 0 || no_result
 
-$bindir/ucsdpsys_compile -o hello.code hello.pas
+ucsdpsys_compile -o hello.code hello.pas
 test $? -eq 0 || fail
 
-$bindir/ucsdpsys_disassemble -a hello.code > test.out
+ucsdpsys_disassemble -a hello.code > test.out
 test $? -eq 0 || fail
 
 diff test.ok test.out
