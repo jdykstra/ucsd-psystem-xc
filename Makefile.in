@@ -25060,7 +25060,7 @@ all-doc: etc/BUILDING.pdf etc/README.pdf etc/change_log.pdf etc/internals2.pdf \
 		man/cat5/ucsdpsys_opcodes.5
 
 .bin:
-	-mkdir bin
+	-mkdir -p bin
 	-chmod 0755 bin
 	@-test -d bin && touch $@
 	@sleep 1
