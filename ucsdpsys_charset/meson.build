@@ -1,0 +1,45 @@
+charset_sources = [
+  'arch.cc',
+  'arch/factory.cc',
+  'arch/normal.cc',
+  'arch/terak.cc',
+  'font.cc',
+  'font/invert_top_half.cc',
+  'glyph.cc',
+  'glyph/crop.cc',
+  'glyph/invert.cc',
+  'glyph/vflip.cc',
+  'main.cc',
+  'pretty_char_name.cc',
+  'sink.cc',
+  'sink/add_boot_logo.cc',
+  'sink/apple.cc',
+  'sink/factory.cc',
+  'sink/include.cc',
+  'sink/psftools.cc',
+  'sink/terak.cc',
+  'sink/text.cc',
+  'source.cc',
+  'source/add_boot_logo.cc',
+  'source/apple.cc',
+  'source/factory.cc',
+  'source/psftools.cc',
+  'source/terak.cc',
+  'source/text.cc',
+]
+
+charset_deps = [
+  libexplain_dep,
+  boost_dep,
+  libpng_dep,
+]
+
+charset_exe = executable(
+  'ucsdpsys_charset',
+  sources : charset_sources,
+  include_directories : root_inc,
+  implicit_include_directories : false,
+  dependencies : charset_deps,
+  link_with : lib_lib,
+  install : true,
+)

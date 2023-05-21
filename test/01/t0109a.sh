@@ -88,10 +88,10 @@ fubar
 test $? -eq 0 || fail
 
 ulimit -c unlimited
-$bindir/ucsdpsys_compile test.in -o test.code
+ucsdpsys_compile test.in -o test.code
 test $? -eq 0 || fail
 
-$bindir/ucsdpsys_disassemble -a test.code > test.out
+ucsdpsys_disassemble -a test.code > test.out
 test $? -eq 0 || fail
 
 diff test.ok test.out
