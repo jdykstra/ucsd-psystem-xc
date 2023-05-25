@@ -1,17 +1,21 @@
 Compile Pascal into p-system p-codes on UNIX.
 
-No workarounds are needed on the ./configure command.
-
-Or build using meson:
+Build using Meson:
 
         meson setup --buildtype=debugoptimized build/
         meson compile -C build/
 
-Running the unit tests requires at least meson 1.0.2.
+If unfamiliar with Meson, see https://mesonbuild.com/ for package installation,
+initial setup, and built-in build configuration options.
 
-From the PDF:  ucsdpsys_osmakgen understands how to generate files needed by Debian packages.
+Building XC on Debian requires the libexplain-dev, libboot-dev, libpng-dev, and
+bison packages.
 
-Some tests use the uudecode utility.  In Debian, at least, this is provided by the sharutils package.
+Some tests use the uudecode utility.  In Debian, at least, this is provided by
+the sharutils package.
+
+From the PDF: ucsdpsys_osmakgen understands how to generate files needed by
+Debian packages.
 
 The git tags indicate which distributions have been verified.           
 
