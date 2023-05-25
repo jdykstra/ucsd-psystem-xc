@@ -17,7 +17,7 @@ test_env.prepend('PATH', fs.parent(opcodes_exe.full_path()))
 test_env.prepend('PATH', fs.parent(osmakgen_exe.full_path()))
 test_env.prepend('PATH', fs.parent(pretty_exe.full_path()))
 test_env.prepend('PATH', fs.parent(setup_exe.full_path()))
-test_env.prepend('PATH', meson.source_root() / 'script')
+test_env.prepend('PATH', meson.project_source_root() / 'script')
 
 subdir('00')
 subdir('01')

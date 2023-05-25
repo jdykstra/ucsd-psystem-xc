@@ -1,79 +1,87 @@
-test('t0001a', sh, args : files('t0001a.sh'), env : test_env, depends : [pretty_exe,])
-test('t0002a', sh, args : files('t0002a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0003a', sh, args : files('t0003a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0004a', sh, args : files('t0004a.sh'), env : test_env, depends : [compile_exe,])
-test('t0005a', sh, args : files('t0005a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0006a', sh, args : files('t0006a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0007a', sh, args : files('t0007a.sh'), env : test_env, depends : [pretty_exe,])
-test('t0008a', sh, args : files('t0008a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0009a', sh, args : files('t0009a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0010a', sh, args : files('t0010a.sh'), env : test_env, depends : [pretty_exe,])
-test('t0011a', sh, args : files('t0011a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0012a', sh, args : files('t0012a.sh'), env : test_env, depends : [pretty_exe,])
-test('t0015a', sh, args : files('t0015a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0016a', sh, args : files('t0016a.sh'), env : test_env, depends : [pretty_exe,])
-test('t0017a', sh, args : files('t0017a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0018a', sh, args : files('t0018a.sh'), env : test_env, depends : [pretty_exe,])
-test('t0019a', sh, args : files('t0019a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0020a', sh, args : files('t0020a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0021a', sh, args : files('t0021a.sh'), env : test_env, depends : [pretty_exe,])
-test('t0022a', sh, args : files('t0022a.sh'), env : test_env, depends : [pretty_exe,])
-test('t0023a', sh, args : files('t0023a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0025a', sh, args : files('t0025a.sh'), env : test_env, depends : [pretty_exe,])
-test('t0026a', sh, args : files('t0026a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0027a', sh, args : files('t0027a.sh'), env : test_env, depends : [pretty_exe,])
-test('t0028a', sh, args : files('t0028a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0029a', sh, args : files('t0029a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0030a', sh, args : files('t0030a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0031a', sh, args : files('t0031a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0032a', sh, args : files('t0032a.sh'), env : test_env, depends : [pretty_exe,])
-test('t0033a', sh, args : files('t0033a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0035a', sh, args : files('t0035a.sh'), env : test_env, depends : [pretty_exe,])
-test('t0036a', sh, args : files('t0036a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0037a', sh, args : files('t0037a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0038a', sh, args : files('t0038a.sh'), env : test_env, depends : [pretty_exe,])
-test('t0039a', sh, args : files('t0039a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0050a', sh, args : files('t0050a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0051a', sh, args : files('t0051a.sh'), env : test_env, depends : [pretty_exe,])
-test('t0052a', sh, args : files('t0052a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0053a', sh, args : files('t0053a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0055a', sh, args : files('t0055a.sh'), env : test_env, depends : [pretty_exe,])
-test('t0056a', sh, args : files('t0056a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0057a', sh, args : files('t0057a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0058a', sh, args : files('t0058a.sh'), env : test_env, depends : [pretty_exe,])
-test('t0059a', sh, args : files('t0059a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0060a', sh, args : files('t0060a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0061a', sh, args : files('t0061a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0062a', sh, args : files('t0062a.sh'), env : test_env, depends : [pretty_exe,])
-test('t0063a', sh, args : files('t0063a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0065a', sh, args : files('t0065a.sh'), env : test_env, depends : [pretty_exe,])
-test('t0066a', sh, args : files('t0066a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0067a', sh, args : files('t0067a.sh'), env : test_env, depends : [pretty_exe,])
-test('t0068a', sh, args : files('t0068a.sh'), env : test_env, depends : [compile_exe,])
-test('t0070a', sh, args : files('t0070a.sh'), env : test_env, depends : [compile_exe,])
-test('t0071a', sh, args : files('t0071a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0072a', sh, args : files('t0072a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0073a', sh, args : files('t0073a.sh'), env : test_env, depends : [pretty_exe,])
-test('t0075a', sh, args : files('t0075a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0076a', sh, args : files('t0076a.sh'), env : test_env, depends : [pretty_exe,])
-test('t0077a', sh, args : files('t0077a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0078a', sh, args : files('t0078a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0079a', sh, args : files('t0079a.sh'), env : test_env, depends : [pretty_exe,])
-test('t0080a', sh, args : files('t0080a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0081a', sh, args : files('t0081a.sh'), env : test_env, depends : [pretty_exe,])
-test('t0082a', sh, args : files('t0082a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0083a', sh, args : files('t0083a.sh'), env : test_env, depends : [pretty_exe,])
-test('t0085a', sh, args : files('t0085a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0086a', sh, args : files('t0086a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0088a', sh, args : files('t0088a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0089a', sh, args : files('t0089a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0090a', sh, args : files('t0090a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0091a', sh, args : files('t0091a.sh'), env : test_env, depends : [pretty_exe,])
-test('t0092a', sh, args : files('t0092a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0093a', sh, args : files('t0093a.sh'), env : test_env, depends : [pretty_exe,])
-test('t0094a', sh, args : files('t0094a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0095a', sh, args : files('t0095a.sh'), env : test_env, depends : [compile_exe,])
-test('t0096a', sh, args : files('t0096a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0097a', sh, args : files('t0097a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0098a', sh, args : files('t0098a.sh'), env : test_env, depends : [pretty_exe,])
-test('t0099a', sh, args : files('t0099a.sh'), env : test_env, depends : [compile_exe,])
+cases = [
+  ['t0001a', [pretty_exe]],
+  ['t0002a', [compile_exe, disassemble_exe]],
+  ['t0003a', [compile_exe, disassemble_exe]],
+  ['t0004a', [compile_exe]],
+  ['t0005a', [compile_exe, disassemble_exe]],
+  ['t0006a', [compile_exe, disassemble_exe]],
+  ['t0007a', [pretty_exe]],
+  ['t0008a', [compile_exe, disassemble_exe]],
+  ['t0009a', [compile_exe, disassemble_exe]],
+  ['t0010a', [pretty_exe]],
+  ['t0011a', [compile_exe, disassemble_exe]],
+  ['t0012a', [pretty_exe]],
+  ['t0015a', [compile_exe, disassemble_exe]],
+  ['t0016a', [pretty_exe]],
+  ['t0017a', [compile_exe, disassemble_exe]],
+  ['t0018a', [pretty_exe]],
+  ['t0019a', [compile_exe, disassemble_exe]],
+  ['t0020a', [compile_exe, disassemble_exe]],
+  ['t0021a', [pretty_exe]],
+  ['t0022a', [pretty_exe]],
+  ['t0023a', [compile_exe, disassemble_exe]],
+  ['t0025a', [pretty_exe]],
+  ['t0026a', [compile_exe, disassemble_exe]],
+  ['t0027a', [pretty_exe]],
+  ['t0028a', [compile_exe, disassemble_exe]],
+  ['t0029a', [compile_exe, disassemble_exe]],
+  ['t0030a', [compile_exe, disassemble_exe]],
+  ['t0031a', [compile_exe, disassemble_exe]],
+  ['t0032a', [pretty_exe]],
+  ['t0033a', [compile_exe, disassemble_exe]],
+  ['t0035a', [pretty_exe]],
+  ['t0036a', [compile_exe, disassemble_exe]],
+  ['t0037a', [compile_exe, disassemble_exe]],
+  ['t0038a', [pretty_exe]],
+  ['t0039a', [compile_exe, disassemble_exe]],
+  ['t0050a', [compile_exe, disassemble_exe]],
+  ['t0051a', [pretty_exe]],
+  ['t0052a', [compile_exe, disassemble_exe]],
+  ['t0053a', [compile_exe, disassemble_exe]],
+  ['t0055a', [pretty_exe]],
+  ['t0056a', [compile_exe, disassemble_exe]],
+  ['t0057a', [compile_exe, disassemble_exe]],
+  ['t0058a', [pretty_exe]],
+  ['t0059a', [compile_exe, disassemble_exe]],
+  ['t0060a', [compile_exe, disassemble_exe]],
+  ['t0061a', [compile_exe, disassemble_exe]],
+  ['t0062a', [pretty_exe]],
+  ['t0063a', [compile_exe, disassemble_exe]],
+  ['t0065a', [pretty_exe]],
+  ['t0066a', [compile_exe, disassemble_exe]],
+  ['t0067a', [pretty_exe]],
+  ['t0068a', [compile_exe]],
+  ['t0070a', [compile_exe]],
+  ['t0071a', [compile_exe, disassemble_exe]],
+  ['t0072a', [compile_exe, disassemble_exe]],
+  ['t0073a', [pretty_exe]],
+  ['t0075a', [compile_exe, disassemble_exe]],
+  ['t0076a', [pretty_exe]],
+  ['t0077a', [compile_exe, disassemble_exe]],
+  ['t0078a', [compile_exe, disassemble_exe]],
+  ['t0079a', [pretty_exe]],
+  ['t0080a', [compile_exe, disassemble_exe]],
+  ['t0081a', [pretty_exe]],
+  ['t0082a', [compile_exe, disassemble_exe]],
+  ['t0083a', [pretty_exe]],
+  ['t0085a', [compile_exe, disassemble_exe]],
+  ['t0086a', [compile_exe, disassemble_exe]],
+  ['t0088a', [compile_exe, disassemble_exe]],
+  ['t0089a', [compile_exe, disassemble_exe]],
+  ['t0090a', [compile_exe, disassemble_exe]],
+  ['t0091a', [pretty_exe]],
+  ['t0092a', [compile_exe, disassemble_exe]],
+  ['t0093a', [pretty_exe]],
+  ['t0094a', [compile_exe, disassemble_exe]],
+  ['t0095a', [compile_exe]],
+  ['t0096a', [compile_exe, disassemble_exe]],
+  ['t0097a', [compile_exe, disassemble_exe]],
+  ['t0098a', [pretty_exe]],
+  ['t0099a', [compile_exe]],
+]
+
+foreach case : cases
+  name = case[0]
+  depends = case[1]
+  test(name, sh, args : files(name + '.sh'), env : test_env, depends : depends)
+endforeach
