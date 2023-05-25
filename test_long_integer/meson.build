@@ -1,5 +1,5 @@
 test_long_integer_grammar_ch = bison_gen.process(
-  'grammar.y', preserve_path_from : meson.source_root(),
+  'grammar.y', preserve_path_from : meson.project_source_root(),
 )
 
 test_long_integer_sources = [

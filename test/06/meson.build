@@ -1,98 +1,106 @@
-test('t0600a', sh, args : files('t0600a.sh'), env : test_env, depends : [compile_exe,])
-test('t0601a', sh, args : files('t0601a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0602a', sh, args : files('t0602a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0603a', sh, args : files('t0603a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0604a', sh, args : files('t0604a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0605a', sh, args : files('t0605a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0606a', sh, args : files('t0606a.sh'), env : test_env, depends : [test_long_integer_exe,])
-test('t0607a', sh, args : files('t0607a.sh'), env : test_env, depends : [test_long_integer_exe,])
-test('t0608a', sh, args : files('t0608a.sh'), env : test_env, depends : [test_long_integer_exe,])
-test('t0609a', sh, args : files('t0609a.sh'), env : test_env, depends : [test_long_integer_exe,])
-test('t0610a', sh, args : files('t0610a.sh'), env : test_env, depends : [test_long_integer_exe,])
-test('t0611a', sh, args : files('t0611a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0612a', sh, args : files('t0612a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0613a', sh, args : files('t0613a.sh'), env : test_env, depends : [compile_exe,])
-test('t0614a', sh, args : files('t0614a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0615a', sh, args : files('t0615a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0616a', sh, args : files('t0616a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0617a', sh, args : files('t0617a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0618a', sh, args : files('t0618a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0619a', sh, args : files('t0619a.sh'), env : test_env, depends : [compile_exe,])
-test('t0620a', sh, args : files('t0620a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0621a', sh, args : files('t0621a.sh'), env : test_env, depends : [pretty_exe,])
-test('t0622a', sh, args : files('t0622a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0624a', sh, args : files('t0624a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0625a', sh, args : files('t0625a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0626a', sh, args : files('t0626a.sh'), env : test_env, depends : [compile_exe,])
-test('t0627a', sh, args : files('t0627a.sh'), env : test_env, depends : [compile_exe,])
-test('t0628a', sh, args : files('t0628a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0629a', sh, args : files('t0629a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0630a', sh, args : files('t0630a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0631a', sh, args : files('t0631a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0632a', sh, args : files('t0632a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0633a', sh, args : files('t0633a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0634a', sh, args : files('t0634a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0635a', sh, args : files('t0635a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0636a', sh, args : files('t0636a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0637a', sh, args : files('t0637a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0638a', sh, args : files('t0638a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0639a', sh, args : files('t0639a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0640a', sh, args : files('t0640a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0641a', sh, args : files('t0641a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0642a', sh, args : files('t0642a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0643a', sh, args : files('t0643a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0644a', sh, args : files('t0644a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0645a', sh, args : files('t0645a.sh'), env : test_env, depends : [pretty_exe,])
-test('t0646a', sh, args : files('t0646a.sh'), env : test_env, depends : [littoral_exe,])
-test('t0647a', sh, args : files('t0647a.sh'), env : test_env, depends : [littoral_exe,])
-test('t0648a', sh, args : files('t0648a.sh'), env : test_env, depends : [littoral_exe,])
-test('t0649a', sh, args : files('t0649a.sh'), env : test_env, depends : [littoral_exe,])
-test('t0650a', sh, args : files('t0650a.sh'), env : test_env, depends : [assemble_exe, disassemble_exe,])
-test('t0651a', sh, args : files('t0651a.sh'), env : test_env, depends : [assemble_exe, disassemble_exe,])
-test('t0652a', sh, args : files('t0652a.sh'), env : test_env, depends : [assemble_exe, disassemble_exe,])
-test('t0653a', sh, args : files('t0653a.sh'), env : test_env, depends : [assemble_exe, disassemble_exe,])
-test('t0654a', sh, args : files('t0654a.sh'), env : test_env, depends : [assemble_exe, disassemble_exe,])
-test('t0655a', sh, args : files('t0655a.sh'), env : test_env, depends : [assemble_exe, disassemble_exe,])
-test('t0656a', sh, args : files('t0656a.sh'), env : test_env, depends : [assemble_exe, disassemble_exe,])
-test('t0657a', sh, args : files('t0657a.sh'), env : test_env, depends : [assemble_exe, disassemble_exe,])
-test('t0658a', sh, args : files('t0658a.sh'), env : test_env, depends : [assemble_exe, disassemble_exe,])
-test('t0659a', sh, args : files('t0659a.sh'), env : test_env, depends : [assemble_exe, disassemble_exe,])
-test('t0660a', sh, args : files('t0660a.sh'), env : test_env, depends : [assemble_exe, disassemble_exe,])
-test('t0661a', sh, args : files('t0661a.sh'), env : test_env, depends : [assemble_exe, disassemble_exe,])
-test('t0662a', sh, args : files('t0662a.sh'), env : test_env, depends : [assemble_exe, disassemble_exe,])
-test('t0663a', sh, args : files('t0663a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0664a', sh, args : files('t0664a.sh'), env : test_env, depends : [assemble_exe, disassemble_exe,])
-test('t0665a', sh, args : files('t0665a.sh'), env : test_env, depends : [littoral_exe,])
-test('t0666a', sh, args : files('t0666a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0667a', sh, args : files('t0667a.sh'), env : test_env, depends : [compile_exe, librarian_exe, osmakgen_exe,])
-test('t0668a', sh, args : files('t0668a.sh'), env : test_env, depends : [compile_exe, libmap_exe, librarian_exe,])
-test('t0669a', sh, args : files('t0669a.sh'), env : test_env, depends : [compile_exe, libmap_exe, librarian_exe,])
-test('t0670a', sh, args : files('t0670a.sh'), env : test_env, depends : [compile_exe, librarian_exe, osmakgen_exe,])
-test('t0671a', sh, args : files('t0671a.sh'), env : test_env, depends : [depends_exe,])
-test('t0672a', sh, args : files('t0672a.sh'), env : test_env, depends : [compile_exe, osmakgen_exe,])
-test('t0673a', sh, args : files('t0673a.sh'), env : test_env, depends : [assemble_exe, compile_exe, osmakgen_exe,])
-test('t0674a', sh, args : files('t0674a.sh'), env : test_env, depends : [compile_exe, osmakgen_exe, setup_exe,])
-test('t0675a', sh, args : files('t0675a.sh'), env : test_env, depends : [compile_exe, osmakgen_exe,])
-test('t0676a', sh, args : files('t0676a.sh'), env : test_env, depends : [compile_exe, librarian_exe, osmakgen_exe,])
-test('t0677a', sh, args : files('t0677a.sh'), env : test_env, depends : [opcodes_exe,])
-test('t0678a', sh, args : files('t0678a.sh'), env : test_env, depends : [errors_exe,])
-test('t0679a', sh, args : files('t0679a.sh'), env : test_env, depends : [compile_exe, errors_exe, librarian_exe, opcodes_exe, osmakgen_exe,])
-test('t0680a', sh, args : files('t0680a.sh'), env : test_env, depends : [setup_exe,])
-test('t0681a', sh, args : files('t0681a.sh'), env : test_env, depends : [assemble_exe, disassemble_exe,])
-test('t0682a', sh, args : files('t0682a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0683a', sh, args : files('t0683a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0684a', sh, args : files('t0684a.sh'), env : test_env, depends : [assemble_exe, compile_exe, disassemble_exe, link_exe,])
-test('t0686a', sh, args : files('t0686a.sh'), env : test_env, depends : [depends_exe,])
-test('t0687a', sh, args : files('t0687a.sh'), env : test_env, depends : [assemble_exe, compile_exe, osmakgen_exe,])
-test('t0688a', sh, args : files('t0688a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0689a', sh, args : files('t0689a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0690a', sh, args : files('t0690a.sh'), env : test_env, depends : [compile_exe, disassemble_exe, libmap_exe,])
-test('t0691a', sh, args : files('t0691a.sh'), env : test_env, depends : [assemble_exe, disassemble_exe,])
-test('t0692a', sh, args : files('t0692a.sh'), env : test_env, depends : [assemble_exe, disassemble_exe,])
-test('t0693a', sh, args : files('t0693a.sh'), env : test_env, depends : [compile_exe, disassemble_exe, libmap_exe,])
-test('t0694a', sh, args : files('t0694a.sh'), env : test_env, depends : [assemble_exe, disassemble_exe,])
-test('t0695a', sh, args : files('t0695a.sh'), env : test_env, depends : [assemble_exe, disassemble_exe,])
-test('t0696a', sh, args : files('t0696a.sh'), env : test_env, depends : [assemble_exe, compile_exe, disassemble_exe, link_exe,])
-test('t0697a', sh, args : files('t0697a.sh'), env : test_env, depends : [assemble_exe, disassemble_exe,])
-test('t0698a', sh, args : files('t0698a.sh'), env : test_env, depends : [assemble_exe, disassemble_exe,])
-test('t0699a', sh, args : files('t0699a.sh'), env : test_env, depends : [assemble_exe, disassemble_exe,])
+cases = [
+  ['t0600a', [compile_exe]],
+  ['t0601a', [compile_exe, disassemble_exe]],
+  ['t0602a', [compile_exe, disassemble_exe]],
+  ['t0603a', [compile_exe, disassemble_exe]],
+  ['t0604a', [compile_exe, disassemble_exe]],
+  ['t0605a', [compile_exe, disassemble_exe]],
+  ['t0606a', [test_long_integer_exe]],
+  ['t0607a', [test_long_integer_exe]],
+  ['t0608a', [test_long_integer_exe]],
+  ['t0609a', [test_long_integer_exe]],
+  ['t0610a', [test_long_integer_exe]],
+  ['t0611a', [compile_exe, disassemble_exe]],
+  ['t0612a', [compile_exe, disassemble_exe]],
+  ['t0613a', [compile_exe]],
+  ['t0614a', [compile_exe, disassemble_exe]],
+  ['t0615a', [compile_exe, disassemble_exe]],
+  ['t0616a', [compile_exe, disassemble_exe]],
+  ['t0617a', [compile_exe, disassemble_exe]],
+  ['t0618a', [compile_exe, disassemble_exe]],
+  ['t0619a', [compile_exe]],
+  ['t0620a', [compile_exe, disassemble_exe]],
+  ['t0621a', [pretty_exe]],
+  ['t0622a', [compile_exe, disassemble_exe]],
+  ['t0624a', [compile_exe, disassemble_exe]],
+  ['t0625a', [compile_exe, disassemble_exe]],
+  ['t0626a', [compile_exe]],
+  ['t0627a', [compile_exe]],
+  ['t0628a', [compile_exe, disassemble_exe]],
+  ['t0629a', [compile_exe, disassemble_exe]],
+  ['t0630a', [compile_exe, disassemble_exe]],
+  ['t0631a', [compile_exe, disassemble_exe]],
+  ['t0632a', [compile_exe, disassemble_exe]],
+  ['t0633a', [compile_exe, disassemble_exe]],
+  ['t0634a', [compile_exe, disassemble_exe]],
+  ['t0635a', [compile_exe, disassemble_exe]],
+  ['t0636a', [compile_exe, disassemble_exe]],
+  ['t0637a', [compile_exe, disassemble_exe]],
+  ['t0638a', [compile_exe, disassemble_exe]],
+  ['t0639a', [compile_exe, disassemble_exe]],
+  ['t0640a', [compile_exe, disassemble_exe]],
+  ['t0641a', [compile_exe, disassemble_exe]],
+  ['t0642a', [compile_exe, disassemble_exe]],
+  ['t0643a', [compile_exe, disassemble_exe]],
+  ['t0644a', [compile_exe, disassemble_exe]],
+  ['t0645a', [pretty_exe]],
+  ['t0646a', [littoral_exe]],
+  ['t0647a', [littoral_exe]],
+  ['t0648a', [littoral_exe]],
+  ['t0649a', [littoral_exe]],
+  ['t0650a', [assemble_exe, disassemble_exe]],
+  ['t0651a', [assemble_exe, disassemble_exe]],
+  ['t0652a', [assemble_exe, disassemble_exe]],
+  ['t0653a', [assemble_exe, disassemble_exe]],
+  ['t0654a', [assemble_exe, disassemble_exe]],
+  ['t0655a', [assemble_exe, disassemble_exe]],
+  ['t0656a', [assemble_exe, disassemble_exe]],
+  ['t0657a', [assemble_exe, disassemble_exe]],
+  ['t0658a', [assemble_exe, disassemble_exe]],
+  ['t0659a', [assemble_exe, disassemble_exe]],
+  ['t0660a', [assemble_exe, disassemble_exe]],
+  ['t0661a', [assemble_exe, disassemble_exe]],
+  ['t0662a', [assemble_exe, disassemble_exe]],
+  ['t0663a', [compile_exe, disassemble_exe]],
+  ['t0664a', [assemble_exe, disassemble_exe]],
+  ['t0665a', [littoral_exe]],
+  ['t0666a', [compile_exe, disassemble_exe]],
+  ['t0667a', [compile_exe, librarian_exe, osmakgen_exe]],
+  ['t0668a', [compile_exe, libmap_exe, librarian_exe]],
+  ['t0669a', [compile_exe, libmap_exe, librarian_exe]],
+  ['t0670a', [compile_exe, librarian_exe, osmakgen_exe]],
+  ['t0671a', [depends_exe]],
+  ['t0672a', [compile_exe, osmakgen_exe]],
+  ['t0673a', [assemble_exe, compile_exe, osmakgen_exe]],
+  ['t0674a', [compile_exe, osmakgen_exe, setup_exe]],
+  ['t0675a', [compile_exe, osmakgen_exe]],
+  ['t0676a', [compile_exe, librarian_exe, osmakgen_exe]],
+  ['t0677a', [opcodes_exe]],
+  ['t0678a', [errors_exe]],
+  ['t0679a', [compile_exe, errors_exe, librarian_exe, opcodes_exe, osmakgen_exe]],
+  ['t0680a', [setup_exe]],
+  ['t0681a', [assemble_exe, disassemble_exe]],
+  ['t0682a', [compile_exe, disassemble_exe]],
+  ['t0683a', [compile_exe, disassemble_exe]],
+  ['t0684a', [assemble_exe, compile_exe, disassemble_exe, link_exe]],
+  ['t0686a', [depends_exe]],
+  ['t0687a', [assemble_exe, compile_exe, osmakgen_exe]],
+  ['t0688a', [compile_exe, disassemble_exe]],
+  ['t0689a', [compile_exe, disassemble_exe]],
+  ['t0690a', [compile_exe, disassemble_exe, libmap_exe]],
+  ['t0691a', [assemble_exe, disassemble_exe]],
+  ['t0692a', [assemble_exe, disassemble_exe]],
+  ['t0693a', [compile_exe, disassemble_exe, libmap_exe]],
+  ['t0694a', [assemble_exe, disassemble_exe]],
+  ['t0695a', [assemble_exe, disassemble_exe]],
+  ['t0696a', [assemble_exe, compile_exe, disassemble_exe, link_exe]],
+  ['t0697a', [assemble_exe, disassemble_exe]],
+  ['t0698a', [assemble_exe, disassemble_exe]],
+  ['t0699a', [assemble_exe, disassemble_exe]],
+]
+
+foreach case : cases
+  name = case[0]
+  depends = case[1]
+  test(name, sh, args : files(name + '.sh'), env : test_env, depends : depends)
+endforeach

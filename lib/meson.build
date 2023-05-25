@@ -38,7 +38,7 @@ lib_libdir_cc = configure_file(
 )
 
 lib_pascal_grammar_ch = bison_gen.process(
-  'pascal/grammar.y', preserve_path_from : meson.source_root(),
+  'pascal/grammar.y', preserve_path_from : meson.project_source_root(),
 )
 
 lib_sources = [

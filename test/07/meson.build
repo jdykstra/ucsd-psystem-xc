@@ -1,39 +1,47 @@
-test('t0700a', sh, args : files('t0700a.sh'), env : test_env, depends : [compile_exe, disassemble_exe, librarian_exe,])
-test('t0701a', sh, args : files('t0701a.sh'), env : test_env, depends : [assemble_exe, compile_exe, disassemble_exe, link_exe,])
-test('t0702a', sh, args : files('t0702a.sh'), env : test_env, depends : [compile_exe, librarian_exe, osmakgen_exe,])
-test('t0703a', sh, args : files('t0703a.sh'), env : test_env, depends : [assemble_exe, compile_exe, osmakgen_exe,])
-test('t0704a', sh, args : files('t0704a.sh'), env : test_env, depends : [assemble_exe, disassemble_exe,])
-test('t0705a', sh, args : files('t0705a.sh'), env : test_env, depends : [assemble_exe, compile_exe, link_exe, osmakgen_exe,])
-test('t0707a', sh, args : files('t0707a.sh'), env : test_env, depends : [assemble_exe, disassemble_exe,])
-test('t0708a', sh, args : files('t0708a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0709a', sh, args : files('t0709a.sh'), env : test_env, depends : [assemble_exe, disassemble_exe,])
-test('t0710a', sh, args : files('t0710a.sh'), env : test_env, depends : [assemble_exe, disassemble_exe,])
-test('t0711a', sh, args : files('t0711a.sh'), env : test_env, depends : [assemble_exe, disassemble_exe,])
-test('t0712a', sh, args : files('t0712a.sh'), env : test_env, depends : [assemble_exe, disassemble_exe,])
-test('t0713a', sh, args : files('t0713a.sh'), env : test_env, depends : [assemble_exe, disassemble_exe,])
-test('t0714a', sh, args : files('t0714a.sh'), env : test_env, depends : [assemble_exe, disassemble_exe,])
-test('t0715a', sh, args : files('t0715a.sh'), env : test_env, depends : [assemble_exe, disassemble_exe,])
-test('t0716a', sh, args : files('t0716a.sh'), env : test_env, depends : [assemble_exe, disassemble_exe,])
-test('t0717a', sh, args : files('t0717a.sh'), env : test_env, depends : [assemble_exe, disassemble_exe,])
-test('t0718a', sh, args : files('t0718a.sh'), env : test_env, depends : [assemble_exe, disassemble_exe,])
-test('t0719a', sh, args : files('t0719a.sh'), env : test_env, depends : [assemble_exe, disassemble_exe,])
-test('t0720a', sh, args : files('t0720a.sh'), env : test_env, depends : [assemble_exe,])
-test('t0721a', sh, args : files('t0721a.sh'), env : test_env, depends : [assemble_exe, disassemble_exe,])
-test('t0722a', sh, args : files('t0722a.sh'), env : test_env, depends : [assemble_exe, disassemble_exe,])
-test('t0723a', sh, args : files('t0723a.sh'), env : test_env, depends : [assemble_exe,])
-test('t0724a', sh, args : files('t0724a.sh'), env : test_env, depends : [assemble_exe,])
-test('t0725a', sh, args : files('t0725a.sh'), env : test_env, depends : [charset_exe,])
-test('t0726a', sh, args : files('t0726a.sh'), env : test_env, depends : [assemble_exe,])
-test('t0727a', sh, args : files('t0727a.sh'), env : test_env, depends : [assemble_exe,])
-test('t0728a', sh, args : files('t0728a.sh'), env : test_env, depends : [compile_exe, disassemble_exe, libmap_exe,])
-test('t0729a', sh, args : files('t0729a.sh'), env : test_env, depends : [compile_exe,])
-test('t0730a', sh, args : files('t0730a.sh'), env : test_env, depends : [compile_exe, osmakgen_exe,])
-test('t0731a', sh, args : files('t0731a.sh'), env : test_env, depends : [charset_exe,])
-test('t0732a', sh, args : files('t0732a.sh'), env : test_env, depends : [charset_exe,])
-test('t0733a', sh, args : files('t0733a.sh'), env : test_env, depends : [osmakgen_exe,])
-test('t0734a', sh, args : files('t0734a.sh'), env : test_env, depends : [charset_exe, compile_exe, librarian_exe, osmakgen_exe, setup_exe,])
-test('t0735a', sh, args : files('t0735a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0736a', sh, args : files('t0736a.sh'), env : test_env, depends : [charset_exe,])
-test('t0737a', sh, args : files('t0737a.sh'), env : test_env, depends : [charset_exe,])
-test('t0738a', sh, args : files('t0738a.sh'), env : test_env, depends : [charset_exe,])
-test('t0739a', sh, args : files('t0739a.sh'), env : test_env, depends : [charset_exe,])
+cases = [
+  ['t0700a', [compile_exe, disassemble_exe, librarian_exe]],
+  ['t0701a', [assemble_exe, compile_exe, disassemble_exe, link_exe]],
+  ['t0702a', [compile_exe, librarian_exe, osmakgen_exe]],
+  ['t0703a', [assemble_exe, compile_exe, osmakgen_exe]],
+  ['t0704a', [assemble_exe, disassemble_exe]],
+  ['t0705a', [assemble_exe, compile_exe, link_exe, osmakgen_exe]],
+  ['t0707a', [assemble_exe, disassemble_exe]],
+  ['t0708a', [compile_exe, disassemble_exe]],
+  ['t0709a', [assemble_exe, disassemble_exe]],
+  ['t0710a', [assemble_exe, disassemble_exe]],
+  ['t0711a', [assemble_exe, disassemble_exe]],
+  ['t0712a', [assemble_exe, disassemble_exe]],
+  ['t0713a', [assemble_exe, disassemble_exe]],
+  ['t0714a', [assemble_exe, disassemble_exe]],
+  ['t0715a', [assemble_exe, disassemble_exe]],
+  ['t0716a', [assemble_exe, disassemble_exe]],
+  ['t0717a', [assemble_exe, disassemble_exe]],
+  ['t0718a', [assemble_exe, disassemble_exe]],
+  ['t0719a', [assemble_exe, disassemble_exe]],
+  ['t0720a', [assemble_exe]],
+  ['t0721a', [assemble_exe, disassemble_exe]],
+  ['t0722a', [assemble_exe, disassemble_exe]],
+  ['t0723a', [assemble_exe]],
+  ['t0724a', [assemble_exe]],
+  ['t0725a', [charset_exe]],
+  ['t0726a', [assemble_exe]],
+  ['t0727a', [assemble_exe]],
+  ['t0728a', [compile_exe, disassemble_exe, libmap_exe]],
+  ['t0729a', [compile_exe]],
+  ['t0730a', [compile_exe, osmakgen_exe]],
+  ['t0731a', [charset_exe]],
+  ['t0732a', [charset_exe]],
+  ['t0733a', [osmakgen_exe]],
+  ['t0734a', [charset_exe, compile_exe, librarian_exe, osmakgen_exe, setup_exe]],
+  ['t0735a', [compile_exe, disassemble_exe]],
+  ['t0736a', [charset_exe]],
+  ['t0737a', [charset_exe]],
+  ['t0738a', [charset_exe]],
+  ['t0739a', [charset_exe]],
+]
+
+foreach case : cases
+  name = case[0]
+  depends = case[1]
+  test(name, sh, args : files(name + '.sh'), env : test_env, depends : depends)
+endforeach

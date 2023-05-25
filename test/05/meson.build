@@ -1,89 +1,97 @@
-test('t0500a', sh, args : files('t0500a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0501a', sh, args : files('t0501a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0502a', sh, args : files('t0502a.sh'), env : test_env, depends : [compile_exe,])
-test('t0503a', sh, args : files('t0503a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0505a', sh, args : files('t0505a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0506a', sh, args : files('t0506a.sh'), env : test_env, depends : [compile_exe,])
-test('t0507a', sh, args : files('t0507a.sh'), env : test_env, depends : [compile_exe,])
-test('t0508a', sh, args : files('t0508a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0509a', sh, args : files('t0509a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0511a', sh, args : files('t0511a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0512a', sh, args : files('t0512a.sh'), env : test_env, depends : [compile_exe,])
-test('t0513a', sh, args : files('t0513a.sh'), env : test_env, depends : [compile_exe,])
-test('t0515a', sh, args : files('t0515a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0516a', sh, args : files('t0516a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0517a', sh, args : files('t0517a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0518a', sh, args : files('t0518a.sh'), env : test_env, depends : [compile_exe,])
-test('t0519a', sh, args : files('t0519a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0520a', sh, args : files('t0520a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0521a', sh, args : files('t0521a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0522a', sh, args : files('t0522a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0523a', sh, args : files('t0523a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0525a', sh, args : files('t0525a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0526a', sh, args : files('t0526a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0527a', sh, args : files('t0527a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0528a', sh, args : files('t0528a.sh'), env : test_env, depends : [assemble_exe, disassemble_exe,])
-test('t0529a', sh, args : files('t0529a.sh'), env : test_env, depends : [assemble_exe, disassemble_exe,])
-test('t0530a', sh, args : files('t0530a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0531a', sh, args : files('t0531a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0532a', sh, args : files('t0532a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0533a', sh, args : files('t0533a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0534a', sh, args : files('t0534a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0535a', sh, args : files('t0535a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0536a', sh, args : files('t0536a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0537a', sh, args : files('t0537a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0539a', sh, args : files('t0539a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0540a', sh, args : files('t0540a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0541a', sh, args : files('t0541a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0542a', sh, args : files('t0542a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0543a', sh, args : files('t0543a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0544a', sh, args : files('t0544a.sh'), env : test_env, depends : [compile_exe,])
-test('t0545a', sh, args : files('t0545a.sh'), env : test_env, depends : [compile_exe,])
-test('t0546a', sh, args : files('t0546a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0547a', sh, args : files('t0547a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0548a', sh, args : files('t0548a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0549a', sh, args : files('t0549a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0551a', sh, args : files('t0551a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0552a', sh, args : files('t0552a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0553a', sh, args : files('t0553a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0555a', sh, args : files('t0555a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0556a', sh, args : files('t0556a.sh'), env : test_env, depends : [compile_exe,])
-test('t0557a', sh, args : files('t0557a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0558a', sh, args : files('t0558a.sh'), env : test_env, depends : [compile_exe,])
-test('t0559a', sh, args : files('t0559a.sh'), env : test_env, depends : [compile_exe, libmap_exe, librarian_exe,])
-test('t0560a', sh, args : files('t0560a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0562a', sh, args : files('t0562a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0563a', sh, args : files('t0563a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0564a', sh, args : files('t0564a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0565a', sh, args : files('t0565a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0566a', sh, args : files('t0566a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0567a', sh, args : files('t0567a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0568a', sh, args : files('t0568a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0569a', sh, args : files('t0569a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0570a', sh, args : files('t0570a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0571a', sh, args : files('t0571a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0572a', sh, args : files('t0572a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0573a', sh, args : files('t0573a.sh'), env : test_env, depends : [compile_exe,])
-test('t0574a', sh, args : files('t0574a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0575a', sh, args : files('t0575a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0576a', sh, args : files('t0576a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0577a', sh, args : files('t0577a.sh'), env : test_env, depends : [compile_exe,])
-test('t0578a', sh, args : files('t0578a.sh'), env : test_env, depends : [compile_exe,])
-test('t0579a', sh, args : files('t0579a.sh'), env : test_env, depends : [compile_exe,])
-test('t0580a', sh, args : files('t0580a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0581a', sh, args : files('t0581a.sh'), env : test_env, depends : [downcase_exe,])
-test('t0582a', sh, args : files('t0582a.sh'), env : test_env, depends : [downcase_exe,])
-test('t0583a', sh, args : files('t0583a.sh'), env : test_env, depends : [setup_exe,])
-test('t0584a', sh, args : files('t0584a.sh'), env : test_env, depends : [setup_exe,])
-test('t0585a', sh, args : files('t0585a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0586a', sh, args : files('t0586a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0587a', sh, args : files('t0587a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0589a', sh, args : files('t0589a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0591a', sh, args : files('t0591a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0592a', sh, args : files('t0592a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0594a', sh, args : files('t0594a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0595a', sh, args : files('t0595a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0596a', sh, args : files('t0596a.sh'), env : test_env, depends : [compile_exe,])
-test('t0597a', sh, args : files('t0597a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
-test('t0598a', sh, args : files('t0598a.sh'), env : test_env, depends : [compile_exe,])
-test('t0599a', sh, args : files('t0599a.sh'), env : test_env, depends : [compile_exe, disassemble_exe,])
+cases = [
+  ['t0500a', [compile_exe, disassemble_exe]],
+  ['t0501a', [compile_exe, disassemble_exe]],
+  ['t0502a', [compile_exe]],
+  ['t0503a', [compile_exe, disassemble_exe]],
+  ['t0505a', [compile_exe, disassemble_exe]],
+  ['t0506a', [compile_exe]],
+  ['t0507a', [compile_exe]],
+  ['t0508a', [compile_exe, disassemble_exe]],
+  ['t0509a', [compile_exe, disassemble_exe]],
+  ['t0511a', [compile_exe, disassemble_exe]],
+  ['t0512a', [compile_exe]],
+  ['t0513a', [compile_exe]],
+  ['t0515a', [compile_exe, disassemble_exe]],
+  ['t0516a', [compile_exe, disassemble_exe]],
+  ['t0517a', [compile_exe, disassemble_exe]],
+  ['t0518a', [compile_exe]],
+  ['t0519a', [compile_exe, disassemble_exe]],
+  ['t0520a', [compile_exe, disassemble_exe]],
+  ['t0521a', [compile_exe, disassemble_exe]],
+  ['t0522a', [compile_exe, disassemble_exe]],
+  ['t0523a', [compile_exe, disassemble_exe]],
+  ['t0525a', [compile_exe, disassemble_exe]],
+  ['t0526a', [compile_exe, disassemble_exe]],
+  ['t0527a', [compile_exe, disassemble_exe]],
+  ['t0528a', [assemble_exe, disassemble_exe]],
+  ['t0529a', [assemble_exe, disassemble_exe]],
+  ['t0530a', [compile_exe, disassemble_exe]],
+  ['t0531a', [compile_exe, disassemble_exe]],
+  ['t0532a', [compile_exe, disassemble_exe]],
+  ['t0533a', [compile_exe, disassemble_exe]],
+  ['t0534a', [compile_exe, disassemble_exe]],
+  ['t0535a', [compile_exe, disassemble_exe]],
+  ['t0536a', [compile_exe, disassemble_exe]],
+  ['t0537a', [compile_exe, disassemble_exe]],
+  ['t0539a', [compile_exe, disassemble_exe]],
+  ['t0540a', [compile_exe, disassemble_exe]],
+  ['t0541a', [compile_exe, disassemble_exe]],
+  ['t0542a', [compile_exe, disassemble_exe]],
+  ['t0543a', [compile_exe, disassemble_exe]],
+  ['t0544a', [compile_exe]],
+  ['t0545a', [compile_exe]],
+  ['t0546a', [compile_exe, disassemble_exe]],
+  ['t0547a', [compile_exe, disassemble_exe]],
+  ['t0548a', [compile_exe, disassemble_exe]],
+  ['t0549a', [compile_exe, disassemble_exe]],
+  ['t0551a', [compile_exe, disassemble_exe]],
+  ['t0552a', [compile_exe, disassemble_exe]],
+  ['t0553a', [compile_exe, disassemble_exe]],
+  ['t0555a', [compile_exe, disassemble_exe]],
+  ['t0556a', [compile_exe]],
+  ['t0557a', [compile_exe, disassemble_exe]],
+  ['t0558a', [compile_exe]],
+  ['t0559a', [compile_exe, libmap_exe, librarian_exe]],
+  ['t0560a', [compile_exe, disassemble_exe]],
+  ['t0562a', [compile_exe, disassemble_exe]],
+  ['t0563a', [compile_exe, disassemble_exe]],
+  ['t0564a', [compile_exe, disassemble_exe]],
+  ['t0565a', [compile_exe, disassemble_exe]],
+  ['t0566a', [compile_exe, disassemble_exe]],
+  ['t0567a', [compile_exe, disassemble_exe]],
+  ['t0568a', [compile_exe, disassemble_exe]],
+  ['t0569a', [compile_exe, disassemble_exe]],
+  ['t0570a', [compile_exe, disassemble_exe]],
+  ['t0571a', [compile_exe, disassemble_exe]],
+  ['t0572a', [compile_exe, disassemble_exe]],
+  ['t0573a', [compile_exe]],
+  ['t0574a', [compile_exe, disassemble_exe]],
+  ['t0575a', [compile_exe, disassemble_exe]],
+  ['t0576a', [compile_exe, disassemble_exe]],
+  ['t0577a', [compile_exe]],
+  ['t0578a', [compile_exe]],
+  ['t0579a', [compile_exe]],
+  ['t0580a', [compile_exe, disassemble_exe]],
+  ['t0581a', [downcase_exe]],
+  ['t0582a', [downcase_exe]],
+  ['t0583a', [setup_exe]],
+  ['t0584a', [setup_exe]],
+  ['t0585a', [compile_exe, disassemble_exe]],
+  ['t0586a', [compile_exe, disassemble_exe]],
+  ['t0587a', [compile_exe, disassemble_exe]],
+  ['t0589a', [compile_exe, disassemble_exe]],
+  ['t0591a', [compile_exe, disassemble_exe]],
+  ['t0592a', [compile_exe, disassemble_exe]],
+  ['t0594a', [compile_exe, disassemble_exe]],
+  ['t0595a', [compile_exe, disassemble_exe]],
+  ['t0596a', [compile_exe]],
+  ['t0597a', [compile_exe, disassemble_exe]],
+  ['t0598a', [compile_exe]],
+  ['t0599a', [compile_exe, disassemble_exe]],
+]
+
+foreach case : cases
+  name = case[0]
+  depends = case[1]
+  test(name, sh, args : files(name + '.sh'), env : test_env, depends : depends)
+endforeach

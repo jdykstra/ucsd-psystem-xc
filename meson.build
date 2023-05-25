@@ -1,9 +1,9 @@
-project('ucsd-psystem-xc', 'cpp')
+project('ucsd-psystem-xc', 'cpp', meson_version: '>=0.58.0')
 
 fs = import('fs')
 
 cpp = meson.get_compiler('cpp')
-sh = find_program('sh', '/bin/sh')
+sh = find_program('sh')
 bison = find_program('bison')
 
 bison_gen = generator(

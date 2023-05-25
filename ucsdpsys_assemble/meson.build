@@ -1,5 +1,5 @@
 assemble_grammar_ch = bison_gen.process(
-  'grammar.y', preserve_path_from : meson.source_root(),
+  'grammar.y', preserve_path_from : meson.project_source_root(),
 )
 
 assemble_sources = [
