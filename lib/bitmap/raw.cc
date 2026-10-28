@@ -18,6 +18,7 @@
 
 #include <lib/ac/math.h>
 #include <fcntl.h>
+#include <sys/stat.h>
 #include <libexplain/close.h>
 #include <libexplain/creat.h>
 #include <libexplain/fstat.h>

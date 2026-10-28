@@ -18,6 +18,7 @@
 
 #include <lib/ac/ctype.h>
 #include <fcntl.h>
+#include <sys/stat.h>
 #include <libexplain/close.h>
 #include <libexplain/fstat.h>
 #include <libexplain/open.h>

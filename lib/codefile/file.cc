@@ -19,6 +19,7 @@
 #include <lib/ac/errno.h>
 #include <lib/ac/string.h>
 #include <fcntl.h>
+#include <sys/stat.h>
 #include <libexplain/close.h>
 #include <libexplain/fstat.h>
 #include <libexplain/lseek.h>
