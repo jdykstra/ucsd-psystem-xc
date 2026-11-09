@@ -23,6 +23,33 @@
 .SH NAME
 How to build ucsd\[hy]psystem\[hy]xc
 .XX "" "How to build ucsd\[hy]psystem\[hy]xc"
+.SH BUILDING WITH MESON
+Compile Pascal into p\[hy]system p\[hy]codes on UNIX.
+.PP
+Build using Meson:
+.PP
+.RS
+.ft CW
+.nf
+meson setup \-\-buildtype=debugoptimized build/
+meson compile \-C build/
+.fi
+.ft R
+.RE
+.PP
+If unfamiliar with Meson, see https://mesonbuild.com/ for package installation,
+initial setup, and built\[hy]in build configuration options.
+.PP
+Building XC on Debian requires the libexplain\[hy]dev, libboot\[hy]dev,
+libpng\[hy]dev, and bison packages.
+.PP
+Some tests use the uudecode utility.  In Debian, at least, this is provided by
+the sharutils package.
+.PP
+From the PDF: ucsdpsys_osmakgen understands how to generate files needed by
+Debian packages.
+.PP
+The git tags indicate which distributions have been verified.
 .br
 .ne 1i
 .SH BEFORE YOU START
